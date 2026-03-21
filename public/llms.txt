@@ -1,0 +1,15 @@
+# Dreamy Codes
+
+> Shopify Web Development Agency | Custom E-Commerce Design
+
+## About
+Dreamy Codes is a specialized agency focused on premium e-commerce architecture and scaling Shopify brands. We provide high-performance, conversion-optimized solutions for modern e-commerce businesses.
+
+## Services
+- Shopify Store Development & Architecture
+- E-Commerce Scaling & Optimization
+- Custom Headless Commerce Solutions
+- Performance & Conversion Rate Optimization (CRO)
+
+## Contact
+For inquiries, please visit our main website or contact our team directly.

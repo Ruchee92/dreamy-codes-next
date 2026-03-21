@@ -1,0 +1,15 @@
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1955.1ms
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/13) ...
+Error occurred prerendering page "/about". Read more: https://nextjs.org/docs/messages/prerender-error
+TypeError: Cannot read properties of undefined (reading 'length')
+    at e (C:\Users\USER\dreamy-codes-next\.next\server\chunks\ssr\[root-of-the-server]__fcfc2b88._.js:1:2207) {
+  digest: '3170798856'
+}
+Export encountered an error on /about/page: /about, exiting the build.
+⨯ Next.js build worker exited with code: 1 and signal: null

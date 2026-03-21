@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {}
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-50: #f6f6f6;
+  --color-brand-100: #e7e7e7;
+  --color-brand-900: #111111;
+  --color-brand-950: #0a0a0a;
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+
+    100% {
+      opacity: 0.6;
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes grow-shrink {
+
+    0%,
+    100% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes blink {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.3;
+    }
+  }
+}
+
+@layer utilities {
+  .animate-grow-shrink {
+    animation: grow-shrink 2s ease-in-out infinite;
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1.5px #111;
+    color: transparent;
+  }
+
+  .text-outline-white {
+    -webkit-text-stroke: 1px #fff;
+    color: transparent;
+  }
+
+  .bg-grid-pattern {
+    background-size: 50px 50px;
+    background-image:
+      linear-gradient(to right, rgba(17, 17, 17, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(17, 17, 17, 0.04) 1px, transparent 1px);
+  }
+
+  .bg-grid-pattern-dark {
+    background-size: 50px 50px;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  }
+
+  .animate-marquee {
+    animation: marquee 15s linear infinite;
+  }
+
+  @media (max-width: 768px) {
+    .animate-marquee {
+      animation: marquee 10s linear infinite;
+    }
+  }
+
+  .animate-slow-glow {
+    animation: pulse-glow 8s infinite alternate ease-in-out;
+  }
+
+  .animate-blink {
+    animation: blink 2s infinite ease-in-out;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #fcfcfc;
+  color: #111;
+  letter-spacing: 0.02em;
+  @apply antialiased selection:bg-brand-900 selection:text-white font-sans;
+}
+
+p {
+  letter-spacing: 0.02em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-display;
+}

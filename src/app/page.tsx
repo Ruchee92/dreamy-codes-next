@@ -8,7 +8,12 @@ import { JsonLd } from '@/components/SEO';
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getWordPressSEO("/");
-  if (!seo) return { title: 'Dreamy Codes', description: 'We engineer e-commerce for scale.' };
+  if (!seo) return { 
+    title: 'Dreamy Codes', 
+    description: 'We engineer e-commerce for scale.',
+    openGraph: { images: ['https://dreamycodes.com/default-og.jpg'] },
+    twitter: { card: 'summary_large_image', images: ['https://dreamycodes.com/default-og.jpg'] }
+  };
 
   return {
     title: seo.title,

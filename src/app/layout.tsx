@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://dreamycodes.com'),
   title: "Dreamy Codes | Shopify Engineering for Scale",
   description: "We engineer high-converting Shopify stores for D2C brands.",
   icons: {

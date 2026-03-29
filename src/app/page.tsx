@@ -11,8 +11,14 @@ export async function generateMetadata(): Promise<Metadata> {
   if (!seo) return { 
     title: 'Dreamy Codes', 
     description: 'We engineer e-commerce for scale.',
-    openGraph: { images: ['https://dreamycodes.com/default-og.jpg'] },
-    twitter: { card: 'summary_large_image', images: ['https://dreamycodes.com/default-og.jpg'] }
+    openGraph: { 
+      type: 'website',
+      images: ['https://dreamycodes.com/default-og.jpg'] 
+    },
+    twitter: { 
+      card: 'summary_large_image', 
+      images: ['https://dreamycodes.com/default-og.jpg'] 
+    }
   };
 
   return {

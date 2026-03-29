@@ -161,7 +161,7 @@ function formatSeo(seo: any) {
     description: seo.metaDesc,
     alternates: { canonical: sanitizeUrl(seo.canonical) },
     openGraph: {
-      type: seo.opengraphType || 'website',
+      type: 'website',
       title: seo.opengraphTitle || seo.title,
       description: seo.opengraphDescription || seo.metaDesc,
       url: sanitizeUrl(seo.canonical),
@@ -172,9 +172,6 @@ function formatSeo(seo: any) {
       title: seo.twitterTitle || seo.opengraphTitle || seo.title,
       description: seo.twitterDescription || seo.opengraphDescription || seo.metaDesc,
       images: [seo.twitterImage?.mediaItemUrl || seo.opengraphImage?.mediaItemUrl || FALLBACK_IMAGE],
-    },
-    facebook: {
-      appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || '',
     },
     schema: seo.schema?.raw
   };

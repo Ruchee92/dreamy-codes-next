@@ -64,7 +64,6 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
             canonical
             opengraphTitle
             opengraphDescription
-            opengraphType
             opengraphImage { mediaItemUrl }
             twitterTitle
             twitterDescription
@@ -104,7 +103,6 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
                 canonical
                 opengraphTitle
                 opengraphDescription
-                opengraphType
                 opengraphImage { mediaItemUrl }
                 twitterTitle
                 twitterDescription
@@ -130,7 +128,6 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
                 canonical
                 opengraphTitle
                 opengraphDescription
-                opengraphType
                 opengraphImage { mediaItemUrl }
                 twitterTitle
                 twitterDescription
@@ -145,7 +142,7 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
     }
 
     if (!seo) return null;
-    return formatSeo(seo);
+    return formatSeo(seo, type === "post" ? "article" : "website");
 
   } catch (error) {
     console.error(`Error in getWordPressSEO for ${id}:`, error);
@@ -153,25 +150,22 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
   }
 }
 
-function formatSeo(seo: any) {
-  const FALLBACK_IMAGE = 'https://dreamycodes.com/default-og.jpg';
-
+function formatSeo(seo: any, ogType: "website" | "article" = "website") {
   return {
     title: seo.title,
     description: seo.metaDesc,
     alternates: { canonical: sanitizeUrl(seo.canonical) },
     openGraph: {
-      type: 'website',
       title: seo.opengraphTitle || seo.title,
       description: seo.opengraphDescription || seo.metaDesc,
-      url: sanitizeUrl(seo.canonical),
-      images: [seo.opengraphImage?.mediaItemUrl || FALLBACK_IMAGE],
+      type: ogType,
+      images: seo.opengraphImage?.mediaItemUrl ? [{ url: sanitizeUrl(seo.opengraphImage.mediaItemUrl) }] : [],
     },
     twitter: {
       card: "summary_large_image",
       title: seo.twitterTitle || seo.opengraphTitle || seo.title,
       description: seo.twitterDescription || seo.opengraphDescription || seo.metaDesc,
-      images: [seo.twitterImage?.mediaItemUrl || seo.opengraphImage?.mediaItemUrl || FALLBACK_IMAGE],
+      images: seo.twitterImage?.mediaItemUrl ? [sanitizeUrl(seo.twitterImage.mediaItemUrl)] : [],
     },
     schema: seo.schema?.raw
   };

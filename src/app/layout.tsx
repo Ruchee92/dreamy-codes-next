@@ -16,14 +16,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://dreamycodes.com'),
   title: "Dreamy Codes | Shopify Engineering for Scale",
   description: "We engineer high-converting Shopify stores for D2C brands.",
-  openGraph: {
-    type: "website",
-  },
+  metadataBase: new URL("https://dreamycodes.com"),
   icons: {
     icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Dreamy Codes | Shopify Engineering for Scale",
+    description: "We engineer high-converting Shopify stores for D2C brands.",
+    url: "https://dreamycodes.com",
+    siteName: "Dreamy Codes",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dreamy Codes | Shopify Engineering for Scale",
+    description: "We engineer high-converting Shopify stores for D2C brands.",
+    creator: "@dreamycodes",
   },
 };
 

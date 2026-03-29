@@ -5,8 +5,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'wp.dreamycodes.com',
-        port: '',
-        pathname: '/wp-content/uploads/**',
+        pathname: '/**',
       },
     ],
   },

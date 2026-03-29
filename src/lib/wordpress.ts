@@ -64,6 +64,7 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
             canonical
             opengraphTitle
             opengraphDescription
+            opengraphType
             opengraphImage { mediaItemUrl }
             twitterTitle
             twitterDescription
@@ -103,6 +104,7 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
                 canonical
                 opengraphTitle
                 opengraphDescription
+                opengraphType
                 opengraphImage { mediaItemUrl }
                 twitterTitle
                 twitterDescription
@@ -128,6 +130,7 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
                 canonical
                 opengraphTitle
                 opengraphDescription
+                opengraphType
                 opengraphImage { mediaItemUrl }
                 twitterTitle
                 twitterDescription
@@ -158,6 +161,7 @@ function formatSeo(seo: any) {
     description: seo.metaDesc,
     alternates: { canonical: sanitizeUrl(seo.canonical) },
     openGraph: {
+      type: seo.opengraphType || 'website',
       title: seo.opengraphTitle || seo.title,
       description: seo.opengraphDescription || seo.metaDesc,
       url: sanitizeUrl(seo.canonical),

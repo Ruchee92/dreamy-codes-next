@@ -173,6 +173,9 @@ function formatSeo(seo: any) {
       description: seo.twitterDescription || seo.opengraphDescription || seo.metaDesc,
       images: [seo.twitterImage?.mediaItemUrl || seo.opengraphImage?.mediaItemUrl || FALLBACK_IMAGE],
     },
+    facebook: {
+      appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || '',
+    },
     schema: seo.schema?.raw
   };
 }

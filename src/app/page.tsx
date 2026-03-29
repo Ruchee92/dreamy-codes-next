@@ -18,6 +18,9 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: { 
       card: 'summary_large_image', 
       images: ['https://dreamycodes.com/default-og.jpg'] 
+    },
+    facebook: {
+      appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID || '',
     }
   };
 
@@ -27,6 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: seo.alternates,
     openGraph: seo.openGraph,
     twitter: seo.twitter,
+    facebook: seo.facebook,
   };
 }
 

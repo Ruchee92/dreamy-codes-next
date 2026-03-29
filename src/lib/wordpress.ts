@@ -151,6 +151,8 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
 }
 
 function formatSeo(seo: any) {
+  const FALLBACK_IMAGE = 'https://dreamycodes.com/default-og.jpg';
+
   return {
     title: seo.title,
     description: seo.metaDesc,
@@ -159,13 +161,13 @@ function formatSeo(seo: any) {
       title: seo.opengraphTitle || seo.title,
       description: seo.opengraphDescription || seo.metaDesc,
       url: sanitizeUrl(seo.canonical),
-      images: seo.opengraphImage?.mediaItemUrl ? [{ url: seo.opengraphImage.mediaItemUrl }] : [],
+      images: [seo.opengraphImage?.mediaItemUrl || FALLBACK_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title: seo.twitterTitle || seo.opengraphTitle || seo.title,
       description: seo.twitterDescription || seo.opengraphDescription || seo.metaDesc,
-      images: seo.twitterImage?.mediaItemUrl ? [seo.twitterImage.mediaItemUrl] : [],
+      images: [seo.twitterImage?.mediaItemUrl || seo.opengraphImage?.mediaItemUrl || FALLBACK_IMAGE],
     },
     schema: seo.schema?.raw
   };

@@ -158,13 +158,14 @@ function formatSeo(seo: any) {
     openGraph: {
       title: seo.opengraphTitle || seo.title,
       description: seo.opengraphDescription || seo.metaDesc,
-      images: seo.opengraphImage?.mediaItemUrl ? [{ url: sanitizeUrl(seo.opengraphImage.mediaItemUrl) }] : [],
+      url: sanitizeUrl(seo.canonical),
+      images: seo.opengraphImage?.mediaItemUrl ? [{ url: seo.opengraphImage.mediaItemUrl }] : [],
     },
     twitter: {
       card: "summary_large_image",
       title: seo.twitterTitle || seo.opengraphTitle || seo.title,
       description: seo.twitterDescription || seo.opengraphDescription || seo.metaDesc,
-      images: seo.twitterImage?.mediaItemUrl ? [sanitizeUrl(seo.twitterImage.mediaItemUrl)] : [],
+      images: seo.twitterImage?.mediaItemUrl ? [seo.twitterImage.mediaItemUrl] : [],
     },
     schema: seo.schema?.raw
   };

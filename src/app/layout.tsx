@@ -46,7 +46,6 @@ export const metadata: Metadata = {
     images: ["/default-og.jpg"],
   },
   other: {
-    "fb:app_id": "956376413511772",
     "facebook-domain-verification": "erbjwg9yprmcvtzmwglqs1v64wdzz9",
   },
 };
@@ -58,6 +57,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta property="fb:app_id" content="956376413511772" />
+        <meta property="og:url" content="https://dreamycodes.com/" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

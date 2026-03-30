@@ -66,6 +66,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div 
+          className="elfsight-app-580e00ba-bef2-4038-9caa-48a2171af2ba" 
+          data-elfsight-app-lazy 
+          style={{ position: 'absolute', top: 0, left: 0, height: 0, width: 0, overflow: 'hidden' }}
+        />
         {children}
         <Analytics />
         <SpeedInsights />
@@ -84,10 +89,6 @@ export default function RootLayout({
         <Script 
           src="https://elfsightcdn.com/platform.js" 
           strategy="lazyOnload" 
-        />
-        <div 
-          className="elfsight-app-580e00ba-bef2-4038-9caa-48a2171af2ba" 
-          data-elfsight-app-lazy 
         />
       </body>
     </html>

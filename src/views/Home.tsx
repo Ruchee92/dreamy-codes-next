@@ -409,7 +409,7 @@ const TestimonialCard = ({ name, role, quote, rating, image }: { name: string, r
           </div>
         )}
         <div>
-          <h3 className="font-display font-bold text-base uppercase tracking-tight group-hover/card:text-white transition-colors duration-500">{name}</h3>
+          <p className="font-display font-bold text-base uppercase tracking-tight group-hover/card:text-white transition-colors duration-500">{name}</p>
           <p className="text-xs text-gray-500 font-bold uppercase tracking-widest group-hover/card:text-white/80 transition-colors duration-500">{role}</p>
         </div>
       </div>
@@ -826,14 +826,14 @@ const Home = () => {
             </div>
             <div className="px-6 py-12 md:p-20 flex flex-col justify-center bg-brand-50 relative overflow-hidden">
               <div className="absolute -right-20 -bottom-20 text-[20rem] font-display font-bold text-brand-900/[0.03] leading-none pointer-events-none">DC</div>
-              <h4 className="font-display text-2xl font-bold uppercase tracking-widest mb-12">Direct Contact</h4>
+              <h3 className="font-display text-2xl font-bold uppercase tracking-widest mb-12">Direct Contact</h3>
               <div className="space-y-10 relative z-10">
                 <div>
-                  <p className="font-display text-[10px] md:text-xs uppercase tracking-widest text-gray-500 font-bold mb-2">General Inquiries & Sales</p>
+                  <h4 className="font-display text-[10px] md:text-xs uppercase tracking-widest text-gray-500 font-bold mb-2">General Inquiries & Sales</h4>
                   <a href="mailto:hello@dreamycodes.com" target="_blank" rel="noopener noreferrer" className="font-display text-xl md:text-3xl font-bold hover:text-gray-500 transition-colors inline-block border-b-2 border-transparent hover:border-brand-900 pb-1">hello@dreamycodes.com</a>
                 </div>
                 <div>
-                  <p className="font-display text-[10px] md:text-xs uppercase tracking-widest text-gray-500 font-bold mb-2">WhatsApp</p>
+                  <h4 className="font-display text-[10px] md:text-xs uppercase tracking-widest text-gray-500 font-bold mb-2">WhatsApp</h4>
                   <a href="https://api.whatsapp.com/send?phone=94714166608" target="_blank" rel="noopener noreferrer" className="font-display text-xl md:text-3xl font-bold text-black hover:text-gray-500 transition-colors inline-flex items-center gap-4">
                     <img
                       src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/1-1.png"
@@ -860,7 +860,7 @@ const Home = () => {
                 <X size={24} />
               </button>
               <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8"><Zap size={40} fill="currentColor" /></div>
-              <h4 className="font-display text-3xl md:text-4xl font-bold uppercase tracking-tighter mb-6">Request Received</h4>
+              <h3 className="font-display text-3xl md:text-4xl font-bold uppercase tracking-tighter mb-6">Request Received</h3>
               <p className="text-gray-600 text-lg font-light leading-relaxed mb-10">Thank you we received your request, and we will send you a detailed audit to your site and send a calendly link to schedule a call.</p>
               <button onClick={() => setShowSuccessModal(false)} className="w-full bg-brand-900 text-white font-display font-bold uppercase tracking-widest py-4 hover:bg-black transition-colors cursor-pointer">Got it</button>
             </motion.div>

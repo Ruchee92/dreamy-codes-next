@@ -41,9 +41,9 @@ const [isLoaded, setIsLoaded] = useState(true);
         </div>
       </div>
       <div className="flex flex-col gap-2 px-1">
-        <h4 className="font-display font-bold text-xl text-gray-900 leading-[1.2] group-hover:text-brand-600 transition-colors duration-300">
+        <h3 className="font-display font-bold text-xl text-gray-900 leading-[1.2] group-hover:text-brand-600 transition-colors duration-300">
           {title}
-        </h4>
+        </h3>
       </div>
     </motion.a>
   );
@@ -140,9 +140,9 @@ const OurWork = () => {
                   className="object-contain opacity-100 group-hover:scale-105 transition-transform duration-500" 
                 />
               </div>
-              <h4 className="font-display font-bold text-[9px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.2em] text-gray-400 group-hover:text-brand-900 transition-colors duration-500 px-2 break-words w-full">
+              <h3 className="font-display font-bold text-[9px] md:text-xs uppercase tracking-[0.15em] md:tracking-[0.2em] text-gray-400 group-hover:text-brand-900 transition-colors duration-500 px-2 break-words w-full">
                 {brand.title}
-              </h4>
+              </h3>
             </motion.a>
           ))}
         </div>

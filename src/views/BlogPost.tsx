@@ -172,7 +172,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                 {/* Info */}
                 <div>
                   <p className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-brand-600 mb-1">Written by</p>
-                  <h4 className="font-display text-xl md:text-2xl font-bold uppercase tracking-tighter text-brand-900 mb-1">{authorName}</h4>
+                  <h2 className="font-display text-xl md:text-2xl font-bold uppercase tracking-tighter text-brand-900 mb-1">{authorName}</h2>
                   <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mb-4">Lead E-commerce Engineer</p>
                   <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg">{authorBio}</p>
                 </div>

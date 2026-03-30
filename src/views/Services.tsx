@@ -304,7 +304,7 @@ const Services = () => {
                     service.icon && <service.icon size={24} />
                   )}
                 </div>
-                <h3 className="font-display text-2xl font-bold uppercase mb-6 leading-tight text-white transition-colors">{service.title}</h3>
+                <h2 className="font-display text-2xl font-bold uppercase mb-6 leading-tight text-white transition-colors">{service.title}</h2>
                 <div className="text-gray-400 font-light leading-relaxed group-hover:text-white/80 transition-colors">
                   <ul className="space-y-4">
                     {service.bullets.map((bullet, bIdx) => {

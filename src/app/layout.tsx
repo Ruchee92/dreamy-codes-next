@@ -59,7 +59,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta property="fb:app_id" content="956376413511772" />
-        <meta property="og:url" content="https://dreamycodes.com/" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

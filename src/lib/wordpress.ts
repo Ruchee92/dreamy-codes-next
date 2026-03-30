@@ -151,15 +151,19 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
 }
 
 function formatSeo(seo: any, ogType: "website" | "article" = "website") {
+  const canonicalUrl = sanitizeUrl(seo.canonical) || "https://dreamycodes.com";
+
   return {
     title: seo.title,
     description: seo.metaDesc,
-    alternates: { canonical: sanitizeUrl(seo.canonical) },
+    alternates: { 
+      canonical: canonicalUrl 
+    },
     openGraph: {
       title: seo.opengraphTitle || seo.title,
       description: seo.opengraphDescription || seo.metaDesc,
       type: ogType,
-      url: sanitizeUrl(seo.canonical) || "https://dreamycodes.com",
+      url: canonicalUrl,
       images: seo.opengraphImage?.mediaItemUrl 
         ? [{ url: sanitizeUrl(seo.opengraphImage.mediaItemUrl) }] 
         : [{ url: "/default-og.jpg" }],

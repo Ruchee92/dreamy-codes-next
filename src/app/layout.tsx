@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: "Dreamy Codes | Shopify Engineering for Scale",
   description: "We engineer high-converting Shopify stores for D2C brands.",
   metadataBase: new URL("https://dreamycodes.com"),
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/favicon.ico",
   },

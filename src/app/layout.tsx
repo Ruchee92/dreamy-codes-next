@@ -29,12 +29,21 @@ export const metadata: Metadata = {
     siteName: "Dreamy Codes",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: "/default-og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Dreamy Codes | Shopify Engineering for Scale",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Dreamy Codes | Shopify Engineering for Scale",
     description: "We engineer high-converting Shopify stores for D2C brands.",
     creator: "@dreamycodes",
+    images: ["/default-og.jpg"],
   },
 };
 

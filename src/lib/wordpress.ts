@@ -159,13 +159,17 @@ function formatSeo(seo: any, ogType: "website" | "article" = "website") {
       title: seo.opengraphTitle || seo.title,
       description: seo.opengraphDescription || seo.metaDesc,
       type: ogType,
-      images: seo.opengraphImage?.mediaItemUrl ? [{ url: sanitizeUrl(seo.opengraphImage.mediaItemUrl) }] : [],
+      images: seo.opengraphImage?.mediaItemUrl 
+        ? [{ url: sanitizeUrl(seo.opengraphImage.mediaItemUrl) }] 
+        : [{ url: "/default-og.jpg" }],
     },
     twitter: {
       card: "summary_large_image",
       title: seo.twitterTitle || seo.opengraphTitle || seo.title,
       description: seo.twitterDescription || seo.opengraphDescription || seo.metaDesc,
-      images: seo.twitterImage?.mediaItemUrl ? [sanitizeUrl(seo.twitterImage.mediaItemUrl)] : [],
+      images: seo.twitterImage?.mediaItemUrl 
+        ? [sanitizeUrl(seo.twitterImage.mediaItemUrl)] 
+        : ["/default-og.jpg"],
     },
     schema: seo.schema?.raw
   };

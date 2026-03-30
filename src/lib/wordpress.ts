@@ -159,6 +159,7 @@ function formatSeo(seo: any, ogType: "website" | "article" = "website") {
       title: seo.opengraphTitle || seo.title,
       description: seo.opengraphDescription || seo.metaDesc,
       type: ogType,
+      url: sanitizeUrl(seo.canonical),
       images: seo.opengraphImage?.mediaItemUrl 
         ? [{ url: sanitizeUrl(seo.opengraphImage.mediaItemUrl) }] 
         : [{ url: "/default-og.jpg" }],

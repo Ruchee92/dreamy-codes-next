@@ -61,6 +61,13 @@ html {
       opacity: 0.3;
     }
   }
+
+  @keyframes float-particle {
+    0% { transform: translateY(0vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.4; }
+    80% { opacity: 0.4; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+  }
 }
 
 @layer utilities {

@@ -14,8 +14,10 @@ import {
   X,
   CheckCircle2
 } from 'lucide-react';
-import InteractiveBackground from '../components/InteractiveBackground';
-import LogoMarquee from '../components/LogoMarquee';
+import dynamic from 'next/dynamic';
+
+const InteractiveBackground = dynamic(() => import('../components/InteractiveBackground'), { ssr: false });
+const LogoMarquee = dynamic(() => import('../components/LogoMarquee'), { ssr: false });
 
 const Hero = () => {
   const [isButtonHovering, setIsButtonHovering] = useState(false);
@@ -38,26 +40,15 @@ const Hero = () => {
           const shapeType = i % 3; // 0: circle, 1: square, 2: plus
           
           return (
-            <motion.div
+            <div
               key={i}
-              className={`absolute ${isEmerald ? 'text-emerald-500' : 'text-[#3432c7]'}`}
+              className={`absolute ${isEmerald ? 'text-emerald-500' : 'text-[#3432c7]'} pointer-events-none opacity-0`}
               style={{
                 left: `${startX}%`,
                 bottom: '-20px',
                 width: size,
                 height: size,
-              }}
-              animate={{
-                y: ['0vh', '-120vh'],
-                x: [0, Math.random() * 50 - 25, Math.random() * 50 - 25, 0],
-                rotate: [0, 180, 360],
-                opacity: [0, 0.4, 0.4, 0],
-              }}
-              transition={{
-                duration: duration,
-                repeat: Infinity,
-                ease: "linear",
-                delay: delay,
+                animation: `float-particle ${duration}s linear ${delay}s infinite`,
               }}
             >
               {shapeType === 0 && <div className="w-full h-full rounded-full border border-current" />}
@@ -68,7 +59,7 @@ const Hero = () => {
                   <div className="absolute top-0 left-1/2 w-[1px] h-full bg-current -translate-x-1/2" />
                 </div>
               )}
-            </motion.div>
+            </div>
           );
         })}
       </div>
@@ -108,7 +99,7 @@ const Hero = () => {
           >
             <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-8">
               Scaling is tough. <br />
-              Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-emerald-500 bg-emerald-50/50 px-1 rounded">high-converting storefront</span> so you can focus on D2C growth.
+              Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-emerald-700 bg-emerald-50/50 px-1 rounded">high-converting storefront</span> so you can focus on D2C growth.
             </p>
             <div className="flex flex-col gap-8">
               <div className="flex flex-col md:flex-row lg:flex-col md:items-center lg:items-start md:gap-8 gap-6">
@@ -142,6 +133,8 @@ const Hero = () => {
                       alt="Satisfied Shopify Merchant Client Avatar"
                       width={48}
                       height={48}
+                      priority={true}
+                      sizes="48px"
                       className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white object-cover shadow-sm"
                     />
                   ))}
@@ -162,7 +155,7 @@ const CaseStudy = ({ number, title, description, stats, category, table, link, i
   const [isLoaded, setIsLoaded] = useState(true);
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-brand-900 group h-full bg-white overflow-hidden">
-      <a href={link} target="_blank" rel="noopener noreferrer" draggable={false} className="bg-brand-50 relative min-h-[300px] md:min-h-[400px] flex items-center justify-center overflow-hidden border-b lg:border-b-0 lg:border-r border-brand-900 block">
+      <a href={link} aria-label={`View the ${title} Case Study`} target="_blank" rel="noopener noreferrer" draggable={false} className="bg-brand-50 relative min-h-[300px] md:min-h-[400px] flex items-center justify-center overflow-hidden border-b lg:border-b-0 lg:border-r border-brand-900 block">
         <div className={`absolute inset-0 overflow-hidden ${isLoaded ? 'bg-transparent' : 'bg-gray-200 animate-pulse'}`}>
           <Image
             src={imageSrc || `https://picsum.photos/seed/${category}/1200/800`}
@@ -175,15 +168,15 @@ const CaseStudy = ({ number, title, description, stats, category, table, link, i
           />
         </div>
         <div className="absolute top-4 left-4 md:top-8 md:left-8 z-10 flex justify-between items-start w-[calc(100%-2rem)] md:w-[calc(100%-4rem)]">
-          <div className="font-display text-3xl md:text-5xl font-bold text-white">{number}</div>
+          <div className="font-display text-3xl md:text-5xl font-bold text-white" aria-hidden="true">{number}</div>
           <div className="text-white hover:scale-110 transition-transform">
-            <ArrowUpRight className="w-8 h-8 md:w-12 md:h-12" strokeWidth={1} />
+            <ArrowUpRight className="w-8 h-8 md:w-12 md:h-12" strokeWidth={1} aria-hidden="true" />
           </div>
         </div>
       </a>
 
       <div className="p-6 md:p-16 flex flex-col md:justify-center flex-grow">
-        <h4 className="font-display text-2xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight">{title}</h4>
+        <h3 className="font-display text-2xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight">{title}</h3>
         <p className="text-gray-600 mb-6 md:mb-10 text-base md:text-lg leading-relaxed font-light">{description}</p>
 
         {table && (
@@ -328,15 +321,17 @@ const CaseStudiesSlider = () => {
         <div className="hidden md:flex gap-4 self-end md:self-center">
           <button
             onClick={() => paginate(-1)}
+            aria-label="Previous Case Study"
             className="w-12 h-12 border border-brand-900 flex items-center justify-center hover:bg-brand-900 hover:text-white transition-colors group cursor-pointer"
           >
-            <ChevronLeft size={20} className="group-hover:scale-110 transition-transform" />
+            <ChevronLeft size={20} className="group-hover:scale-110 transition-transform" aria-hidden="true" />
           </button>
           <button
             onClick={() => paginate(1)}
+            aria-label="Next Case Study"
             className="w-12 h-12 border border-brand-900 flex items-center justify-center hover:bg-brand-900 hover:text-white transition-colors group cursor-pointer"
           >
-            <ChevronRight size={20} className="group-hover:scale-110 transition-transform" />
+            <ChevronRight size={20} className="group-hover:scale-110 transition-transform" aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -376,6 +371,7 @@ const CaseStudiesSlider = () => {
         {caseStudies.map((_, i) => (
           <button
             key={i}
+            aria-label={`Go to slide ${i + 1}`}
             onClick={() => {
               setDirection(i > currentIndex ? 1 : -1);
               setCurrentIndex(i);
@@ -385,7 +381,7 @@ const CaseStudiesSlider = () => {
         ))}
       </div>
       <div className="text-center mt-4 lg:hidden">
-        <p className="text-xs font-display uppercase tracking-widest text-gray-400">Swipe to view more</p>
+        <p className="text-xs font-display uppercase tracking-widest text-gray-500">Swipe to view more</p>
       </div>
     </div>
   );
@@ -410,12 +406,12 @@ const TestimonialCard = ({ name, role, quote, rating, image }: { name: string, r
             />
           </div>
         ) : (
-          <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-display font-bold text-gray-400 text-lg group-hover/card:bg-white group-hover/card:text-[#3432c7] transition-colors duration-500">
+          <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center font-display font-bold text-gray-500 text-lg group-hover/card:bg-white group-hover/card:text-[#3432c7] transition-colors duration-500">
             {initials}
           </div>
         )}
         <div>
-          <h4 className="font-display font-bold text-base uppercase tracking-tight group-hover/card:text-white transition-colors duration-500">{name}</h4>
+          <h3 className="font-display font-bold text-base uppercase tracking-tight group-hover/card:text-white transition-colors duration-500">{name}</h3>
           <p className="text-xs text-gray-500 font-bold uppercase tracking-widest group-hover/card:text-white/80 transition-colors duration-500">{role}</p>
         </div>
       </div>
@@ -526,7 +522,7 @@ const PortfolioItem = ({ title, category, seed, imageSrc, link }: { title: strin
         />
         <div className="absolute top-5 right-5 z-10">
           <div className="text-white drop-shadow-lg transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">
-            <ArrowUpRight size={32} strokeWidth={1.0} />
+            <ArrowUpRight size={32} strokeWidth={1.0} aria-label={`View the ${title} Project`} />
           </div>
         </div>
         <div className="absolute bottom-5 left-5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -536,9 +532,9 @@ const PortfolioItem = ({ title, category, seed, imageSrc, link }: { title: strin
         </div>
       </div>
       <div className="flex flex-col gap-2 px-1">
-        <h4 className="font-display font-bold text-xl text-gray-900 leading-[1.2] group-hover:text-brand-600 transition-colors duration-300 max-w-full">
+        <h3 className="font-display font-bold text-xl text-gray-900 leading-[1.2] group-hover:text-brand-600 transition-colors duration-300 max-w-full">
           {title}
-        </h4>
+        </h3>
       </div>
     </motion.a>
   );
@@ -732,7 +728,7 @@ const Home = () => {
       <section id="portfolio" className="py-32 px-6 lg:px-12 max-w-screen-2xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16">
           <div className="max-w-5xl">
-            <p className="font-display font-bold text-brand-900/40 uppercase text-xs mb-4" style={{ letterSpacing: '2px' }}>YOU HANDLE THE PRODUCT, WE CONVERT THE CLICKS</p>
+            <p className="font-display font-bold text-gray-600 uppercase text-xs mb-4" style={{ letterSpacing: '2px' }}>YOU HANDLE THE PRODUCT, WE CONVERT THE CLICKS</p>
             <h2 className="font-display text-[12vw] sm:text-[10vw] md:text-7xl font-bold uppercase tracking-tighter mb-8 leading-[1.1] md:leading-[0.9] whitespace-nowrap md:whitespace-normal">
               <span className="md:hidden">Rocket Fuel <br /> For Growing <br /> Your Brand</span>
               <span className="hidden md:block">Rocket Fuel For <br /> Growing Your Brand</span>

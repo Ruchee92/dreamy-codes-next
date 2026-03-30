@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="next-size-adjust" content=""/>
 <meta property="fb:app_id" content="956376413511772"/>
-<meta property="og:url" content="https://dreamycodes.com/"/>
 <meta name="description" content="Top Shopify Web Development Agency. We build custom, high-converting stores in 14 days. 200+ stores built with a 4% avg conversion rate."/>
 <meta name="facebook-domain-verification" content="erbjwg9yprmcvtzmwglqs1v64wdzz9"/>
 <meta property="og:title" content="Shopify Web Development Agency | Custom E-Commerce Design"/>
@@ -18,6 +17,5 @@
 
 === LOOKING FOR og:url, fb:app_id, og:image ===
 <meta property="fb:app_id" content="956376413511772"/>
-<meta property="og:url" content="https://dreamycodes.com/"/>
 <meta property="og:url" content="https://dreamycodes.com"/>
 <meta property="og:image" content="https://dreamycodes.com/default-og.jpg"/>

@@ -14,10 +14,8 @@ import {
   X,
   CheckCircle2
 } from 'lucide-react';
-import dynamic from 'next/dynamic';
-
-const InteractiveBackground = dynamic(() => import('../components/InteractiveBackground'), { ssr: false });
-const LogoMarquee = dynamic(() => import('../components/LogoMarquee'), { ssr: false });
+import InteractiveBackground from '../components/InteractiveBackground';
+import LogoMarquee from '../components/LogoMarquee';
 
 const Hero = () => {
   const [isButtonHovering, setIsButtonHovering] = useState(false);
@@ -858,7 +856,9 @@ const Home = () => {
           <div className="fixed inset-0 z-[100] flex items-center justify-center px-6">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowSuccessModal(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer" />
             <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="relative bg-white p-8 md:p-12 max-w-xl w-full border border-brand-900 shadow-2xl text-center">
-              <button onClick={() => setShowSuccessModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-brand-900 transition-colors cursor-pointer"><X size={24} /></button>
+              <button aria-label="Close modal" onClick={() => setShowSuccessModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-brand-900 transition-colors cursor-pointer">
+                <X size={24} />
+              </button>
               <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8"><Zap size={40} fill="currentColor" /></div>
               <h4 className="font-display text-3xl md:text-4xl font-bold uppercase tracking-tighter mb-6">Request Received</h4>
               <p className="text-gray-600 text-lg font-light leading-relaxed mb-10">Thank you we received your request, and we will send you a detailed audit to your site and send a calendly link to schedule a call.</p>

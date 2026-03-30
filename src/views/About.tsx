@@ -191,7 +191,7 @@ const About = () => {
         <div className="max-w-screen-2xl mx-auto px-6 lg:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-4">
-              <p className="font-display font-bold text-gray-400 uppercase text-sm mb-6" style={{ letterSpacing: '0.2rem' }}>Our Mission</p>
+              <p className="font-display font-bold text-gray-500 uppercase text-sm mb-6" style={{ letterSpacing: '0.2rem' }}>Our Mission</p>
               <h2 className="font-display text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-tight">
                 Performance <br />Over Pretty.
               </h2>

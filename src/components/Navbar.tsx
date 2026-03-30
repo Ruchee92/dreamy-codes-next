@@ -86,7 +86,7 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button className="lg:hidden text-brand-900" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <button aria-label="Toggle Mobile Menu" className="lg:hidden text-brand-900" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>

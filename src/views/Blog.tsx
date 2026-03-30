@@ -24,7 +24,7 @@ const BlogCard = ({ title, excerpt, date, author, category, image, delay, slug }
           className="object-cover transform group-hover:scale-105 transition-transform duration-700"
         />
       </div>
-      <div className="flex items-center gap-4 mb-4 text-[10px] font-display font-bold uppercase tracking-widest text-gray-400">
+      <div className="flex items-center gap-4 mb-4 text-[10px] font-display font-bold uppercase tracking-widest text-gray-500">
         <span className="flex items-center gap-1"><Calendar size={12} /> {date}</span>
         <span className="flex items-center gap-1"><User size={12} /> {author}</span>
         <span className="flex items-center gap-1 text-brand-600"><Tag size={12} /> {category}</span>
@@ -83,7 +83,7 @@ const Blog = ({ posts }: { posts: any[] }) => {
 
           <div className="relative z-10 max-w-2xl">
             <h2 className="font-display text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-8">Join the 1%</h2>
-            <p className="text-gray-400 text-lg md:text-xl font-light leading-relaxed mb-12">
+            <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed mb-12">
               Get weekly e-commerce engineering insights delivered straight to your inbox. No fluff, just code and conversions.
             </p>
             <form className="flex flex-col md:flex-row gap-4">

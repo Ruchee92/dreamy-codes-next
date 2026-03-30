@@ -58,9 +58,9 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
             <div className="flex flex-wrap items-center gap-4 mb-8 text-xs font-display font-bold uppercase tracking-widest text-brand-600">
               <span className="flex items-center gap-1"><Tag size={14} /> {post?.categories?.nodes?.[0]?.name || 'Journal'}</span>
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-              <span className="text-gray-400 flex items-center gap-1"><Calendar size={14} /> {post?.date ? new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Unknown Date'}</span>
+              <span className="text-gray-500 flex items-center gap-1"><Calendar size={14} /> {post?.date ? new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Unknown Date'}</span>
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-              <span className="text-gray-400 flex items-center gap-1"><Clock size={14} /> 5 min read</span>
+              <span className="text-gray-500 flex items-center gap-1"><Clock size={14} /> 5 min read</span>
             </div>
             <h1 className="font-display text-4xl md:text-6xl lg:text-8xl font-bold uppercase tracking-tighter mb-6 md:mb-10 leading-[0.9] lg:leading-[0.85]">
               {post?.title}
@@ -87,25 +87,25 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
             {/* Sidebar / Share */}
             <aside className="lg:col-span-1 hidden lg:block">
               <div className="sticky top-32 flex flex-col gap-6 items-center">
-                <p className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-gray-400 [writing-mode:vertical-rl] mb-4">Share Article</p>
+                <p className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-gray-500 [writing-mode:vertical-rl] mb-4">Share Article</p>
                 <button 
                   onClick={() => handleShare('twitter')}
                   aria-label="Share on Twitter"
-                  className="p-3 border border-gray-100 hover:border-brand-900 transition-all rounded-full text-gray-400 hover:text-brand-900 hover:bg-gray-50 cursor-pointer"
+                  className="p-3 border border-gray-100 hover:border-brand-900 transition-all rounded-full text-gray-500 hover:text-brand-900 hover:bg-gray-50 cursor-pointer"
                 >
                   <Twitter size={18} />
                 </button>
                 <button 
                   onClick={() => handleShare('linkedin')}
                   aria-label="Share on LinkedIn"
-                  className="p-3 border border-gray-100 hover:border-brand-900 transition-all rounded-full text-gray-400 hover:text-brand-900 hover:bg-gray-50 cursor-pointer"
+                  className="p-3 border border-gray-100 hover:border-brand-900 transition-all rounded-full text-gray-500 hover:text-brand-900 hover:bg-gray-50 cursor-pointer"
                 >
                   <Linkedin size={18} />
                 </button>
                 <button 
                   onClick={() => handleShare('facebook')}
                   aria-label="Share on Facebook"
-                  className="p-3 border border-gray-100 hover:border-brand-900 transition-all rounded-full text-gray-400 hover:text-brand-900 hover:bg-gray-50 cursor-pointer"
+                  className="p-3 border border-gray-100 hover:border-brand-900 transition-all rounded-full text-gray-500 hover:text-brand-900 hover:bg-gray-50 cursor-pointer"
                 >
                   <Facebook size={18} />
                 </button>
@@ -139,21 +139,15 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                   ))}
                 </div>
                 <div className="flex items-center gap-6 lg:hidden">
-                  <Twitter 
-                    onClick={() => handleShare('twitter')}
-                    size={20} 
-                    className="text-gray-400 hover:text-brand-900 cursor-pointer p-0.5 border border-transparent hover:border-brand-100 rounded-full" 
-                  />
-                  <Linkedin 
-                    onClick={() => handleShare('linkedin')}
-                    size={20} 
-                    className="text-gray-400 hover:text-brand-900 cursor-pointer p-0.5 border border-transparent hover:border-brand-100 rounded-full" 
-                  />
-                  <Facebook 
-                    onClick={() => handleShare('facebook')}
-                    size={20} 
-                    className="text-gray-400 hover:text-brand-900 cursor-pointer p-0.5 border border-transparent hover:border-brand-100 rounded-full" 
-                  />
+                  <button aria-label="Share on Twitter" onClick={() => handleShare('twitter')} className="text-gray-500 hover:text-brand-900 cursor-pointer p-0.5 border border-transparent hover:border-brand-100 rounded-full">
+                    <Twitter size={20} />
+                  </button>
+                  <button aria-label="Share on LinkedIn" onClick={() => handleShare('linkedin')} className="text-gray-500 hover:text-brand-900 cursor-pointer p-0.5 border border-transparent hover:border-brand-100 rounded-full">
+                    <Linkedin size={20} />
+                  </button>
+                  <button aria-label="Share on Facebook" onClick={() => handleShare('facebook')} className="text-gray-500 hover:text-brand-900 cursor-pointer p-0.5 border border-transparent hover:border-brand-100 rounded-full">
+                    <Facebook size={20} />
+                  </button>
                 </div>
               </div>
 
@@ -179,14 +173,14 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                 <div>
                   <p className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-brand-600 mb-1">Written by</p>
                   <h4 className="font-display text-xl md:text-2xl font-bold uppercase tracking-tighter text-brand-900 mb-1">{authorName}</h4>
-                  <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-400 mb-4">Lead E-commerce Engineer</p>
+                  <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mb-4">Lead E-commerce Engineer</p>
                   <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg">{authorBio}</p>
                 </div>
               </div>
 
               {/* Back to Journal */}
               <div className="mt-12">
-                <Link href="/blog" className="inline-flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest text-gray-400 hover:text-brand-900 transition-colors">
+                <Link href="/blog" className="inline-flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest text-gray-500 hover:text-brand-900 transition-colors">
                   <ArrowLeft size={16} /> Back to Journal
                 </Link>
               </div>
@@ -225,7 +219,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                     className="object-cover transform group-hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-                <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-400 mb-4">
+                <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mb-4">
                   {related.date ? new Date(related.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : ''}
                 </p>
                 <h3 className="font-display text-2xl md:text-3xl font-bold uppercase mb-4 group-hover:text-brand-600 transition-colors leading-tight">{related.title}</h3>
@@ -234,7 +228,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                 </div>
               </Link>
             )) : (
-              <p className="text-gray-400 col-span-2 font-display text-sm uppercase tracking-widest">No related posts found.</p>
+              <p className="text-gray-500 col-span-2 font-display text-sm uppercase tracking-widest">No related posts found.</p>
             )}
           </div>
         </div>

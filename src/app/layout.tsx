@@ -81,6 +81,14 @@ export default function RootLayout({
             gtag('config', 'G-ESWXVSE2R9');
           `}
         </Script>
+        <Script 
+          src="https://elfsightcdn.com/platform.js" 
+          strategy="lazyOnload" 
+        />
+        <div 
+          className="elfsight-app-580e00ba-bef2-4038-9caa-48a2171af2ba" 
+          data-elfsight-app-lazy 
+        />
       </body>
     </html>
   );

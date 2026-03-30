@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Mail, Phone, Instagram, Facebook } from 'lucide-react';
+import { Mail, Phone, Linkedin, Facebook } from 'lucide-react';
 import Image from 'next/image';
 
 // Added TypeScript interface for the Pinterest props
@@ -77,8 +77,8 @@ const Footer = () => {
               <a href="https://www.pinterest.com/ecomruchi/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="Pinterest">
                 <Pinterest size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">
-                <Instagram size={20} />
+              <a href="https://www.linkedin.com/in/ruchiramadushan/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+                <Linkedin size={20} />
               </a>
               <a href="https://www.facebook.com/profile.php?id=61556683471035" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
                 <Facebook size={20} />

@@ -45,8 +45,8 @@ export const metadata: Metadata = {
     creator: "@dreamycodes",
     images: ["/default-og.jpg"],
   },
-  facebook: {
-    appId: "956376413511772",
+  other: {
+    "fb:app_id": "956376413511772",
   },
 };
 

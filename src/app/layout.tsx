@@ -47,6 +47,7 @@ export const metadata: Metadata = {
   },
   other: {
     "fb:app_id": "956376413511772",
+    "facebook-domain-verification": "erbjwg9yprmcvtzmwglqs1v64wdzz9",
   },
 };
 

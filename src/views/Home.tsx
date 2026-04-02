@@ -766,10 +766,10 @@ const Home = () => {
 
       <Testimonials />
 
-      <section id="contact" className="pt-10 pb-20 md:pt-12 md:pb-20 border-b border-brand-900 bg-[#fcfcfc]">
+      <section id="contact" className="pt-10 pb-20 md:pt-12 md:pb-20 border-b border-brand-900 bg-white">
         <div className="max-w-screen-2xl mx-auto px-4 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 border border-brand-900">
-            <div className="px-6 py-12 md:p-20 flex flex-col justify-center border-r lg:border-r border-brand-900 border-b lg:border-b-0">
+            <div className="px-6 py-12 md:p-20 flex flex-col justify-center border-r lg:border-r border-brand-900 border-b lg:border-b-0 bg-[#fcfcfc]">
               <h2 className="font-display text-4xl md:text-5xl font-bold uppercase tracking-tighter mb-4">Don't leave conversions on the table!</h2>
               <p className="text-gray-600 mb-12 font-light">Fill out the form below to request a comprehensive consultation or to discuss a new e-commerce build.</p>
               <form className="space-y-8" onSubmit={handleFormSubmit}>

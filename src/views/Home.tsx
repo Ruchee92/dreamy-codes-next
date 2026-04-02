@@ -14,53 +14,13 @@ import {
   X,
   CheckCircle2
 } from 'lucide-react';
-import InteractiveBackground from '../components/InteractiveBackground';
+import FloatingParticles from '../components/FloatingParticles';
 import LogoMarquee from '../components/LogoMarquee';
 
 const Hero = () => {
-  const [isButtonHovering, setIsButtonHovering] = useState(false);
-
   return (
     <section className="relative bg-grid-pattern pt-32 pb-24 md:pt-40 md:pb-32 min-h-[8vh] flex flex-col justify-center overflow-hidden">
-      <div className="hidden md:block absolute inset-0 z-0">
-        <InteractiveBackground isButtonHovering={isButtonHovering} />
-      </div>
-
-      {/* Mobile Background: Particles Only */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden md:hidden">
-        {/* Floating Tech Particles */}
-        {[...Array(15)].map((_, i) => {
-          const size = Math.random() * 10 + 5; // 5px to 15px
-          const startX = Math.random() * 100; // 0% to 100%
-          const duration = Math.random() * 10 + 10; // 10s to 20s
-          const delay = Math.random() * 5;
-          const isEmerald = i % 4 === 0;
-          const shapeType = i % 3; // 0: circle, 1: square, 2: plus
-          
-          return (
-            <div
-              key={i}
-              className={`absolute ${isEmerald ? 'text-emerald-500' : 'text-[#3432c7]'} pointer-events-none opacity-0`}
-              style={{
-                left: `${startX}%`,
-                bottom: '-20px',
-                width: size,
-                height: size,
-                animation: `float-particle ${duration}s linear ${delay}s infinite`,
-              }}
-            >
-              {shapeType === 0 && <div className="w-full h-full rounded-full border border-current" />}
-              {shapeType === 1 && <div className="w-full h-full border border-current" />}
-              {shapeType === 2 && (
-                <div className="relative w-full h-full">
-                  <div className="absolute top-1/2 left-0 w-full h-[1px] bg-current -translate-y-1/2" />
-                  <div className="absolute top-0 left-1/2 w-[1px] h-full bg-current -translate-x-1/2" />
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      <FloatingParticles />
 
       <div className="absolute top-1/4 right-[10%] w-[500px] h-[500px] bg-gray-200 rounded-full mix-blend-multiply filter blur-[100px] animate-slow-glow -z-10"></div>
       <div className="absolute bottom-0 left-[10%] w-[400px] h-[400px] bg-gray-100 rounded-full mix-blend-multiply filter blur-[80px] animate-slow-glow -z-10" style={{ animationDelay: '4s' }}></div>
@@ -103,8 +63,6 @@ const Hero = () => {
               <div className="flex flex-col md:flex-row lg:flex-col md:items-center lg:items-start md:gap-8 gap-6">
                 <a
                   href="#contact"
-                  onMouseEnter={() => setIsButtonHovering(true)}
-                  onMouseLeave={() => setIsButtonHovering(false)}
                   className="inline-flex items-center justify-between w-full md:w-auto md:gap-4 px-8 py-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
                 >
                   <span>Book Strategy Call</span>

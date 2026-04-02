@@ -109,13 +109,17 @@ const OurWork = () => {
             { title: "ShaggyChic", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Main-Logo_4dd4af09-4841-43a9-b338-56aebfa08329.png", link: "https://shaggychic.com/" },
             { title: "Innovative Drinks", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/ID-Logo_f4b38cee-9a86-407d-8fcb-a21f5caba1bc_500x126-2.png", link: "https://innovativedrinks.de/" },
             { title: "7Seeds", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/logo-1.png", link: "https://7seeds.ca/" },
-            { title: "Halal Beats", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/3000x3000-vector-packageArtboard-1-copy-5-1.png2-2-1.png", link: "https://www.halalbeats.com/" },
+            { title: "Halal Beats", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/04/hllbeats.png", link: "https://www.halalbeats.com/" },
             { title: "VoodooSpirit Coffee", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/VDC_Stacked_Skull_VDS_DBLESHT_1C.png2_170x.png", link: "https://voodoospiritcoffee.com/" },
             { title: "SignatureSigns", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/1_fa8b36ca-8cd9-479b-838b-724b7dd125f2.png", link: "https://www.signaturesynes.com/" },
             { title: "PeoBeo", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Emblena_neagra_-_Format_PNG.png", link: "https://www.peobeo.com/" },
             { title: "AllStar Terminals", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Logo-new.png", link: "https://allstarterminals.com/" },
             { title: "Griddle Guard", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/GriddleGuardLogo_04140ca1-e508-4f0d-817c-1e3085ad34c9_200x-1.png", link: "https://griddleguard.com/" },
-            { title: "Dimshade Co", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/DIM_SHADE_LOGO.png", link: "https://dimshadeco.com/" }
+            { title: "Dimshade Co", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/DIM_SHADE_LOGO.png", link: "https://dimshadeco.com/" },
+            { title: "Motivink", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/04/Motivink.png", link: "https://motivink.com/" },
+            { title: "Nutrition Authority", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/04/Nutrition-Authority.png", link: "https://mynutritionauthority.com/" },
+            { title: "Mama healer", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/04/mama-healer.png", link: "https://mamahealer.com/" },
+            { title: "Toilet me", logo: "https://wp.dreamycodes.com/wp-content/uploads/2026/04/Toilet-me.png", link: "https://toilet-paper-supply-2.myshopify.com/" }
           ].map((brand, i) => (
             <motion.a
               key={i}

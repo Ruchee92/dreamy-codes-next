@@ -16,7 +16,7 @@ const InteractiveBackground = ({ isButtonHovering }: { isButtonHovering: boolean
     if (!ctx) return;
 
     let animationFrameId: number;
-    let mouse = { x: -1000, y: -1000 };
+    const mouse = { x: -1000, y: -1000 };
     let isHovering = false;
     let isIdle = false;
     let idleTimer: number | null = null;

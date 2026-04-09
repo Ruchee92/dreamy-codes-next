@@ -65,24 +65,24 @@ const Footer = () => {
             <div className="flex flex-col gap-3 text-gray-400 text-sm">
               <div className="flex items-center gap-3">
                 <Mail size={16} className="text-gray-500" />
-                <a href="mailto:hello@dreamycodes.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">hello@dreamycodes.com</a>
+                <Link href="mailto:hello@dreamycodes.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">hello@dreamycodes.com</Link>
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={16} className="text-gray-500" />
-                <a href="https://api.whatsapp.com/send?phone=94714166608" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+94 (71) 416-6608</a>
+                <Link href="https://api.whatsapp.com/send?phone=94714166608" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+94 (71) 416-6608</Link>
               </div>
             </div>
 
             <div className="flex gap-5 mt-2">
-              <a href="https://www.pinterest.com/ecomruchi/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="Pinterest">
+              <Link href="https://www.pinterest.com/ecomruchi/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="Pinterest">
                 <Pinterest size={20} />
-              </a>
-              <a href="https://www.linkedin.com/in/ruchiramadushan/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+              </Link>
+              <Link href="https://www.linkedin.com/in/ruchiramadushan/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
                 <Linkedin size={20} />
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=61556683471035" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
+              </Link>
+              <Link href="https://www.facebook.com/profile.php?id=61556683471035" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
                 <Facebook size={20} />
-              </a>
+              </Link>
             </div>
           </div>
 

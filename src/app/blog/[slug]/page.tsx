@@ -9,7 +9,7 @@ import { JsonLd } from '@/components/SEO';
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const seo = await getWordPressSEO(slug, "post");
-  if (!seo) return { title: 'Blog | Dreamy Codes' };
+  if (!seo) return { title: 'Journal | Dreamy Codes' };
 
   return {
     title: seo.title,

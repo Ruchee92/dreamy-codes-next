@@ -61,18 +61,18 @@ const Hero = () => {
             </p>
             <div className="flex flex-col gap-8">
               <div className="flex flex-col md:flex-row lg:flex-col md:items-center lg:items-start md:gap-8 gap-6">
-                <a
+                <Link
                   href="#contact"
                   className="inline-flex items-center justify-between w-full md:w-auto md:gap-4 px-8 py-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
                 >
                   <span>Book Strategy Call</span>
                   <ArrowRight className="transform group-hover:translate-x-2 transition-transform" />
-                </a>
+                </Link>
 
-                <a href="#portfolio" className="inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-[0.2em] text-brand-900/60 hover:text-brand-900 transition-colors cursor-pointer group pt-2 md:pt-0 whitespace-nowrap">
+                <Link href="#portfolio" className="inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-[0.2em] text-brand-900/60 hover:text-brand-900 transition-colors cursor-pointer group pt-2 md:pt-0 whitespace-nowrap">
                   <span>View Our Work</span>
                   <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
-                </a>
+                </Link>
               </div>
 
               <div className="flex items-center gap-3">
@@ -792,15 +792,17 @@ const Home = () => {
                 </div>
                 <div>
                   <h4 className="font-display text-[10px] md:text-xs uppercase tracking-widest text-gray-500 font-bold mb-2">WhatsApp</h4>
-                  <a href="https://api.whatsapp.com/send?phone=94714166608" target="_blank" rel="noopener noreferrer" className="font-display text-xl md:text-3xl font-bold text-black hover:text-gray-500 transition-colors inline-flex items-center gap-4">
-                    <img
+                  <Link href="https://api.whatsapp.com/send?phone=94714166608" target="_blank" rel="noopener noreferrer" className="font-display text-xl md:text-3xl font-bold text-black hover:text-gray-500 transition-colors inline-flex items-center gap-4">
+                    <Image
                       src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/1-1.png"
                       alt="WhatsApp Contact for E-commerce Project Consultation"
+                      width={40}
+                      height={40}
                       className="w-6 h-6 md:w-10 md:h-10 object-contain"
                       referrerPolicy="no-referrer"
                     />
                     +94 (71) 416-6608
-                  </a>
+                  </Link>
                 </div>
                 <div className="pt-10 border-t border-brand-900/10"><p className="text-gray-500 font-light leading-relaxed max-w-sm">Based globally. <br /> Operating in EST & GMT timezones to seamlessly integrate with your executive team.</p></div>
               </div>

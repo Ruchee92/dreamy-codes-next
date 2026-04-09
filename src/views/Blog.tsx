@@ -39,40 +39,9 @@ const BlogCard = ({ title, excerpt, date, author, category, image, delay, slug }
 );
 
 const Blog = ({ posts }: { posts: any[] }) => {
-  const [email, setEmail] = React.useState("");
-  const [status, setStatus] = React.useState<"idle" | "loading" | "success" | "error">("idle");
-  const [message, setMessage] = React.useState("");
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("loading");
-    setMessage("");
-
-    try {
-      const response = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
-
-      setStatus("success");
-      setMessage("Thanks for subscribing! Welcome to the 1%.");
-      setEmail("");
-    } catch (err: any) {
-      setStatus("error");
-      setMessage(err.message || "Failed to subscribe. Please try again.");
-    }
-  };
 
   return (
     <div className="pt-24 md:pt-32 pb-16 md:pb-24">
@@ -103,48 +72,6 @@ const Blog = ({ posts }: { posts: any[] }) => {
               delay={0.1}
             />
           ))}
-        </div>
-      </section>
-
-      {/* Newsletter Section */}
-      <section className="mt-20 md:mt-32 px-6 lg:px-12 max-w-screen-2xl mx-auto">
-        <div className="bg-brand-900 text-white p-8 md:p-24 border border-brand-900 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-full h-full bg-grid-pattern-dark opacity-40 pointer-events-none"></div>
-          <div className="absolute -right-20 -bottom-20 text-[20rem] font-display font-bold text-white/5 leading-none pointer-events-none select-none">DC</div>
-
-          <div className="relative z-10 max-w-2xl">
-            <h2 className="font-display text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-8">Join the 1%</h2>
-            <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed mb-12">
-              Get weekly e-commerce engineering insights delivered straight to your inbox. No fluff, just code and conversions.
-            </p>
-            <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row gap-4">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="flex-grow bg-white/10 border border-white/20 px-6 py-4 focus:outline-none focus:border-white transition-colors font-display text-sm tracking-widest"
-                required
-                disabled={status === "loading"}
-              />
-              <button 
-                type="submit"
-                disabled={status === "loading"}
-                className="bg-white text-brand-900 px-10 py-4 font-display font-bold uppercase tracking-widest hover:bg-brand-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {status === "loading" ? "Subscribing..." : "Subscribe"}
-              </button>
-            </form>
-            {message && (
-              <motion.p 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`mt-6 font-display font-bold text-xs uppercase tracking-widest ${status === "success" ? "text-green-400" : "text-red-400"}`}
-              >
-                {message}
-              </motion.p>
-            )}
-          </div>
         </div>
       </section>
     </div>

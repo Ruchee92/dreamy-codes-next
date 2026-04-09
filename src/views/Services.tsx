@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Plus, 
@@ -173,13 +174,13 @@ const Services = () => {
                 We provide end-to-end e-commerce solutions. From the first line of code to the final checkout optimization, we build systems <span className="text-emerald-500 bg-emerald-50/50 px-1 rounded">designed to generate revenue</span>.
               </p>
               <div className="flex flex-col md:flex-row gap-6">
-                <a 
+                <Link 
                   href="/#contact" 
                   className="inline-flex items-center justify-between md:gap-4 px-8 py-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
                 >
                   <span>Book Strategy Call</span>
                   <ArrowRight className="transform group-hover:translate-x-2 transition-transform" />
-                </a>
+                </Link>
               </div>
             </motion.div>
             

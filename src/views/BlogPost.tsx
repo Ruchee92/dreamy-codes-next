@@ -56,7 +56,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
           <div className="max-w-4xl">
             {/* Category + date + read time */}
             <div className="flex flex-wrap items-center gap-4 mb-8 text-xs font-display font-bold uppercase tracking-widest text-brand-600">
-              <span className="flex items-center gap-1"><Tag size={14} /> {post?.categories?.nodes?.[0]?.name || 'Journal'}</span>
+              <span className="flex items-center gap-1"><Tag size={14} /> {post?.categories?.nodes?.[0]?.name || 'Blog'}</span>
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
               <span className="text-gray-500 flex items-center gap-1"><Calendar size={14} /> {post?.date ? new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Unknown Date'}</span>
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
@@ -181,7 +181,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
               {/* Back to Journal */}
               <div className="mt-12">
                 <Link href="/blog" className="inline-flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest text-gray-500 hover:text-brand-900 transition-colors">
-                  <ArrowLeft size={16} /> Back to Journal
+                  <ArrowLeft size={16} /> Back to Blog
                 </Link>
               </div>
             </div>
@@ -203,7 +203,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
               <h2 className="font-display text-4xl md:text-6xl font-bold uppercase tracking-tighter">Related <span className="text-brand-600">Insights</span></h2>
             </div>
             <Link href="/blog" className="flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest hover:gap-4 transition-all">
-              View All Journal Entries <ArrowLeft className="rotate-180" size={16} />
+              View All Blog Posts <ArrowLeft className="rotate-180" size={16} />
             </Link>
           </div>
 

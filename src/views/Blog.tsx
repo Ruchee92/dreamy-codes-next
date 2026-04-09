@@ -39,9 +39,40 @@ const BlogCard = ({ title, excerpt, date, author, category, image, delay, slug }
 );
 
 const Blog = ({ posts }: { posts: any[] }) => {
+  const [email, setEmail] = React.useState("");
+  const [status, setStatus] = React.useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = React.useState("");
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Something went wrong");
+      }
+
+      setStatus("success");
+      setMessage("Thanks for subscribing! Welcome to the 1%.");
+      setEmail("");
+    } catch (err: any) {
+      setStatus("error");
+      setMessage(err.message || "Failed to subscribe. Please try again.");
+    }
+  };
 
   return (
     <div className="pt-24 md:pt-32 pb-16 md:pb-24">
@@ -49,7 +80,7 @@ const Blog = ({ posts }: { posts: any[] }) => {
         <div className="max-w-4xl">
           <p className="font-display font-bold text-brand-900/40 uppercase tracking-[0.3em] text-xs mb-6">Unfiltered Insights</p>
           <h1 className="font-display text-5xl md:text-8xl font-bold uppercase tracking-tighter mb-8 leading-[0.9]">
-            The <span className="text-brand-600">Merchant</span> Journal
+            Blog
           </h1>
           <p className="text-xl text-gray-600 font-light leading-relaxed max-w-2xl">
             Engineering, design, and conversion strategies for the modern D2C founder.
@@ -86,17 +117,33 @@ const Blog = ({ posts }: { posts: any[] }) => {
             <p className="text-gray-500 text-lg md:text-xl font-light leading-relaxed mb-12">
               Get weekly e-commerce engineering insights delivered straight to your inbox. No fluff, just code and conversions.
             </p>
-            <form className="flex flex-col md:flex-row gap-4">
+            <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row gap-4">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="flex-grow bg-white/10 border border-white/20 px-6 py-4 focus:outline-none focus:border-white transition-colors font-display text-sm tracking-widest"
                 required
+                disabled={status === "loading"}
               />
-              <button className="bg-white text-brand-900 px-10 py-4 font-display font-bold uppercase tracking-widest hover:bg-brand-100 transition-colors">
-                Subscribe
+              <button 
+                type="submit"
+                disabled={status === "loading"}
+                className="bg-white text-brand-900 px-10 py-4 font-display font-bold uppercase tracking-widest hover:bg-brand-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {status === "loading" ? "Subscribing..." : "Subscribe"}
               </button>
             </form>
+            {message && (
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`mt-6 font-display font-bold text-xs uppercase tracking-widest ${status === "success" ? "text-green-400" : "text-red-400"}`}
+              >
+                {message}
+              </motion.p>
+            )}
           </div>
         </div>
       </section>

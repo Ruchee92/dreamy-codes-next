@@ -16,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: seo.alternates,
     openGraph: seo.openGraph,
     twitter: seo.twitter,
+    robots: seo.robots,
   };
 }
 

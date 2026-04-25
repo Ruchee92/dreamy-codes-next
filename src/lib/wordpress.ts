@@ -68,6 +68,8 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
             twitterTitle
             twitterDescription
             twitterImage { mediaItemUrl }
+            metaRobotsNoindex
+            metaRobotsNofollow
             schema { raw }
           }
         }
@@ -107,6 +109,8 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
                 twitterTitle
                 twitterDescription
                 twitterImage { mediaItemUrl }
+                metaRobotsNoindex
+                metaRobotsNofollow
                 schema { raw }
               }
             }
@@ -132,6 +136,8 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
                 twitterTitle
                 twitterDescription
                 twitterImage { mediaItemUrl }
+                metaRobotsNoindex
+                metaRobotsNofollow
                 schema { raw }
               }
             }
@@ -175,6 +181,10 @@ function formatSeo(seo: any, ogType: "website" | "article" = "website") {
       images: seo.twitterImage?.mediaItemUrl 
         ? [sanitizeUrl(seo.twitterImage.mediaItemUrl)] 
         : ["/default-og.jpg"],
+    },
+    robots: {
+      index: seo.metaRobotsNoindex !== "noindex",
+      follow: seo.metaRobotsNofollow !== "nofollow",
     },
     schema: seo.schema?.raw
   };

@@ -8,7 +8,14 @@ export function sanitizeUrl(url: string | null | undefined): string {
   if (!url) return "";
   
   // Replace backend domain with frontend domain
-  return url.replace("https://wp.dreamycodes.com", "https://dreamycodes.com");
+  let sanitized = url.replace("https://wp.dreamycodes.com", "https://dreamycodes.com");
+
+  // Remove trailing slash if it's not the root domain
+  if (sanitized.endsWith("/") && sanitized !== "https://dreamycodes.com/") {
+    sanitized = sanitized.slice(0, -1);
+  }
+  
+  return sanitized;
 }
 
 interface SEOProps {

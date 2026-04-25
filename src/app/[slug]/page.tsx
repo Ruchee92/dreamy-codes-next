@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     alternates: seo.alternates,
     openGraph: seo.openGraph,
     twitter: seo.twitter,
+    robots: seo.robots,
   };
 }
 

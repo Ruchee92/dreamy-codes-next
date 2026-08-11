@@ -26,15 +26,19 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
     const measure = () => {
       if (!textRef.current) return;
       const bbox = textRef.current.getBBox();
-      const length = textRef.current.getComputedTextLength();
+      // getComputedTextLength() is the word's horizontal advance width, not
+      // the geometric perimeter of the glyph outlines — the actual stroke
+      // path (down one leg, up to a peak, down to a valley, up to a peak,
+      // down the other leg, across the baseline to close) is longer than
+      // that. A dash sized to the advance width stops short of the path's
+      // full length, so whatever segment falls beyond it (e.g. the closing
+      // baseline stroke of "M") never gets drawn even once dashoffset
+      // reaches 0. Use a generous multiple so the dash covers the entire
+      // outline of every glyph in any word/size this renders.
+      const length = textRef.current.getComputedTextLength() * 20;
       setBox({ x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height });
       textRef.current.style.transition = 'none';
-      // Dash length matches the word's advance width (as before) but the gap
-      // is made huge so the pattern never repeats a second time across the
-      // total glyph-outline path — with dash and gap equal, the pattern
-      // cycled mid-glyph and made inner strokes (e.g. the two peaks of "M")
-      // flash on and then get swept back into a gap segment.
-      textRef.current.style.strokeDasharray = `${length} ${length * 50}`;
+      textRef.current.style.strokeDasharray = `${length}`;
       textRef.current.style.strokeDashoffset = revealedRef.current ? '0' : `${length}`;
     };
 
@@ -117,13 +121,8 @@ const Hero = () => {
               </div>
             </h1>
           </div>
-          <motion.div
-            initial={{ opacity: 0, y: 32, filter: "blur(6px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.9, delay: 1.85, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-3 pb-4"
-          >
-            <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-8">
+          <div className="lg:col-span-3 pb-4">
+            <p className="animate-hero-fade-up text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-8" style={{ animationDelay: '1.85s' }}>
               Scaling is tough. <br />
               Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">high-converting storefront</span> so you can focus on D2C growth.
             </p>
@@ -131,19 +130,24 @@ const Hero = () => {
               <div className="flex flex-col md:flex-row lg:flex-col md:items-center lg:items-start md:gap-8 gap-6">
                 <Link
                   href="#contact"
-                  className="inline-flex items-center justify-between w-full md:w-auto md:gap-4 px-8 py-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
+                  className="animate-hero-fade-up inline-flex items-center justify-between w-full md:w-auto md:gap-4 px-8 py-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
+                  style={{ animationDelay: '2.15s' }}
                 >
                   <span>Book Strategy Call</span>
                   <ArrowRight className="transform group-hover:translate-x-2 transition-transform" />
                 </Link>
 
-                <Link href="#portfolio" className="inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-[0.2em] text-brand-900/60 hover:text-brand-900 transition-colors cursor-pointer group pt-2 md:pt-0 whitespace-nowrap">
+                <Link
+                  href="#portfolio"
+                  className="animate-hero-fade-up inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-[0.2em] text-brand-900/60 hover:text-brand-900 transition-colors cursor-pointer group pt-2 md:pt-0 whitespace-nowrap"
+                  style={{ animationDelay: '2.45s' }}
+                >
                   <span>View Our Work</span>
                   <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="animate-hero-fade-up flex items-center gap-3" style={{ animationDelay: '2.75s' }}>
                 <div className="flex -space-x-3 flex-shrink-0">
                   {[
                     "https://wp.dreamycodes.com/wp-content/uploads/2026/03/B9031D87-783F-403F-8E3D-CFFD27DFF404.jpeg",
@@ -168,7 +172,7 @@ const Hero = () => {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -57,7 +57,7 @@ const Hero = () => {
           >
             <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-8">
               Scaling is tough. <br />
-              Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-emerald-700 bg-emerald-50/50 px-1 rounded">high-converting storefront</span> so you can focus on D2C growth.
+              Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">high-converting storefront</span> so you can focus on D2C growth.
             </p>
             <div className="flex flex-col gap-8">
               <div className="flex flex-col md:flex-row lg:flex-col md:items-center lg:items-start md:gap-8 gap-6">
@@ -538,11 +538,11 @@ const Capability = ({ title, description, icon: Icon, details }: { title: string
                     <CheckCircle2 className="w-5 h-5 text-emerald-500 mt-1 flex-shrink-0" />
                     <span>
                       {sentence.includes('Liquid, Hydrogen, and Oxygen') ? (
-                        <>We leverage Shopify's latest features including <span className="text-emerald-500 bg-emerald-500/10 px-1 rounded">Liquid, Hydrogen, and Oxygen</span> to deliver bespoke storefronts.</>
+                        <>We leverage Shopify's latest features including <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">Liquid, Hydrogen, and Oxygen</span> to deliver bespoke storefronts.</>
                       ) : sentence.includes('20-40% lift') ? (
-                        <>Our optimizations typically yield a <span className="text-emerald-500 bg-emerald-500/10 px-1 rounded">20-40% lift</span> in conversion rates.</>
+                        <>Our optimizations typically yield a <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">20-40% lift</span> in conversion rates.</>
                       ) : sentence.includes('complex subscription logic') ? (
-                        <>Whether it's <span className="text-emerald-500 bg-emerald-500/10 px-1 rounded">complex subscription logic</span> or real-time inventory syncing.</>
+                        <>Whether it's <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">complex subscription logic</span> or real-time inventory syncing.</>
                       ) : (
                         sentence + (sentence.endsWith('.') ? '' : '.')
                       )}
@@ -690,7 +690,7 @@ const Home = () => {
               <span className="hidden md:block">Rocket Fuel For <br /> Growing Your Brand</span>
             </h2>
             <p className="text-xl text-gray-600 font-light leading-relaxed max-w-2xl">
-              Have an awesome product? Partnering with Dreamy Codes is <span className="italic text-[#3432c7]">pouring gasoline on your sales</span>. Let our Shopify experts execute a data-driven Shopify store redesign to accelerate your brand's <span className="text-emerald-500 bg-emerald-50/50 px-1 rounded">revenue growth</span>.
+              Have an awesome product? Partnering with Dreamy Codes is <span className="italic text-[#3432c7]">pouring gasoline on your sales</span>. Let our Shopify experts execute a data-driven Shopify store redesign to accelerate your brand's <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">revenue growth</span>.
             </p>
           </div>
         </div>

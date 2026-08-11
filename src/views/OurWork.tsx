@@ -75,7 +75,7 @@ const OurWork = () => {
             Our <span className="text-brand-600">Work</span>
           </h1>
           <p className="text-xl text-gray-600 font-light leading-relaxed max-w-2xl">
-            A curated selection of <span className="text-emerald-500 bg-emerald-50/50 px-1 rounded">high-performance Shopify stores</span> we've engineered for growth.
+            A curated selection of <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">high-performance Shopify stores</span> we've engineered for growth.
           </p>
         </div>
       </section>

@@ -136,7 +136,7 @@ const About = () => {
               </h1>
 
               <p className="text-xl md:text-2xl text-gray-600 font-light leading-relaxed max-w-2xl">
-                Dreamy Codes is a specialized Shopify engineering collective. We architect <span className="text-emerald-500 bg-emerald-50/50 px-1 rounded">high-performance commerce systems</span> for brands that refuse to settle for "good enough."
+                Dreamy Codes is a specialized Shopify engineering collective. We architect <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">high-performance commerce systems</span> for brands that refuse to settle for "good enough."
               </p>
             </motion.div>
 

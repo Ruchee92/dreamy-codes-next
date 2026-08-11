@@ -185,7 +185,7 @@ const CaseStudies = () => {
             Case <span className="text-brand-600">Studies</span>
           </h1>
           <p className="text-xl text-gray-600 font-light leading-relaxed max-w-2xl">
-            Deep dives into how we've helped brands solve complex technical challenges and achieve <span className="text-emerald-500 bg-emerald-50/50 px-1 rounded">record-breaking growth</span>.
+            Deep dives into how we've helped brands solve complex technical challenges and achieve <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">record-breaking growth</span>.
           </p>
         </div>
       </section>

@@ -171,7 +171,7 @@ const Services = () => {
                 That Scale
               </h1>
               <p className="text-xl text-gray-600 font-light leading-relaxed mb-10 max-w-xl">
-                We provide end-to-end e-commerce solutions. From the first line of code to the final checkout optimization, we build systems <span className="text-emerald-500 bg-emerald-50/50 px-1 rounded">designed to generate revenue</span>.
+                We provide end-to-end e-commerce solutions. From the first line of code to the final checkout optimization, we build systems <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">designed to generate revenue</span>.
               </p>
               <div className="flex flex-col md:flex-row gap-6">
                 <Link 

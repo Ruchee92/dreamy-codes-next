@@ -96,12 +96,17 @@ const Hero = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
           <div className="lg:col-span-9">
-            <h1 className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold leading-[1.1] md:leading-[0.9] tracking-tighter uppercase whitespace-nowrap">
+            <h1 className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold leading-[0.95] md:leading-[0.85] tracking-tighter uppercase whitespace-nowrap">
               <div className="animate-hero-fade-up" style={{ animationDelay: '0.15s' }}>
                 We engineer
               </div>
-              <DrawInWord text="e-commerce" delay={0.55} duration={1.2} />
-              <span className="sr-only">e-commerce</span>
+              <div className="relative">
+                <div className="invisible" aria-hidden="true">e-commerce</div>
+                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                  <DrawInWord text="e-commerce" delay={0.55} duration={1.2} />
+                </div>
+                <span className="sr-only">e-commerce</span>
+              </div>
               <div className="animate-hero-fade-up" style={{ animationDelay: '1.45s' }}>
                 for scale.
               </div>

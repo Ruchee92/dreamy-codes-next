@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -17,36 +17,57 @@ import {
 import FloatingParticles from '../components/FloatingParticles';
 import LogoMarquee from '../components/LogoMarquee';
 
-// Generous fixed dash length (SVG user units, ~1:1 with CSS px here since the
-// svg has no viewBox scaling). Comfortably exceeds the true outline perimeter
-// of "E-COMMERCE" at any hero breakpoint, so every glyph's stroke closes fully.
-// Baked in as a static value (not measured via getBBox/getComputedTextLength)
-// so the hidden starting state is present in the server-rendered HTML itself —
-// a client-only measurement would leave the SSR markup undashed, causing the
-// text to flash fully visible before hydration ever runs.
-const DRAW_LENGTH = 16000;
-
 const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; delay?: number; duration?: number }) => {
+  const textRef = useRef<SVGTextElement>(null);
+  const revealedRef = useRef(false);
+  const [box, setBox] = useState({ x: 0, y: 0, width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      if (!textRef.current) return;
+      const bbox = textRef.current.getBBox();
+      const length = textRef.current.getComputedTextLength();
+      setBox({ x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height });
+      textRef.current.style.transition = 'none';
+      textRef.current.style.strokeDasharray = `${length}`;
+      textRef.current.style.strokeDashoffset = revealedRef.current ? '0' : `${length}`;
+    };
+
+    measure();
+    window.addEventListener('resize', measure);
+    document.fonts?.ready?.then(measure);
+
+    const timer = setTimeout(() => {
+      if (!textRef.current) return;
+      textRef.current.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`;
+      textRef.current.style.strokeDashoffset = '0';
+      revealedRef.current = true;
+    }, delay * 1000);
+
+    return () => {
+      window.removeEventListener('resize', measure);
+      clearTimeout(timer);
+    };
+  }, [text, delay, duration]);
+
   return (
     <svg
-      width="100%"
-      height="100%"
+      viewBox={`${box.x} ${box.y} ${box.width} ${box.height}`}
+      width={box.width || undefined}
+      height={box.height || undefined}
       style={{ overflow: 'visible', display: 'block' }}
       aria-hidden="true"
     >
       <text
+        ref={textRef}
         x="0"
-        y="50%"
-        dominantBaseline="middle"
-        className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold tracking-tighter animate-hero-draw-in"
-        style={{ animationDelay: `${delay}s`, animationDuration: `${duration}s` }}
+        y="0"
+        className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold tracking-tighter"
         fill="none"
-        stroke="#3432c7"
+        stroke="#111"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeDasharray={DRAW_LENGTH}
-        strokeDashoffset={DRAW_LENGTH}
       >
         {text.toUpperCase()}
       </text>
@@ -79,13 +100,8 @@ const Hero = () => {
               <div className="animate-hero-fade-up" style={{ animationDelay: '0.15s' }}>
                 We engineer
               </div>
-              <div className="relative">
-                <div className="invisible" aria-hidden="true">e-commerce</div>
-                <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                  <DrawInWord text="e-commerce" delay={0.55} duration={1.2} />
-                </div>
-                <span className="sr-only">e-commerce</span>
-              </div>
+              <DrawInWord text="e-commerce" delay={0.55} duration={1.2} />
+              <span className="sr-only">e-commerce</span>
               <div className="animate-hero-fade-up" style={{ animationDelay: '1.45s' }}>
                 for scale.
               </div>

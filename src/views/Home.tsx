@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -16,6 +16,64 @@ import {
 } from 'lucide-react';
 import FloatingParticles from '../components/FloatingParticles';
 import LogoMarquee from '../components/LogoMarquee';
+
+const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; delay?: number; duration?: number }) => {
+  const textRef = useRef<SVGTextElement>(null);
+  const revealedRef = useRef(false);
+  const [box, setBox] = useState({ x: 0, y: 0, width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      if (!textRef.current) return;
+      const bbox = textRef.current.getBBox();
+      const length = textRef.current.getComputedTextLength();
+      setBox({ x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height });
+      textRef.current.style.transition = 'none';
+      textRef.current.style.strokeDasharray = `${length}`;
+      textRef.current.style.strokeDashoffset = revealedRef.current ? '0' : `${length}`;
+    };
+
+    measure();
+    window.addEventListener('resize', measure);
+    document.fonts?.ready?.then(measure);
+
+    const timer = setTimeout(() => {
+      if (!textRef.current) return;
+      textRef.current.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`;
+      textRef.current.style.strokeDashoffset = '0';
+      revealedRef.current = true;
+    }, delay * 1000);
+
+    return () => {
+      window.removeEventListener('resize', measure);
+      clearTimeout(timer);
+    };
+  }, [text, delay, duration]);
+
+  return (
+    <svg
+      viewBox={`${box.x} ${box.y} ${box.width} ${box.height}`}
+      width={box.width || undefined}
+      height={box.height || undefined}
+      style={{ overflow: 'visible', display: 'block' }}
+      aria-hidden="true"
+    >
+      <text
+        ref={textRef}
+        x="0"
+        y="0"
+        className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold tracking-tighter"
+        fill="none"
+        stroke="#111"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {text.toUpperCase()}
+      </text>
+    </svg>
+  );
+};
 
 const Hero = () => {
   return (
@@ -46,14 +104,8 @@ const Hero = () => {
               >
                 We engineer
               </motion.div>
-              <motion.div
-                initial={{ clipPath: "inset(0 100% 0 0)" }}
-                animate={{ clipPath: "inset(0 0% 0 0)" }}
-                transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                className="text-outline"
-              >
-                e-commerce
-              </motion.div>
+              <DrawInWord text="e-commerce" delay={0.55} duration={1.2} />
+              <span className="sr-only">e-commerce</span>
               <motion.div
                 initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}

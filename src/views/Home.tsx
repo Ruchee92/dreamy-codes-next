@@ -39,10 +39,18 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
       // so nothing after a cutoff point ever gets left undrawn.
       charRefs.current.forEach((el) => {
         if (!el) return;
+        if (revealedRef.current) {
+          // Already fully drawn (e.g. this is a resize): go straight to the
+          // clean undashed outline rather than re-deriving a dash pattern.
+          el.style.transition = 'none';
+          el.style.strokeDasharray = 'none';
+          el.style.strokeDashoffset = '0';
+          return;
+        }
         const len = (el.getComputedTextLength() || 1) * 20;
         el.style.transition = 'none';
         el.style.strokeDasharray = `${len}`;
-        el.style.strokeDashoffset = revealedRef.current ? '0' : `${len}`;
+        el.style.strokeDashoffset = `${len}`;
       });
     };
 
@@ -59,9 +67,24 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
       revealedRef.current = true;
     }, delay * 1000);
 
+    // Once the draw-in has finished, drop the dash pattern altogether. Any
+    // dash length is a guess at the glyph outline's true perimeter, and if it
+    // falls short the leftover segment (the closing baseline stroke on both
+    // M's) stays invisible even at dashoffset 0. Clearing strokeDasharray
+    // guarantees the resting state is one continuous, unbroken outline.
+    const settle = setTimeout(() => {
+      charRefs.current.forEach((el) => {
+        if (!el) return;
+        el.style.transition = 'none';
+        el.style.strokeDasharray = 'none';
+        el.style.strokeDashoffset = '0';
+      });
+    }, (delay + duration) * 1000 + 50);
+
     return () => {
       window.removeEventListener('resize', measure);
       clearTimeout(timer);
+      clearTimeout(settle);
     };
   }, [text, delay, duration]);
 

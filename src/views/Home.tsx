@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -27,17 +27,6 @@ import LogoMarquee from '../components/LogoMarquee';
 const DRAW_LENGTH = 16000;
 
 const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; delay?: number; duration?: number }) => {
-  const textRef = useRef<SVGTextElement>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!textRef.current) return;
-      textRef.current.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`;
-      textRef.current.style.strokeDashoffset = '0';
-    }, delay * 1000);
-    return () => clearTimeout(timer);
-  }, [delay, duration]);
-
   return (
     <svg
       width="100%"
@@ -46,11 +35,11 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
       aria-hidden="true"
     >
       <text
-        ref={textRef}
         x="0"
         y="50%"
         dominantBaseline="middle"
-        className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold tracking-tighter"
+        className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold tracking-tighter animate-hero-draw-in"
+        style={{ animationDelay: `${delay}s`, animationDuration: `${duration}s` }}
         fill="none"
         stroke="#111"
         strokeWidth="1.5"
@@ -87,13 +76,9 @@ const Hero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
           <div className="lg:col-span-9">
             <h1 className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold leading-[1.1] md:leading-[0.9] tracking-tighter uppercase whitespace-nowrap">
-              <motion.div
-                initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              >
+              <div className="animate-hero-fade-up" style={{ animationDelay: '0.15s' }}>
                 We engineer
-              </motion.div>
+              </div>
               <div className="relative">
                 <div className="invisible" aria-hidden="true">e-commerce</div>
                 <div className="absolute inset-0 flex items-center" aria-hidden="true">
@@ -101,13 +86,9 @@ const Hero = () => {
                 </div>
                 <span className="sr-only">e-commerce</span>
               </div>
-              <motion.div
-                initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.8, delay: 1.45, ease: [0.22, 1, 0.36, 1] }}
-              >
+              <div className="animate-hero-fade-up" style={{ animationDelay: '1.45s' }}>
                 for scale.
-              </motion.div>
+              </div>
             </h1>
           </div>
           <motion.div

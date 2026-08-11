@@ -68,6 +68,15 @@ html {
     80% { opacity: 0.4; }
     100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
   }
+
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(24px); filter: blur(6px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  @keyframes hero-draw-in {
+    to { stroke-dashoffset: 0; }
+  }
 }
 
 @layer utilities {
@@ -117,6 +126,14 @@ html {
 
   .animate-blink {
     animation: blink 2s infinite ease-in-out;
+  }
+
+  .animate-hero-fade-up {
+    animation: hero-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-hero-draw-in {
+    animation: hero-draw-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 }
 

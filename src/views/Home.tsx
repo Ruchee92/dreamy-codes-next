@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -17,61 +17,47 @@ import {
 import FloatingParticles from '../components/FloatingParticles';
 import LogoMarquee from '../components/LogoMarquee';
 
+// Generous fixed dash length (SVG user units, ~1:1 with CSS px here since the
+// svg has no viewBox scaling). Comfortably exceeds the true outline perimeter
+// of "E-COMMERCE" at any hero breakpoint, so every glyph's stroke closes fully.
+// Baked in as a static value (not measured via getBBox/getComputedTextLength)
+// so the hidden starting state is present in the server-rendered HTML itself —
+// a client-only measurement would leave the SSR markup undashed, causing the
+// text to flash fully visible before hydration ever runs.
+const DRAW_LENGTH = 16000;
+
 const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; delay?: number; duration?: number }) => {
   const textRef = useRef<SVGTextElement>(null);
-  const revealedRef = useRef(false);
-  const [box, setBox] = useState({ x: 0, y: 0, width: 0, height: 0 });
 
-  useLayoutEffect(() => {
-    const measure = () => {
-      if (!textRef.current) return;
-      const bbox = textRef.current.getBBox();
-      // getComputedTextLength() is horizontal advance, not the true glyph outline
-      // perimeter (which is much longer, especially for letters like M). Use a
-      // generous multiple so the dash fully covers every glyph's outline before
-      // the dasharray's implicit gap segment begins.
-      const length = textRef.current.getComputedTextLength() * 20;
-      setBox({ x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height });
-      textRef.current.style.transition = 'none';
-      textRef.current.style.strokeDasharray = `${length}`;
-      textRef.current.style.strokeDashoffset = revealedRef.current ? '0' : `${length}`;
-    };
-
-    measure();
-    window.addEventListener('resize', measure);
-    document.fonts?.ready?.then(measure);
-
+  useEffect(() => {
     const timer = setTimeout(() => {
       if (!textRef.current) return;
       textRef.current.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`;
       textRef.current.style.strokeDashoffset = '0';
-      revealedRef.current = true;
     }, delay * 1000);
-
-    return () => {
-      window.removeEventListener('resize', measure);
-      clearTimeout(timer);
-    };
-  }, [text, delay, duration]);
+    return () => clearTimeout(timer);
+  }, [delay, duration]);
 
   return (
     <svg
-      viewBox={`${box.x} ${box.y} ${box.width} ${box.height}`}
-      width={box.width || undefined}
-      height={box.height || undefined}
+      width="100%"
+      height="100%"
       style={{ overflow: 'visible', display: 'block' }}
       aria-hidden="true"
     >
       <text
         ref={textRef}
         x="0"
-        y="0"
+        y="50%"
+        dominantBaseline="middle"
         className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold tracking-tighter"
         fill="none"
         stroke="#111"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
+        strokeDasharray={DRAW_LENGTH}
+        strokeDashoffset={DRAW_LENGTH}
       >
         {text.toUpperCase()}
       </text>

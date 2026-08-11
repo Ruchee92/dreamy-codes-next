@@ -26,7 +26,11 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
     const measure = () => {
       if (!textRef.current) return;
       const bbox = textRef.current.getBBox();
-      const length = textRef.current.getComputedTextLength();
+      // getComputedTextLength() is horizontal advance, not the true glyph outline
+      // perimeter (which is much longer, especially for letters like M). Use a
+      // generous multiple so the dash fully covers every glyph's outline before
+      // the dasharray's implicit gap segment begins.
+      const length = textRef.current.getComputedTextLength() * 20;
       setBox({ x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height });
       textRef.current.style.transition = 'none';
       textRef.current.style.strokeDasharray = `${length}`;
@@ -104,8 +108,13 @@ const Hero = () => {
               >
                 We engineer
               </motion.div>
-              <DrawInWord text="e-commerce" delay={0.55} duration={1.2} />
-              <span className="sr-only">e-commerce</span>
+              <div className="relative">
+                <div className="invisible" aria-hidden="true">e-commerce</div>
+                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                  <DrawInWord text="e-commerce" delay={0.55} duration={1.2} />
+                </div>
+                <span className="sr-only">e-commerce</span>
+              </div>
               <motion.div
                 initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}

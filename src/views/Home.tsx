@@ -37,22 +37,36 @@ const Hero = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="lg:col-span-9"
-          >
+          <div className="lg:col-span-9">
             <h1 className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold leading-[1.1] md:leading-[0.9] tracking-tighter uppercase whitespace-nowrap">
-              We engineer <br />
-              <span className="text-outline">e-commerce</span> <br />
-              for scale.
+              <motion.div
+                initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              >
+                We engineer
+              </motion.div>
+              <motion.div
+                initial={{ clipPath: "inset(0 100% 0 0)" }}
+                animate={{ clipPath: "inset(0 0% 0 0)" }}
+                transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                className="text-outline"
+              >
+                e-commerce
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.8, delay: 1.45, ease: [0.22, 1, 0.36, 1] }}
+              >
+                for scale.
+              </motion.div>
             </h1>
-          </motion.div>
+          </div>
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            initial={{ opacity: 0, y: 32, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.9, delay: 1.85, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-3 pb-4"
           >
             <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-8">

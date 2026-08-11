@@ -41,7 +41,7 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
         className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold tracking-tighter animate-hero-draw-in"
         style={{ animationDelay: `${delay}s`, animationDuration: `${duration}s` }}
         fill="none"
-        stroke="#111"
+        stroke="#3432c7"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

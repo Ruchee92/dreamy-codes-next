@@ -43,12 +43,14 @@ const LogoMarquee = ({ className = "" }) => {
             {[...Array(2)].map((_, i) => (
               <div key={i} className="flex items-center gap-12 md:gap-24 px-6 md:px-12 flex-shrink-0">
                 {logos.map((logo, j) => (
-                  <Image 
-                    key={j} 
-                    src={logo} 
-                    alt={`Trusted Shopify Client Brand Logo ${j + 1} - Scaling with Dreamy Codes`} 
+                  <Image
+                    key={j}
+                    src={logo}
+                    alt={`Trusted Shopify Client Brand Logo ${j + 1} - Scaling with Dreamy Codes`}
                     width={150}
                     height={64}
+                    loading="eager"
+                    priority
                     className="h-10 md:h-16 w-auto max-w-none object-contain opacity-100 flex-shrink-0"
                   />
                 ))}

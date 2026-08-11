@@ -29,7 +29,12 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
       const length = textRef.current.getComputedTextLength();
       setBox({ x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height });
       textRef.current.style.transition = 'none';
-      textRef.current.style.strokeDasharray = `${length}`;
+      // Dash length matches the word's advance width (as before) but the gap
+      // is made huge so the pattern never repeats a second time across the
+      // total glyph-outline path — with dash and gap equal, the pattern
+      // cycled mid-glyph and made inner strokes (e.g. the two peaks of "M")
+      // flash on and then get swept back into a gap segment.
+      textRef.current.style.strokeDasharray = `${length} ${length * 50}`;
       textRef.current.style.strokeDashoffset = revealedRef.current ? '0' : `${length}`;
     };
 
@@ -96,7 +101,7 @@ const Hero = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
           <div className="lg:col-span-9">
-            <h1 className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold leading-[0.95] md:leading-[0.85] tracking-tighter uppercase whitespace-nowrap">
+            <h1 className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold leading-[1.02] md:leading-[0.92] tracking-tighter uppercase whitespace-nowrap">
               <div className="animate-hero-fade-up" style={{ animationDelay: '0.15s' }}>
                 We engineer
               </div>

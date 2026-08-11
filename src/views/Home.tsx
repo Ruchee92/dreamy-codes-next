@@ -19,39 +19,26 @@ import LogoMarquee from '../components/LogoMarquee';
 
 const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; delay?: number; duration?: number }) => {
   const textRef = useRef<SVGTextElement>(null);
-  const charRefs = useRef<(SVGTSpanElement | null)[]>([]);
   const revealedRef = useRef(false);
   const [box, setBox] = useState({ x: 0, y: 0, width: 0, height: 0 });
-  const chars = text.toUpperCase().split('');
 
   useLayoutEffect(() => {
     const measure = () => {
       if (!textRef.current) return;
       const bbox = textRef.current.getBBox();
+      const length = textRef.current.getComputedTextLength();
       setBox({ x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height });
-      // Dashing the whole multi-character <text> as one path left a gap in
-      // both M's closing baseline stroke no matter how generous the dash
-      // length — some browsers don't stroke a multi-glyph <text> as one
-      // clean continuous outline. Measuring and dashing each character's
-      // own <tspan> independently sidesteps that: every glyph gets a dash
-      // sized to its own outline (a generous multiple of its own advance
-      // width, since that's still longer than the true outline perimeter),
-      // so nothing after a cutoff point ever gets left undrawn.
-      charRefs.current.forEach((el) => {
-        if (!el) return;
-        if (revealedRef.current) {
-          // Already fully drawn (e.g. this is a resize): go straight to the
-          // clean undashed outline rather than re-deriving a dash pattern.
-          el.style.transition = 'none';
-          el.style.strokeDasharray = 'none';
-          el.style.strokeDashoffset = '0';
-          return;
-        }
-        const len = (el.getComputedTextLength() || 1) * 20;
-        el.style.transition = 'none';
-        el.style.strokeDasharray = `${len}`;
-        el.style.strokeDashoffset = `${len}`;
-      });
+      if (revealedRef.current) {
+        // Already fully drawn (e.g. this is a resize): go straight to the
+        // clean undashed outline rather than re-deriving a dash pattern.
+        textRef.current.style.transition = 'none';
+        textRef.current.style.strokeDasharray = 'none';
+        textRef.current.style.strokeDashoffset = '0';
+        return;
+      }
+      textRef.current.style.transition = 'none';
+      textRef.current.style.strokeDasharray = `${length}`;
+      textRef.current.style.strokeDashoffset = `${length}`;
     };
 
     measure();
@@ -59,26 +46,23 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
     document.fonts?.ready?.then(measure);
 
     const timer = setTimeout(() => {
-      charRefs.current.forEach((el) => {
-        if (!el) return;
-        el.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`;
-        el.style.strokeDashoffset = '0';
-      });
+      if (!textRef.current) return;
+      textRef.current.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`;
+      textRef.current.style.strokeDashoffset = '0';
       revealedRef.current = true;
     }, delay * 1000);
 
-    // Once the draw-in has finished, drop the dash pattern altogether. Any
-    // dash length is a guess at the glyph outline's true perimeter, and if it
-    // falls short the leftover segment (the closing baseline stroke on both
-    // M's) stays invisible even at dashoffset 0. Clearing strokeDasharray
-    // guarantees the resting state is one continuous, unbroken outline.
+    // Once the draw-in has finished, drop the dash pattern altogether. The
+    // dash length is the word's advance width, which is shorter than the true
+    // glyph-outline perimeter, so the leftover segment (the closing baseline
+    // stroke on both M's) would otherwise stay invisible even at dashoffset 0.
+    // Clearing strokeDasharray guarantees the resting state is one continuous,
+    // unbroken outline — without altering how the trace itself animates.
     const settle = setTimeout(() => {
-      charRefs.current.forEach((el) => {
-        if (!el) return;
-        el.style.transition = 'none';
-        el.style.strokeDasharray = 'none';
-        el.style.strokeDashoffset = '0';
-      });
+      if (!textRef.current) return;
+      textRef.current.style.transition = 'none';
+      textRef.current.style.strokeDasharray = 'none';
+      textRef.current.style.strokeDashoffset = '0';
     }, (delay + duration) * 1000 + 50);
 
     return () => {
@@ -107,9 +91,7 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        {chars.map((c, i) => (
-          <tspan key={i} ref={(el) => { charRefs.current[i] = el; }}>{c}</tspan>
-        ))}
+        {text.toUpperCase()}
       </text>
     </svg>
   );

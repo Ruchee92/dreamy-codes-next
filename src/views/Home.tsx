@@ -19,27 +19,31 @@ import LogoMarquee from '../components/LogoMarquee';
 
 const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; delay?: number; duration?: number }) => {
   const textRef = useRef<SVGTextElement>(null);
+  const charRefs = useRef<(SVGTSpanElement | null)[]>([]);
   const revealedRef = useRef(false);
   const [box, setBox] = useState({ x: 0, y: 0, width: 0, height: 0 });
+  const chars = text.toUpperCase().split('');
 
   useLayoutEffect(() => {
     const measure = () => {
       if (!textRef.current) return;
       const bbox = textRef.current.getBBox();
-      // getComputedTextLength() is the word's horizontal advance width, not
-      // the geometric perimeter of the glyph outlines — the actual stroke
-      // path (down one leg, up to a peak, down to a valley, up to a peak,
-      // down the other leg, across the baseline to close) is longer than
-      // that. A dash sized to the advance width stops short of the path's
-      // full length, so whatever segment falls beyond it (e.g. the closing
-      // baseline stroke of "M") never gets drawn even once dashoffset
-      // reaches 0. Use a generous multiple so the dash covers the entire
-      // outline of every glyph in any word/size this renders.
-      const length = textRef.current.getComputedTextLength() * 20;
       setBox({ x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height });
-      textRef.current.style.transition = 'none';
-      textRef.current.style.strokeDasharray = `${length}`;
-      textRef.current.style.strokeDashoffset = revealedRef.current ? '0' : `${length}`;
+      // Dashing the whole multi-character <text> as one path left a gap in
+      // both M's closing baseline stroke no matter how generous the dash
+      // length — some browsers don't stroke a multi-glyph <text> as one
+      // clean continuous outline. Measuring and dashing each character's
+      // own <tspan> independently sidesteps that: every glyph gets a dash
+      // sized to its own outline (a generous multiple of its own advance
+      // width, since that's still longer than the true outline perimeter),
+      // so nothing after a cutoff point ever gets left undrawn.
+      charRefs.current.forEach((el) => {
+        if (!el) return;
+        const len = (el.getComputedTextLength() || 1) * 20;
+        el.style.transition = 'none';
+        el.style.strokeDasharray = `${len}`;
+        el.style.strokeDashoffset = revealedRef.current ? '0' : `${len}`;
+      });
     };
 
     measure();
@@ -47,9 +51,11 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
     document.fonts?.ready?.then(measure);
 
     const timer = setTimeout(() => {
-      if (!textRef.current) return;
-      textRef.current.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`;
-      textRef.current.style.strokeDashoffset = '0';
+      charRefs.current.forEach((el) => {
+        if (!el) return;
+        el.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`;
+        el.style.strokeDashoffset = '0';
+      });
       revealedRef.current = true;
     }, delay * 1000);
 
@@ -78,7 +84,9 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        {text.toUpperCase()}
+        {chars.map((c, i) => (
+          <tspan key={i} ref={(el) => { charRefs.current[i] = el; }}>{c}</tspan>
+        ))}
       </text>
     </svg>
   );

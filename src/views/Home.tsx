@@ -33,7 +33,7 @@ const Hero = () => {
           className="flex items-center gap-3 mt-6 md:mt-0 mb-8 relative z-10"
         >
           <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-blink"></div>
-          <p className="font-display font-bold text-brand-900/60 uppercase text-[10px] md:text-sm" style={{ letterSpacing: '0.2rem' }}>ACCEPTING PARTNERS FOR Q2</p>
+          <p className="font-display font-bold text-brand-900/60 uppercase text-[10px] md:text-sm" style={{ letterSpacing: '0.2rem' }}>ACCEPTING PARTNERS FOR Q3</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">

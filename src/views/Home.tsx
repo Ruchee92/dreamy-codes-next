@@ -740,7 +740,7 @@ const FounderStory = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 lg:py-28 bg-white">
+    <section className="py-12 md:py-16 lg:py-20 bg-white">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -750,7 +750,7 @@ const FounderStory = () => {
           className="grid grid-cols-1 lg:grid-cols-2 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_2px_40px_rgba(17,17,17,0.08)]"
         >
           {/* Photo panel */}
-          <div className="relative bg-[#e8e6e2] min-h-[420px] sm:min-h-[520px] lg:min-h-[680px] overflow-hidden">
+          <div className="relative bg-[#e8e6e2] min-h-[320px] sm:min-h-[400px] lg:min-h-[520px] overflow-hidden">
             <span
               className="pointer-events-none select-none absolute inset-x-0 top-0 flex justify-center font-serif text-[13rem] sm:text-[17rem] lg:text-[22rem] leading-[0.8] text-brand-900/[0.05] -translate-y-6"
               aria-hidden="true"
@@ -767,47 +767,47 @@ const FounderStory = () => {
           </div>
 
           {/* Content panel */}
-          <div className="bg-[#fafafa] px-6 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16 flex flex-col justify-center">
-            <p className="font-display font-bold text-gray-500 uppercase text-[10px] sm:text-xs mb-4" style={{ letterSpacing: '0.2em' }}>
+          <div className="bg-[#fafafa] px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-10 flex flex-col justify-center">
+            <p className="font-display font-bold text-gray-500 uppercase text-[10px] sm:text-xs mb-3" style={{ letterSpacing: '0.2em' }}>
               Founder / Mission
             </p>
 
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-[0.92]">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tighter leading-[0.92]">
               Built to
               <br />
               <span className="text-[#3432c7]">Convert</span>
             </h2>
 
-            <div className="w-14 h-[3px] bg-[#3432c7] my-6 md:my-7" aria-hidden="true"></div>
+            <div className="w-12 h-[3px] bg-[#3432c7] my-4" aria-hidden="true"></div>
 
-            <p className="text-base sm:text-lg text-gray-500 font-light leading-relaxed mb-6">
+            <p className="text-sm sm:text-base text-gray-500 font-light leading-relaxed mb-4">
               Dreamy Codes exists to help founders turn Shopify stores into businesses that grow.
             </p>
 
-            <p className="text-base sm:text-lg font-bold leading-relaxed mb-8 md:mb-10">
+            <p className="text-sm sm:text-base font-bold leading-relaxed mb-5">
               <span className="text-brand-900">We don’t just make stores look better.</span>
               <br />
               <span className="text-[#3432c7]">We engineer better ways for customers to buy.</span>
             </p>
 
-            <div className="mb-8 md:mb-10">
+            <div className="mb-6">
               {values.map((value, i) => {
                 const Icon = value.icon;
                 return (
                   <div
                     key={i}
-                    className={`flex items-center gap-4 sm:gap-6 py-5 ${i > 0 ? 'border-t border-brand-900/10' : ''}`}
+                    className={`flex items-center gap-3 sm:gap-5 py-3 ${i > 0 ? 'border-t border-brand-900/10' : ''}`}
                   >
-                    <span className="font-serif text-2xl sm:text-3xl text-[#3432c7] w-8 sm:w-10 flex-shrink-0 tabular-nums" aria-hidden="true">
+                    <span className="font-serif text-xl sm:text-2xl text-[#3432c7] w-7 sm:w-9 flex-shrink-0 tabular-nums" aria-hidden="true">
                       {`0${i + 1}`}
                     </span>
                     <span className="w-px self-stretch bg-brand-900/10 flex-shrink-0" aria-hidden="true"></span>
-                    <Icon size={26} strokeWidth={1.75} className="text-[#3432c7] flex-shrink-0" aria-hidden="true" />
+                    <Icon size={22} strokeWidth={1.75} className="text-[#3432c7] flex-shrink-0" aria-hidden="true" />
                     <div className="min-w-0">
-                      <p className="font-display font-bold uppercase text-sm sm:text-base text-brand-900 tracking-wide mb-1">
+                      <p className="font-display font-bold uppercase text-xs sm:text-sm text-brand-900 tracking-wide mb-0.5">
                         {value.label}
                       </p>
-                      <p className="text-sm sm:text-[15px] text-gray-500 font-light leading-relaxed">
+                      <p className="text-xs sm:text-sm text-gray-500 font-light leading-snug">
                         {value.body}
                       </p>
                     </div>
@@ -816,8 +816,8 @@ const FounderStory = () => {
               })}
             </div>
 
-            <p className="font-signature text-4xl sm:text-5xl text-brand-900 leading-none mb-2">Ruchi</p>
-            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-600 mb-7" style={{ letterSpacing: '0.15em' }}>
+            <p className="font-signature text-3xl sm:text-4xl text-brand-900 leading-none mb-1">Ruchi</p>
+            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-600 mb-5" style={{ letterSpacing: '0.15em' }}>
               Founder &amp; Lead Engineer
             </p>
 

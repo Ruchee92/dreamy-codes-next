@@ -41,7 +41,11 @@ const LogoMarquee = ({ className = "" }) => {
 
           <div className="flex whitespace-nowrap animate-marquee">
             {[...Array(2)].map((_, i) => (
-              <div key={i} className="flex items-center gap-12 md:gap-24 px-6 md:px-12 flex-shrink-0">
+              // Each copy is one exact repeating period: the logo gaps plus a
+              // trailing gap of the same size. Symmetric side padding would
+              // halve the spacing at the seam between the two copies, making
+              // the rhythm visibly hitch every time the -50% loop point passed.
+              <div key={i} className="flex items-center gap-12 md:gap-24 pr-12 md:pr-24 flex-shrink-0">
                 {logos.map((logo, j) => (
                   <Image
                     key={j}

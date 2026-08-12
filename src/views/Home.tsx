@@ -725,17 +725,17 @@ const FounderStory = () => {
     {
       label: "Evolve",
       icon: Zap,
-      body: "Shopify ships fast and buyer behaviour shifts faster. We keep testing, learning, and rebuilding our systems so your store stays ahead of the platform — not behind it."
+      body: "Keep learning. Keep improving. Stay ahead."
     },
     {
       label: "Communicate",
       icon: MessageSquare,
-      body: "Consistent, timely, thorough updates. No black boxes and no silent weeks. We care about your store’s numbers as if they were our own."
+      body: "Clear updates. Direct collaboration. No black boxes."
     },
     {
       label: "Ownership",
       icon: ShieldCheck,
-      body: "We look past the brief to the root problem. We’re not chasing incremental tweaks — we’re after the changes that actually move revenue."
+      body: "Find the real problem. Build the solution. Chase meaningful growth."
     }
   ];
 
@@ -779,10 +779,12 @@ const FounderStory = () => {
             <h2 className="font-display text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-8 leading-[1.05]">
               Built to <span className="text-[#3432c7]">Convert</span>
             </h2>
-            <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-8">
-              Dreamy Codes exists to help founders turn their storefronts into real revenue engines. Brands choose us because we treat conversion as <span className="font-bold text-brand-900">engineering, not decoration</span>.
+            <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-6">
+              Dreamy Codes exists to help founders turn Shopify stores into businesses that grow.
             </p>
-            <p className="text-gray-600 font-light mb-8">Three principles guide every build:</p>
+            <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-10">
+              We don’t just make stores look better. We engineer <span className="font-bold text-brand-900">better ways for customers to buy</span>.
+            </p>
 
             <div className="space-y-6 mb-10">
               {values.map((value, i) => {

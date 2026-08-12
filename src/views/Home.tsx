@@ -229,8 +229,14 @@ const CaseStudy = ({ number, title, description, stats, category, table, link, i
             <div className="space-y-0">
               {table.data.map((row, i) => (
                 <div key={i} className="grid grid-cols-2 text-sm border-b border-brand-900/10 last:border-b-0">
-                  <div className="p-3 text-gray-700">{row.challenge}</div>
-                  <div className="p-3 text-gray-700">{row.result}</div>
+                  <div className="p-3 text-gray-700 flex items-start gap-2">
+                    <X size={16} strokeWidth={2.5} className="text-brand-900 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                    <span>{row.challenge}</span>
+                  </div>
+                  <div className="p-3 text-gray-700 flex items-start gap-2">
+                    <CheckCircle2 size={16} strokeWidth={2.5} className="text-[#3432c7] flex-shrink-0 mt-0.5" aria-hidden="true" />
+                    <span>{row.result}</span>
+                  </div>
                 </div>
               ))}
             </div>

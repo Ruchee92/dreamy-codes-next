@@ -747,23 +747,34 @@ const FounderStory = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-1 lg:grid-cols-2 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_2px_40px_rgba(17,17,17,0.08)]"
+          className="grid grid-cols-1 lg:grid-cols-2 rounded-2xl md:rounded-3xl overflow-hidden"
         >
           {/* Photo panel */}
-          <div className="relative bg-[#e8e6e2] min-h-[320px] sm:min-h-[400px] lg:min-h-[520px] overflow-hidden">
+          <div className="relative bg-[#e8e6e2] overflow-hidden flex flex-col px-6 pt-8 pb-6 sm:px-8 sm:pt-10 lg:px-10 lg:pt-12 lg:pb-8">
             <span
-              className="pointer-events-none select-none absolute inset-x-0 top-0 flex justify-center font-serif text-[13rem] sm:text-[17rem] lg:text-[22rem] leading-[0.8] text-brand-900/[0.05] -translate-y-6"
+              className="pointer-events-none select-none absolute inset-x-0 top-0 flex justify-center font-serif text-[13rem] sm:text-[17rem] lg:text-[20rem] leading-[0.8] text-brand-900/[0.05] -translate-y-6"
               aria-hidden="true"
             >
               DC
             </span>
-            <Image
-              src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/Ruchi1.jpg"
-              alt="Ruchi, Founder and Lead Engineer at Dreamy Codes"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-bottom"
-            />
+
+            <div className="relative z-10 flex-1 flex items-center justify-center">
+              <Image
+                src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/Ruchi1.jpg"
+                alt="Ruchi, Founder and Lead Engineer at Dreamy Codes"
+                width={640}
+                height={640}
+                sizes="(max-width: 640px) 220px, (max-width: 1024px) 260px, 300px"
+                className="w-full max-w-[220px] sm:max-w-[260px] lg:max-w-[300px] h-auto object-cover rounded-xl"
+              />
+            </div>
+
+            <div className="relative z-10 mt-6 lg:mt-8">
+              <p className="font-signature text-3xl sm:text-4xl text-brand-900 leading-none mb-1">Ruchi</p>
+              <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-600" style={{ letterSpacing: '0.15em' }}>
+                Founder &amp; Lead Engineer
+              </p>
+            </div>
           </div>
 
           {/* Content panel */}
@@ -772,23 +783,24 @@ const FounderStory = () => {
               Founder / Mission
             </p>
 
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tighter leading-[0.92]">
-              Built to
-              <br />
-              <span className="text-[#3432c7]">Convert</span>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-[2.6rem] xl:text-[3.4rem] 2xl:text-6xl font-bold uppercase tracking-tighter leading-[0.95] lg:whitespace-nowrap">
+              Built to <span className="text-[#3432c7]">Convert</span>
             </h2>
 
-            <div className="w-12 h-[3px] bg-[#3432c7] my-4" aria-hidden="true"></div>
+            <div className="w-12 h-[3px] bg-[#3432c7] my-5" aria-hidden="true"></div>
 
-            <p className="text-sm sm:text-base text-gray-500 font-light leading-relaxed mb-4">
+            <p className="text-sm sm:text-base text-gray-500 font-light leading-relaxed max-w-xl mb-5">
               Dreamy Codes exists to help founders turn Shopify stores into businesses that grow.
             </p>
 
-            <p className="text-sm sm:text-base font-bold leading-relaxed mb-5">
-              <span className="text-brand-900">We don’t just make stores look better.</span>
-              <br />
-              <span className="text-[#3432c7]">We engineer better ways for customers to buy.</span>
-            </p>
+            <div className="border-l-2 border-[#3432c7] pl-4 mb-7">
+              <p className="text-sm sm:text-base font-bold text-brand-900 leading-snug">
+                We don’t just make stores look better.
+              </p>
+              <p className="text-sm sm:text-base font-bold text-[#3432c7] leading-snug">
+                We engineer better ways for customers to buy.
+              </p>
+            </div>
 
             <div className="mb-6">
               {values.map((value, i) => {
@@ -815,11 +827,6 @@ const FounderStory = () => {
                 );
               })}
             </div>
-
-            <p className="font-signature text-3xl sm:text-4xl text-brand-900 leading-none mb-1">Ruchi</p>
-            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-600 mb-5" style={{ letterSpacing: '0.15em' }}>
-              Founder &amp; Lead Engineer
-            </p>
 
             <Link
               href="/about"

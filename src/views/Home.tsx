@@ -12,7 +12,9 @@ import {
   ChevronRight,
   ArrowUpRight,
   X,
-  CheckCircle2
+  CheckCircle2,
+  MessageSquare,
+  ShieldCheck
 } from 'lucide-react';
 import FloatingParticles from '../components/FloatingParticles';
 import LogoMarquee from '../components/LogoMarquee';
@@ -718,6 +720,100 @@ const StatsSection = () => {
   );
 };
 
+const FounderStory = () => {
+  const values = [
+    {
+      label: "Evolve",
+      icon: Zap,
+      body: "Shopify ships fast and buyer behaviour shifts faster. We keep testing, learning, and rebuilding our systems so your store stays ahead of the platform — not behind it."
+    },
+    {
+      label: "Communicate",
+      icon: MessageSquare,
+      body: "Consistent, timely, thorough updates. No black boxes and no silent weeks. We care about your store’s numbers as if they were our own."
+    },
+    {
+      label: "Ownership",
+      icon: ShieldCheck,
+      body: "We look past the brief to the root problem. We’re not chasing incremental tweaks — we’re after the changes that actually move revenue."
+    }
+  ];
+
+  return (
+    <section className="py-24 md:py-32 bg-[#fcfcfc] border-t border-brand-900">
+      <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-5"
+          >
+            <div className="relative max-w-sm mx-auto lg:max-w-none">
+              <div
+                className="absolute -bottom-4 -left-4 w-full h-full bg-[#3432c7] -z-10"
+                aria-hidden="true"
+              ></div>
+              <Image
+                src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/Ruchi1.jpg"
+                alt="Ruchi, Founder and Lead Engineer at Dreamy Codes"
+                width={800}
+                height={800}
+                sizes="(max-width: 1024px) 384px, 40vw"
+                className="w-full h-auto object-cover border border-brand-900 relative z-10"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-7"
+          >
+            <p className="font-display font-bold text-gray-600 uppercase text-xs mb-4" style={{ letterSpacing: '2px' }}>
+              Founder&apos;s Story &amp; Mission
+            </p>
+            <h2 className="font-display text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-8 leading-[1.05]">
+              Built to <span className="text-[#3432c7]">Convert</span>
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-8">
+              Dreamy Codes exists to help founders turn their storefronts into real revenue engines. Brands choose us because we treat conversion as <span className="font-bold text-brand-900">engineering, not decoration</span>.
+            </p>
+            <p className="text-gray-600 font-light mb-8">Three principles guide every build:</p>
+
+            <div className="space-y-6 mb-10">
+              {values.map((value, i) => {
+                const Icon = value.icon;
+                return (
+                  <div key={i} className="flex items-start gap-4">
+                    <Icon size={22} strokeWidth={2} className="text-[#3432c7] flex-shrink-0 mt-1" aria-hidden="true" />
+                    <p className="text-gray-600 font-light leading-relaxed">
+                      <span className="font-display font-bold uppercase tracking-wide text-[#3432c7]">{value.label}</span>
+                      {` — ${value.body}`}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+
+            <p className="font-display font-bold uppercase tracking-widest text-sm text-brand-900 mb-10">
+              Ruchi <span className="text-gray-500">&mdash; Founder &amp; Lead Engineer</span>
+            </p>
+
+            <Link href="/about" className="border-2 border-brand-900 text-brand-900 px-10 py-4 font-display font-bold uppercase tracking-widest hover:bg-brand-900 hover:text-white transition-all duration-300 whitespace-nowrap group inline-flex items-center gap-3">
+              <span>Read More</span>
+              <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Home = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -856,6 +952,8 @@ const Home = () => {
       </section>
 
       <Testimonials />
+
+      <FounderStory />
 
       <section id="contact" className="pt-10 pb-20 md:pt-12 md:pb-20 border-b border-brand-900 bg-white">
         <div className="max-w-screen-2xl mx-auto px-4 lg:px-12">

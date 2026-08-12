@@ -740,73 +740,97 @@ const FounderStory = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 lg:py-32 bg-[#fcfcfc] border-t border-brand-900">
-      <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 lg:gap-20 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5"
-          >
-            <div className="max-w-xs sm:max-w-sm mx-auto lg:max-w-none">
-              <Image
-                src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/Ruchi1.jpg"
-                alt="Ruchi, Founder and Lead Engineer at Dreamy Codes"
-                width={800}
-                height={800}
-                sizes="(max-width: 640px) 320px, (max-width: 1024px) 384px, 40vw"
-                className="w-full h-auto object-cover border border-brand-900"
-              />
-            </div>
-          </motion.div>
+    <section className="py-16 md:py-24 lg:py-28 bg-white">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-12">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-2 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_2px_40px_rgba(17,17,17,0.08)]"
+        >
+          {/* Photo panel */}
+          <div className="relative bg-[#e8e6e2] min-h-[420px] sm:min-h-[520px] lg:min-h-[680px] overflow-hidden">
+            <span
+              className="pointer-events-none select-none absolute inset-x-0 top-0 flex justify-center font-serif text-[13rem] sm:text-[17rem] lg:text-[22rem] leading-[0.8] text-brand-900/[0.05] -translate-y-6"
+              aria-hidden="true"
+            >
+              DC
+            </span>
+            <Image
+              src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/Ruchi1.jpg"
+              alt="Ruchi, Founder and Lead Engineer at Dreamy Codes"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover object-bottom"
+            />
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-7"
-          >
-            <p className="font-display font-bold text-gray-600 uppercase text-xs mb-4" style={{ letterSpacing: '2px' }}>
-              Founder&apos;s Story &amp; Mission
+          {/* Content panel */}
+          <div className="bg-[#fafafa] px-6 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16 flex flex-col justify-center">
+            <p className="font-display font-bold text-gray-500 uppercase text-[10px] sm:text-xs mb-4" style={{ letterSpacing: '0.2em' }}>
+              Founder / Mission
             </p>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tighter mb-6 md:mb-8 leading-[1.05]">
-              Built to <span className="text-[#3432c7]">Convert</span>
+
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-[0.92]">
+              Built to
+              <br />
+              <span className="text-[#3432c7]">Convert</span>
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-5 md:mb-6">
+
+            <div className="w-14 h-[3px] bg-[#3432c7] my-6 md:my-7" aria-hidden="true"></div>
+
+            <p className="text-base sm:text-lg text-gray-500 font-light leading-relaxed mb-6">
               Dreamy Codes exists to help founders turn Shopify stores into businesses that grow.
             </p>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-8 md:mb-10">
-              We don’t just make stores look better. We engineer <span className="font-bold text-brand-900">better ways for customers to buy</span>.
+
+            <p className="text-base sm:text-lg font-bold leading-relaxed mb-8 md:mb-10">
+              <span className="text-brand-900">We don’t just make stores look better.</span>
+              <br />
+              <span className="text-[#3432c7]">We engineer better ways for customers to buy.</span>
             </p>
 
-            <div className="space-y-5 md:space-y-6 mb-8 md:mb-10">
+            <div className="mb-8 md:mb-10">
               {values.map((value, i) => {
                 const Icon = value.icon;
                 return (
-                  <div key={i} className="flex items-start gap-3 sm:gap-4">
-                    <Icon size={20} strokeWidth={2} className="text-[#3432c7] flex-shrink-0 mt-1 sm:w-[22px] sm:h-[22px]" aria-hidden="true" />
-                    <p className="text-sm sm:text-base text-gray-600 font-light leading-relaxed">
-                      <span className="font-display font-bold uppercase tracking-wide text-[#3432c7]">{value.label}</span>
-                      {` — ${value.body}`}
-                    </p>
+                  <div
+                    key={i}
+                    className={`flex items-center gap-4 sm:gap-6 py-5 ${i > 0 ? 'border-t border-brand-900/10' : ''}`}
+                  >
+                    <span className="font-serif text-2xl sm:text-3xl text-[#3432c7] w-8 sm:w-10 flex-shrink-0 tabular-nums" aria-hidden="true">
+                      {`0${i + 1}`}
+                    </span>
+                    <span className="w-px self-stretch bg-brand-900/10 flex-shrink-0" aria-hidden="true"></span>
+                    <Icon size={26} strokeWidth={1.75} className="text-[#3432c7] flex-shrink-0" aria-hidden="true" />
+                    <div className="min-w-0">
+                      <p className="font-display font-bold uppercase text-sm sm:text-base text-brand-900 tracking-wide mb-1">
+                        {value.label}
+                      </p>
+                      <p className="text-sm sm:text-[15px] text-gray-500 font-light leading-relaxed">
+                        {value.body}
+                      </p>
+                    </div>
                   </div>
                 );
               })}
             </div>
 
-            <p className="font-display font-bold uppercase tracking-widest text-xs sm:text-sm text-brand-900 mb-8 md:mb-10">
-              Ruchi <span className="text-gray-500">&mdash; Founder &amp; Lead Engineer</span>
+            <p className="font-signature text-4xl sm:text-5xl text-brand-900 leading-none mb-2">Ruchi</p>
+            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-600 mb-7" style={{ letterSpacing: '0.15em' }}>
+              Founder &amp; Lead Engineer
             </p>
 
-            <Link href="/about" className="border-2 border-brand-900 text-brand-900 px-8 sm:px-10 py-4 font-display font-bold uppercase tracking-widest hover:bg-brand-900 hover:text-white transition-all duration-300 whitespace-nowrap group inline-flex items-center justify-center gap-3 w-full sm:w-auto">
-              <span>Read More</span>
-              <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
+            <Link
+              href="/about"
+              className="self-start inline-flex items-center gap-3 font-display font-bold uppercase text-xs sm:text-sm text-[#3432c7] border-b-2 border-[#3432c7] pb-1.5 hover:gap-4 transition-all duration-300 group"
+              style={{ letterSpacing: '0.15em' }}
+            >
+              <span>Meet Ruchi</span>
+              <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
             </Link>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

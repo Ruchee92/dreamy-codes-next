@@ -27,7 +27,7 @@ const LogoMarquee = ({ className = "" }) => {
             <div className="mt-0 flex flex-col items-start gap-1">
               <Image 
                 src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/kindpng_1738320.png" 
-                alt="Shopify Experts logo" 
+                alt="Shopify Experts"
                 width={200}
                 height={44}
                 className="h-8 md:h-11 w-auto object-contain" 
@@ -38,22 +38,28 @@ const LogoMarquee = ({ className = "" }) => {
             </div>
           </div>
 
-          {/* The strip is decorative: the "Trusted by 500+ Brands" heading above
-              already carries the meaning, and the second copy exists purely so
-              the loop seam is invisible. Both copies are hidden from assistive
-              tech so a screen reader is not read 18 logo descriptions. */}
-          <div className="flex whitespace-nowrap animate-marquee" aria-hidden="true">
+          <div className="flex whitespace-nowrap animate-marquee">
             {[...Array(2)].map((_, i) => (
               // Each copy is one exact repeating period: the logo gaps plus a
               // trailing gap of the same size. Symmetric side padding would
               // halve the spacing at the seam between the two copies, making
               // the rhythm visibly hitch every time the -50% loop point passed.
-              <div key={i} className="flex items-center gap-12 md:gap-24 pr-12 md:pr-24 flex-shrink-0">
+              //
+              // The second copy exists only to hide that seam, so it is hidden
+              // from assistive tech to avoid announcing every logo twice.
+              <div
+                key={i}
+                aria-hidden={i === 1 ? 'true' : undefined}
+                className="flex items-center gap-12 md:gap-24 pr-12 md:pr-24 flex-shrink-0"
+              >
                 {logos.map((logo, j) => (
                   <Image
                     key={j}
                     src={logo}
-                    alt=""
+                    // Placeholder until the real brand names are supplied —
+                    // swap each one for its actual client name, which reads
+                    // better to both people and crawlers than a generic label.
+                    alt="Client brand logo"
                     width={150}
                     height={64}
                     loading="lazy"

@@ -149,7 +149,7 @@ const Hero = () => {
                   className="animate-hero-fade-up inline-flex items-center justify-between w-full md:w-auto md:gap-4 px-8 py-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
                   style={{ animationDelay: '2.15s' }}
                 >
-                  <span>Book Strategy Call</span>
+                  <span>Contact Us</span>
                   <ArrowRight className="transform group-hover:translate-x-2 transition-transform" />
                 </Link>
 
@@ -174,7 +174,9 @@ const Hero = () => {
                     <Image
                       key={i}
                       src={src}
-                      alt="Satisfied Shopify Merchant Client Avatar"
+                      // Decorative: the adjacent text already states what this
+                      // row of faces means.
+                      alt=""
                       width={48}
                       height={48}
                       priority={true}
@@ -184,7 +186,7 @@ const Hero = () => {
                   ))}
                 </div>
                 <p className="text-xs md:text-sm font-display font-light uppercase tracking-widest text-brand-900/70 leading-tight md:whitespace-nowrap">
-                  Trusted by 200+ <br /> Shopify merchants
+                  Trusted by 500+ <br /> Shopify merchants
                 </p>
               </div>
             </div>
@@ -195,7 +197,9 @@ const Hero = () => {
   );
 };
 
-const CaseStudy = ({ number, title, description, stats, category, table, link, imageSrc }: { number: string, title: string, description: string, stats: { value: string, label: string }[], category: string, table?: { data: { challenge: string, result: string }[] }, link: string, imageSrc: string }) => {
+// `category` is part of the case study data and arrives via the spread, but is
+// not rendered by this card, so it is intentionally not destructured here.
+const CaseStudy = ({ number, title, description, stats, table, link, imageSrc }: { number: string, title: string, description: string, stats: { value: string, label: string }[], category: string, table?: { data: { challenge: string, result: string }[] }, link: string, imageSrc: string }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-brand-900 group h-full bg-white overflow-hidden">
@@ -203,7 +207,7 @@ const CaseStudy = ({ number, title, description, stats, category, table, link, i
         <div className={`absolute inset-0 overflow-hidden ${isLoaded ? 'bg-transparent' : 'bg-gray-200 animate-pulse'}`}>
           <Image
             src={imageSrc}
-            alt={`${title} - ${category} Success Case Study`}
+            alt={`${title} — case study`}
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             onLoad={() => setIsLoaded(true)}
@@ -450,7 +454,7 @@ const TestimonialCard = ({ name, role, quote, rating, image }: { name: string, r
           <div className={`w-12 h-12 rounded-full overflow-hidden ${isLoaded ? 'bg-transparent' : 'bg-gray-200 animate-pulse'}`}>
             <Image
               src={image}
-              alt={`Shopify Store Founder ${name} - Client Success Testimonial`}
+              alt={name}
               width={48}
               height={48}
               onLoad={() => setIsLoaded(true)}
@@ -511,11 +515,11 @@ const Testimonials = () => {
   }, []);
 
   const testimonials = [
-    { name: "Kelly", role: "FOUNDER, CHICKITTY & SHAGGYCHIC", quote: "Ruchi at is a superstar . He exemplifies professionalism, knowledge, and a work ethic that we can always count on to assist with any of our Shopify needs. He is always highly responsive to our needs and remains one of the top partners that we have worked with.", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Kelly.jpeg" },
+    { name: "Kelly", role: "FOUNDER, CHICKITTY & SHAGGYCHIC", quote: "Ruchi is a superstar. He exemplifies professionalism, knowledge, and a work ethic that we can always count on to assist with any of our Shopify needs. He is always highly responsive to our needs and remains one of the top partners that we have worked with.", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Kelly.jpeg" },
     { name: "Mike", role: "FOUNDER, FOR THE LOVE OF GOLF NP", quote: "Another Job Well Done!!! That guy never misses!! This is my 4th or 5th time working with Ruchi on a project and I must say I wont even look anywhere else. Again, Thank you for believing in our business and putting in the heart and time to make sure that our site is top of the line.", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Mike.jpeg" },
     { name: "Emily", role: "FOUNDER, SUCCLY", quote: "Ruchi is truly the best at what he does! He created an exceptional website for me, and when I needed a blog that had different categories, I knew he could deliver and of course, he did. The blog turned out beautifully, with perfectly sized photos (something we couldn’t get right before), clean drop down menus, and a professional, polished look. Ruchi is reliable, talented, and simply the best!!", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Emily.jpg" },
     { name: "Tatiana", role: "FOUNDER, ALEJANDRA'S PANADERIA", quote: "The website Ruchi created for me was more than I ever could have imagined or even create for myself. It’s stunning and very easy to navigate.", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/tatiana.jpg" },
-    { name: "Kiro", role: "FOUNDER, MACEDONIAN TREASURES", quote: "I'm repetitive customer of Ruchi's services. What i can say that on every new order he is delivering better and better. Very knowledgeable, patient and supportive. He is giving proposals from his side but also listening and taking in consideration of our needs and proposals. We will definitely continue to use his services. Thank you Ruchi!", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Kiro.jpg" },
+    { name: "Kiro", role: "FOUNDER, MACEDONIAN TREASURES", quote: "I'm a repeat customer of Ruchi's services. What I can say is that on every new order he is delivering better and better. Very knowledgeable, patient and supportive. He is giving proposals from his side but also listening and taking in consideration of our needs and proposals. We will definitely continue to use his services. Thank you Ruchi!", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Kiro.jpg" },
     { name: "Albert", role: "FOUNDER, MODERN BARBER", quote: "Ruchi, is very knowledge and is responsive and clear to all my questions. He understood the vision, and the results were terrific. Much pleasure working with him and actually doing another project with Ruchi.", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Albert.jpg" },
     { name: "Virginie", role: "FOUNDER, MOTIVINK TATTOOS", quote: "Ruchi was a dream to work with. He is Highly professional and was a pleasure to work with! His turn around time was very fast! He communicates beautifully and explained everything very clearly. His work exceeded my expectations! Can't recommend him enough!!", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Virginie.jpg" },
     { name: "Ife Thomas", role: "PUBLIC SPEAKER", quote: "I’ve been working with Ruchi for what seems like years, and I must say, he is an absolutely incredible developer. Not only is his skill set top-notch, but his easygoing nature makes him a pleasure to work with. Ruchi truly is the best-kept secret in my business!", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Ife-Thomas.jpg" },
@@ -528,7 +532,7 @@ const Testimonials = () => {
     <section className="pt-32 pb-12 md:pb-16 px-6 lg:px-12 max-w-screen-2xl mx-auto overflow-hidden">
       <div className="text-center mb-20">
         <h2 className="font-display text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-4">UNFILTERED FEEDBACK</h2>
-        <p className="text-gray-500 font-display uppercase tracking-widest text-sm font-bold">Real results from Shopify merchants, founders, and CTOs.</p>
+        <p className="text-gray-500 font-display uppercase tracking-widest text-sm font-bold">Real results from Shopify merchants and founders.</p>
       </div>
 
       <div className="relative">
@@ -584,7 +588,7 @@ const PortfolioItem = ({ title, category, imageSrc, link }: { title: string, cat
       <div className={`aspect-[4/5] mb-5 overflow-hidden relative border border-black shadow-sm ${isLoaded ? 'bg-transparent' : 'bg-gray-200 animate-pulse'}`}>
         <Image
           src={imageSrc}
-          alt={`${title} - High Converting Shopify Storefront`}
+          alt={title}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
           onLoad={() => setIsLoaded(true)}
@@ -613,7 +617,7 @@ const PortfolioItem = ({ title, category, imageSrc, link }: { title: string, cat
 const ShopifyLogo = ({ className, size }: { className?: string, size?: number | string }) => (
   <Image
     src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/shopify-logo-png_seeklogo-445424.png"
-    alt="Official Shopify Plus Partner Logo"
+    alt="Shopify"
     width={200}
     height={200}
     style={{ width: size, height: size }}
@@ -742,7 +746,7 @@ const Counter = ({ value, duration = 2 }: { value: string, duration?: number }) 
 const StatsSection = () => {
   const stats = [
     { value: "$19M+", label: "Client Revenue Generated" },
-    { value: "200+", label: "Stores Launched & Scaled" },
+    { value: "500+", label: "Stores Launched & Scaled" },
     { value: "2.4x", label: "Average ROI Increase" },
     { value: "4%", label: "AVG. Conversion Rate" }
   ];
@@ -957,10 +961,10 @@ const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
           <PortfolioItem title="CRO Optimized Store For Natural Hair Product" category="Theme Dev & CRO" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/P1-9.jpg" link="https://adovz.com/" />
           <PortfolioItem title="Modern Shopify Store Redesign For Snack Brand" category="Full Site Redesign" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/p6-3.jpg" link="https://flowstastytreats.com/" />
-          <PortfolioItem title="Subscription Store Design With 300% Sales Growth" category="Subscription Store Design" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/P3-11.jpg" link="https://succly.com/" />
+          <PortfolioItem title="Subscription Store Design With 3.2x Subscription Growth" category="Subscription Store Design" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/P3-11.jpg" link="https://succly.com/" />
           <PortfolioItem title="High-Converting Shopify Revamp For Barber Brand" category="Store Revamp & CRO" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/p7-1.jpg" link="https://modernbarbersupply.com/" />
           <PortfolioItem title="Luxury Watch Shopify Store With Advanced Filtering" category="Custom Dev & UX" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/P4-5.jpg" link="https://newyorkwatchoutlet.com/" />
-          <PortfolioItem title="High Converting Redesign With 175% Sales Growth" category="Store Redesign & CRO" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/P5-3.jpg" link="https://andaliaheadspa.com/" />
+          <PortfolioItem title="Serene Booking-Led Redesign For A Head Spa" category="Store Redesign & CRO" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/P5-3.jpg" link="https://andaliaheadspa.com/" />
         </div>
 
         <div className="mt-20 pt-12 border-t border-brand-900/10 flex flex-col md:flex-row justify-between items-center gap-8">
@@ -998,7 +1002,7 @@ const Home = () => {
         <div className="max-w-screen-2xl mx-auto px-6 lg:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-5">
-              <h2 className="font-display text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-8 leading-tight">Services</h2>
+              <h2 className="font-display text-4xl md:text-6xl font-bold uppercase tracking-tighter mb-8 leading-tight">Shopify design, CRO &amp; integrations</h2>
               <p className="text-white text-lg font-light leading-relaxed max-w-md">We provide end-to-end e-commerce solutions. From the first line of code to the final checkout optimization, we build systems <span className="text-white bg-[#3432c7] px-2 py-0.5 rounded font-medium text-nowrap">designed to generate revenue</span>.</p>
             </div>
             <div className="lg:col-span-7">
@@ -1029,7 +1033,7 @@ const Home = () => {
                 </div>
                 <div className="border-b border-brand-900 pb-2"><input name="url" type="text" placeholder="Current Store URL (If applicable)" className="w-full bg-transparent focus:outline-none placeholder-gray-400 font-display text-sm tracking-widest cursor-text" /></div>
                 <div className="border-b border-brand-900 pb-2"><textarea name="message" rows={4} placeholder="Project Details / Current Bottlenecks *" className="w-full bg-transparent focus:outline-none placeholder-gray-400 font-display text-sm tracking-widest resize-none cursor-text" required></textarea></div>
-                <button type="submit" disabled={isSubmitting} className="w-full bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold uppercase tracking-widest py-5 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">{isSubmitting ? 'Sending...' : 'Book Strategy Call'}</button>
+                <button type="submit" disabled={isSubmitting} className="w-full bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold uppercase tracking-widest py-5 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">{isSubmitting ? 'Sending...' : 'Contact Us'}</button>
               </form>
             </div>
             <div className="px-6 py-12 md:p-20 flex flex-col justify-center bg-brand-50 relative overflow-hidden">
@@ -1045,7 +1049,7 @@ const Home = () => {
                   <Link href="https://api.whatsapp.com/send?phone=94714166608" target="_blank" rel="noopener noreferrer" className="font-display text-xl md:text-3xl font-bold text-black hover:text-gray-500 transition-colors inline-flex items-center gap-4">
                     <Image
                       src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/1-1.png"
-                      alt="WhatsApp Contact for E-commerce Project Consultation"
+                      alt=""
                       width={40}
                       height={40}
                       className="w-6 h-6 md:w-10 md:h-10 object-contain"
@@ -1071,7 +1075,7 @@ const Home = () => {
               </button>
               <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8"><Zap size={40} fill="currentColor" /></div>
               <h3 className="font-display text-3xl md:text-4xl font-bold uppercase tracking-tighter mb-6">Request Received</h3>
-              <p className="text-gray-600 text-lg font-light leading-relaxed mb-10">Thank you we received your request, and we will send you a detailed audit to your site and send a calendly link to schedule a call.</p>
+              <p className="text-gray-600 text-lg font-light leading-relaxed mb-10">Thanks — we&rsquo;ve got your request. We&rsquo;ll send you a detailed audit of your store, along with a Calendly link so you can book a call at a time that suits you.</p>
               <button onClick={() => setShowSuccessModal(false)} className="w-full bg-brand-900 text-white font-display font-bold uppercase tracking-widest py-4 hover:bg-black transition-colors cursor-pointer">Got it</button>
             </motion.div>
           </div>

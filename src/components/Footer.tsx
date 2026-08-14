@@ -55,7 +55,7 @@ const Footer = () => {
               <Link href="/" className="flex items-center gap-3 inline-block">
                 <Image 
                   src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/DREAMY-CODES-min-2.png" 
-                  alt="Dreamy Codes Official Agency Logo - Shopify Plus Expert Developers" 
+                  alt="Dreamy Codes"
                   width={150}
                   height={32}
                   className="h-8 w-auto object-contain brightness-0 invert"
@@ -95,7 +95,7 @@ const Footer = () => {
               <Link href="/case-studies" className="hover:text-white transition-colors">Case studies</Link>
               <Link href="/services" className="hover:text-white transition-colors">Services</Link>
               <Link href="/about" className="hover:text-white transition-colors">About</Link>
-              <Link href="/#contact" onClick={(e) => handleLinkClick(e, '/#contact')} className="hover:text-white transition-colors">Contact us</Link>
+              <Link href="/#contact" onClick={(e) => handleLinkClick(e, '/#contact')} className="hover:text-white transition-colors">Contact Us</Link>
               <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
             </nav>
           </div>
@@ -111,7 +111,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-white/10 pt-8 text-center text-gray-500 text-xs font-display uppercase tracking-widest">
-          Copyright &copy; 2026 Dreamy Codes. All Rights Reserved.
+          Copyright &copy; {new Date().getFullYear()} Dreamy Codes. All Rights Reserved.
         </div>
       </div>
     </footer>

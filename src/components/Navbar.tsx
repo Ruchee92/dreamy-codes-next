@@ -83,10 +83,15 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
     { name: 'Case Studies', href: '/case-studies' },
     { name: 'Services', href: '/services' },
     { name: 'About', href: '/about' },
-    { name: "Let's Talk!", href: '/#contact' },
+    { name: 'Contact Us', href: '/#contact' },
   ];
 
   const navLinks = menuItems?.length ? menuItems : defaultNavLinks;
+
+  // Which entry gets the outlined button treatment. Keyed off the target
+  // rather than the label, so a rename in the WordPress menu cannot silently
+  // demote the call to action back to a plain text link.
+  const isCallToAction = (link: NavLink) => link.href.replace(/\/$/, '') === '/#contact';
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -122,7 +127,7 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
             <Image
               fetchPriority="high"
               src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/DREAMY-CODES-min-2.png"
-              alt="Dreamy Codes Official E-commerce Agency Logo"
+              alt="Dreamy Codes"
               width={200}
               height={48}
               className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-105"
@@ -136,7 +141,7 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
                 key={link.name}
                 href={link.href} // Fixed: Changed 'to' to 'href'
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className={link.name.toLowerCase().includes("let's talk")
+                className={isCallToAction(link)
                   ? "px-6 py-2 border-2 border-brand-900 text-brand-900 hover:bg-brand-900 hover:text-white transition-all duration-300 font-bold"
                   : "hover:text-gray-500 transition-colors"
                 }
@@ -175,7 +180,7 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
               <Link
                 key={link.name}
                 href={link.href} // Fixed: Changed 'to' to 'href'
-                className={link.name.toLowerCase().includes("let's talk")
+                className={isCallToAction(link)
                   ? "font-display font-bold text-lg uppercase tracking-widest px-6 py-3 border-2 border-brand-900 text-center"
                   : "font-display font-bold text-lg uppercase tracking-widest"
                 }

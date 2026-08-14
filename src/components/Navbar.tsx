@@ -83,7 +83,7 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
     { name: 'Case Studies', href: '/case-studies' },
     { name: 'Services', href: '/services' },
     { name: 'About', href: '/about' },
-    { name: 'Contact Us', href: '/#contact' },
+    { name: "Let's Talk!", href: '/#contact' },
   ];
 
   const navLinks = menuItems?.length ? menuItems : defaultNavLinks;

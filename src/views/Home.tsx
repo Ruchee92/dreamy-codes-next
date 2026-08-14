@@ -143,10 +143,16 @@ const Hero = () => {
               Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">high-converting storefront</span> so you can focus on D2C growth.
             </p>
             <div className="flex flex-col gap-8">
-              <div className="flex flex-col md:flex-row lg:flex-col md:items-center lg:items-start md:gap-8 gap-6">
+              {/* One row from the smallest screens up, stacking only at lg
+                  where the column is too narrow to hold both. */}
+              <div className="flex flex-row items-center gap-3 md:gap-8 lg:flex-col lg:items-start">
                 <Link
                   href="#contact"
-                  className="animate-hero-fade-up inline-flex items-center justify-between w-full md:w-auto md:gap-4 px-8 py-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
+                  // flex-1 on small screens so the primary action takes all the
+                  // room left beside the secondary link. From md up it holds
+                  // the 307px it measured when the label read "Book Strategy
+                  // Call", so shortening the text did not shrink the button.
+                  className="animate-hero-fade-up inline-flex flex-1 min-w-0 items-center justify-between px-4 sm:px-8 py-4 md:flex-none md:w-auto md:min-w-[307px] md:gap-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
                   style={{ animationDelay: '2.15s' }}
                 >
                   <span>Contact Us</span>
@@ -155,7 +161,10 @@ const Hero = () => {
 
                 <Link
                   href="#portfolio"
-                  className="animate-hero-fade-up inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-[0.2em] text-brand-900/60 hover:text-brand-900 transition-colors cursor-pointer group pt-2 md:pt-0 whitespace-nowrap"
+                  // Kept as small as it can be on phones: with both items on
+                  // one line and neither able to wrap, every pixel saved here
+                  // is a pixel the primary CTA gains.
+                  className="animate-hero-fade-up inline-flex flex-shrink-0 items-center gap-1.5 sm:gap-2 font-display font-bold text-[11px] sm:text-sm uppercase tracking-[0.08em] sm:tracking-[0.2em] text-brand-900/60 hover:text-brand-900 transition-colors cursor-pointer group whitespace-nowrap"
                   style={{ animationDelay: '2.45s' }}
                 >
                   <span>View Our Work</span>

@@ -60,7 +60,7 @@ export default async function Page() {
   ]);
 
   return (
-    <main className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100 selection:text-brand-900">
+    <main id="main-content" className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100 selection:text-brand-900">
       <JsonLd schema={seoData?.schema} />
       <Navbar menuItems={menuItems} />
       <HomePage />

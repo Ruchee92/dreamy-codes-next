@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Mail, Phone, Linkedin, Facebook } from 'lucide-react';
 import Image from 'next/image';
+import { scrollIntoViewRespectingMotionPreference } from '../utils/motion';
 
 // Added TypeScript interface for the Pinterest props
 interface PinterestProps {
@@ -34,7 +35,8 @@ const Footer = () => {
       if (pathname === '/') {
         e.preventDefault();
         const id = href.replace('/#', '');
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        const target = document.getElementById(id);
+        if (target) scrollIntoViewRespectingMotionPreference(target);
       }
     }
   };
@@ -88,7 +90,7 @@ const Footer = () => {
 
           <div className="flex flex-col gap-4">
             <h4 className="font-display font-bold uppercase tracking-widest text-sm text-white mb-2">Menu</h4>
-            <nav className="flex flex-col gap-3 font-display uppercase tracking-widest text-xs font-bold text-gray-400">
+            <nav aria-label="Footer" className="flex flex-col gap-3 font-display uppercase tracking-widest text-xs font-bold text-gray-400">
               <Link href="/our-work" className="hover:text-white transition-colors">Our Work</Link>
               <Link href="/case-studies" className="hover:text-white transition-colors">Case studies</Link>
               <Link href="/services" className="hover:text-white transition-colors">Services</Link>
@@ -100,7 +102,7 @@ const Footer = () => {
 
           <div className="flex flex-col gap-4">
             <h4 className="font-display font-bold uppercase tracking-widest text-sm text-white mb-2">Legal</h4>
-            <nav className="flex flex-col gap-3 font-display uppercase tracking-widest text-xs font-bold text-gray-400">
+            <nav aria-label="Legal" className="flex flex-col gap-3 font-display uppercase tracking-widest text-xs font-bold text-gray-400">
               <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
               <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
               <Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link>

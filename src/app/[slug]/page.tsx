@@ -43,7 +43,7 @@ export default async function WordPressPage({ params }: { params: { slug: string
 
   // Render the page
   return (
-    <main className="max-w-4xl mx-auto p-8">
+    <main id="main-content" className="max-w-4xl mx-auto p-8">
       <JsonLd schema={seo?.schema} />
       <h1 className="text-4xl font-bold mb-8">{data.page.title}</h1>
       

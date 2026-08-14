@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useId } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import FloatingParticles from '../components/FloatingParticles';
 import LogoMarquee from '../components/LogoMarquee';
+import { scrollIntoViewRespectingMotionPreference, prefersReducedMotion } from '../utils/motion';
 
 const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; delay?: number; duration?: number }) => {
   const textRef = useRef<SVGTextElement>(null);
@@ -441,7 +442,9 @@ const TestimonialCard = ({ name, role, quote, rating, image }: { name: string, r
   const [isLoaded, setIsLoaded] = useState(false);
   const initials = name.split(' ').map(n => n[0]).join('');
   return (
-    <div className="bg-white p-8 border border-gray-200 flex flex-col h-full relative hover:bg-[#3432c7] hover:border-[#3432c7] cursor-pointer transition-colors duration-500 group/card">
+    // No pointer cursor: the card is not a link and clicking it does nothing.
+    // The colour change on hover stays as decoration.
+    <div className="bg-white p-8 border border-gray-200 flex flex-col h-full relative hover:bg-[#3432c7] hover:border-[#3432c7] transition-colors duration-500 group/card">
       <div className="flex items-center gap-4 mb-6">
         {image ? (
           <div className={`w-12 h-12 rounded-full overflow-hidden ${isLoaded ? 'bg-transparent' : 'bg-gray-200 animate-pulse'}`}>
@@ -621,28 +624,45 @@ const ShopifyLogo = ({ className, size }: { className?: string, size?: number | 
 // ADDED TYPES HERE
 const Capability = ({ title, description, icon: Icon, details }: { title: string, description: string, icon: React.ElementType, details: string }) => {
   const [isOpen, setIsOpen] = useState(false);
+  // Ties the trigger to the panel it controls, so assistive tech can announce
+  // the relationship and the expanded state.
+  const panelId = `${useId()}-capability-panel`;
+
   return (
-    <div className="py-8 border-b border-gray-700 group cursor-pointer hover:bg-white/5 transition-colors px-4 -mx-4" onClick={() => setIsOpen(!isOpen)}>
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-4">
-          <Icon className="text-gray-500 group-hover:text-white transition-colors" size={24} />
-          <h3 className="font-display text-2xl md:text-3xl font-bold uppercase">{title}</h3>
+    <div className="border-b border-gray-700 group">
+      {/* A real button rather than a click handler on a div: this has to be
+          reachable and operable from the keyboard, and expose its state. */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+        aria-controls={panelId}
+        className="w-full text-left py-8 px-4 -mx-4 cursor-pointer hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors"
+      >
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-4">
+            <Icon className="text-gray-500 group-hover:text-white transition-colors" size={24} />
+            <h3 className="font-display text-2xl md:text-3xl font-bold uppercase">{title}</h3>
+          </div>
+          <motion.div animate={{ rotate: isOpen ? 45 : 0 }} transition={{ duration: 0.3 }}>
+            <Plus className="text-gray-500 group-hover:text-white transition-colors" aria-hidden="true" />
+          </motion.div>
         </div>
-        <motion.div animate={{ rotate: isOpen ? 45 : 0 }} transition={{ duration: 0.3 }}>
-          <Plus className="text-gray-500 group-hover:text-white transition-colors" />
-        </motion.div>
-      </div>
-      <p className="text-gray-400 font-light max-w-2xl">{description}</p>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className="pt-6 pb-2 text-gray-300 font-light leading-relaxed max-w-2xl border-t border-gray-800 mt-6">
+        <p className="text-gray-400 font-light max-w-2xl">{description}</p>
+      </button>
+      {/* The panel stays mounted so the id in aria-controls always resolves;
+          unmounting it would leave the button pointing at nothing while
+          collapsed. `inert` keeps the hidden copy out of the tab order and the
+          accessibility tree. */}
+      <motion.div
+        id={panelId}
+        initial={false}
+        animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        inert={!isOpen}
+        className="overflow-hidden px-4 -mx-4"
+      >
+        <div className="pt-6 pb-8 text-gray-300 font-light leading-relaxed max-w-2xl border-t border-gray-800">
               <ul className="space-y-4">
                 {details.split('. ').filter(s => s.trim()).map((sentence, idx) => (
                   <li key={idx} className="flex items-start gap-3">
@@ -660,11 +680,9 @@ const Capability = ({ title, description, icon: Icon, details }: { title: string
                     </span>
                   </li>
                 ))}
-              </ul>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </ul>
+        </div>
+      </motion.div>
     </div>
   );
 };
@@ -690,6 +708,14 @@ const Counter = ({ value, duration = 2 }: { value: string, duration?: number }) 
   useEffect(() => {
     if (!isInView) return;
     const numericValue = parseFloat(value.replace(/[^0-9.]/g, ''));
+
+    // The count-up runs on a timer, so the reduced-motion rules in globals.css
+    // cannot stop it. Jump straight to the final figure instead.
+    if (prefersReducedMotion()) {
+      setCount(numericValue);
+      return;
+    }
+
     let frame = 0;
     const totalFrames = duration * 60;
     const timer = setInterval(() => {
@@ -871,7 +897,7 @@ const Home = () => {
       const id = window.location.hash.replace('#', '');
       setTimeout(() => {
         const element = document.getElementById(id);
-        if (element) element.scrollIntoView({ behavior: 'smooth' });
+        if (element) scrollIntoViewRespectingMotionPreference(element);
       }, 100);
     }
   }, []);

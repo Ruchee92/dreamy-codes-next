@@ -77,9 +77,17 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} ${spaceGrotesk.variable} ${dancingScript.variable} antialiased`}
       >
-        <div 
-          className="elfsight-app-580e00ba-bef2-4038-9caa-48a2171af2ba" 
-          data-elfsight-app-lazy 
+        {/* Visually hidden until focused. The header is fixed and carries five
+            links on every page, so keyboard users need a way past it. */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-brand-900 focus:text-white focus:px-6 focus:py-3 focus:font-display focus:font-bold focus:uppercase focus:tracking-widest focus:text-sm"
+        >
+          Skip to main content
+        </a>
+        <div
+          className="elfsight-app-580e00ba-bef2-4038-9caa-48a2171af2ba"
+          data-elfsight-app-lazy
           style={{ position: 'absolute', top: 0, left: 0, height: 0, width: 0, overflow: 'hidden' }}
         />
         {children}

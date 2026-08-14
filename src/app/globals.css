@@ -189,3 +189,27 @@ h5,
 h6 {
   @apply font-display;
 }
+
+/* This page leans heavily on motion: the hero draw-in and fade-ups, the logo
+   marquee, drifting particles, counting stats, a dragging slider and several
+   looping background glows. For a visitor who has asked their OS to reduce
+   motion, all of that is reduced to an instant state change rather than being
+   removed, so nothing that depends on an animation completing is lost.
+
+   Note that element.scrollIntoView({ behavior: 'smooth' }) is not covered by
+   the scroll-behavior reset below — a JS-supplied behaviour wins over CSS — so
+   the callers use the helper in src/utils/motion.ts instead. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

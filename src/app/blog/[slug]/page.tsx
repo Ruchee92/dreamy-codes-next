@@ -75,14 +75,14 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
   if (!post) {
     return (
-      <main className="min-h-screen bg-white text-slate-900 font-sans flex items-center justify-center">
+      <main id="main-content" className="min-h-screen bg-white text-slate-900 font-sans flex items-center justify-center">
         <h1>Post not found</h1>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100 selection:text-brand-900">
+    <main id="main-content" className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100 selection:text-brand-900">
       <JsonLd schema={seoData?.schema} />
       <Navbar menuItems={menuItems} />
       <BlogPostPage post={post} relatedPosts={relatedPosts} />

@@ -194,14 +194,14 @@ const Hero = () => {
   );
 };
 
-const CaseStudy = ({ number, title, description, stats, category, table, link, imageSrc }: { number: string, title: string, description: string, stats: { value: string, label: string }[], category: string, table?: { data: { challenge: string, result: string }[] }, link: string, imageSrc?: string }) => {
-  const [isLoaded, setIsLoaded] = useState(true);
+const CaseStudy = ({ number, title, description, stats, category, table, link, imageSrc }: { number: string, title: string, description: string, stats: { value: string, label: string }[], category: string, table?: { data: { challenge: string, result: string }[] }, link: string, imageSrc: string }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-brand-900 group h-full bg-white overflow-hidden">
       <a href={link} aria-label={`View the ${title} Case Study`} target="_blank" rel="noopener noreferrer" draggable={false} className="bg-brand-50 relative min-h-[300px] md:min-h-[400px] flex items-center justify-center overflow-hidden border-b lg:border-b-0 lg:border-r border-brand-900 block">
         <div className={`absolute inset-0 overflow-hidden ${isLoaded ? 'bg-transparent' : 'bg-gray-200 animate-pulse'}`}>
           <Image
-            src={imageSrc || `https://picsum.photos/seed/${category}/1200/800`}
+            src={imageSrc}
             alt={`${title} - ${category} Success Case Study`}
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -438,7 +438,7 @@ const CaseStudiesSlider = () => {
 
 // ADDED TYPES HERE
 const TestimonialCard = ({ name, role, quote, rating, image }: { name: string, role: string, quote: string, rating: number, image?: string }) => {
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   const initials = name.split(' ').map(n => n[0]).join('');
   return (
     <div className="bg-white p-8 border border-gray-200 flex flex-col h-full relative hover:bg-[#3432c7] hover:border-[#3432c7] cursor-pointer transition-colors duration-500 group/card">
@@ -481,6 +481,32 @@ const TestimonialCard = ({ name, role, quote, rating, image }: { name: string, r
 const Testimonials = () => {
   const [showAll, setShowAll] = useState(false);
 
+  // The collapsed grid has to clear a whole number of rows, and the column
+  // count changes at each breakpoint, so the height is resolved here rather
+  // than with a stylesheet override. Previously the mobile value was forced
+  // with !important, which also blocked the expand animation on mobile and
+  // left the two-column tablet range clipping a row in half.
+  const [collapsedHeight, setCollapsedHeight] = useState('580px');
+
+  useEffect(() => {
+    const oneColumn = window.matchMedia('(max-width: 767px)');
+    const twoColumn = window.matchMedia('(min-width: 768px) and (max-width: 1023px)');
+
+    const apply = () => {
+      if (oneColumn.matches) setCollapsedHeight('960px');
+      else if (twoColumn.matches) setCollapsedHeight('780px');
+      else setCollapsedHeight('580px');
+    };
+
+    apply();
+    oneColumn.addEventListener('change', apply);
+    twoColumn.addEventListener('change', apply);
+    return () => {
+      oneColumn.removeEventListener('change', apply);
+      twoColumn.removeEventListener('change', apply);
+    };
+  }, []);
+
   const testimonials = [
     { name: "Kelly", role: "FOUNDER, CHICKITTY & SHAGGYCHIC", quote: "Ruchi at is a superstar . He exemplifies professionalism, knowledge, and a work ethic that we can always count on to assist with any of our Shopify needs. He is always highly responsive to our needs and remains one of the top partners that we have worked with.", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Kelly.jpeg" },
     { name: "Mike", role: "FOUNDER, FOR THE LOVE OF GOLF NP", quote: "Another Job Well Done!!! That guy never misses!! This is my 4th or 5th time working with Ruchi on a project and I must say I wont even look anywhere else. Again, Thank you for believing in our business and putting in the heart and time to make sure that our site is top of the line.", rating: 5, image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/Mike.jpeg" },
@@ -505,9 +531,9 @@ const Testimonials = () => {
       <div className="relative">
         <motion.div
           initial={false}
-          animate={{ height: showAll ? 'auto' : '580px' }}
+          animate={{ height: showAll ? 'auto' : collapsedHeight }}
           transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-hidden testimonials-grid"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-hidden"
         >
           {testimonials.map((t, i) => (
             <motion.div
@@ -535,20 +561,12 @@ const Testimonials = () => {
         </div>
       </div>
 
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @media (max-width: 768px) {
-          .testimonials-grid {
-            height: ${showAll ? 'auto' : '960px'} !important;
-          }
-        }
-      `}} />
     </section>
   );
 };
 
-const PortfolioItem = ({ title, category, seed, imageSrc, link }: { title: string, category: string, seed?: string, imageSrc?: string, link: string }) => {
-  const [isLoaded, setIsLoaded] = useState(true);
+const PortfolioItem = ({ title, category, imageSrc, link }: { title: string, category: string, imageSrc: string, link: string }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
   return (
     <motion.a
       href={link}
@@ -562,7 +580,7 @@ const PortfolioItem = ({ title, category, seed, imageSrc, link }: { title: strin
     >
       <div className={`aspect-[4/5] mb-5 overflow-hidden relative border border-black shadow-sm ${isLoaded ? 'bg-transparent' : 'bg-gray-200 animate-pulse'}`}>
         <Image
-          src={imageSrc || `https://picsum.photos/seed/${seed}/800/1000`}
+          src={imageSrc}
           alt={`${title} - High Converting Shopify Storefront`}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
@@ -943,23 +961,11 @@ const Home = () => {
         id="capabilities"
         className="py-32 text-white relative overflow-hidden bg-[#050505]"
       >
-        <style dangerouslySetInnerHTML={{
-          __html: `
-          @keyframes radialMoveHome {
-            0% { background-position: 0% 0%; }
-            20% { background-position: 100% 30%; }
-            40% { background-position: 20% 100%; }
-            60% { background-position: 100% 80%; }
-            80% { background-position: 10% 40%; }
-            100% { background-position: 0% 0%; }
-          }
-        `}} />
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none animate-radial-move"
           style={{
             background: 'radial-gradient(circle at center, #3d3d3d 0%, transparent 50%)',
             backgroundSize: '250% 250%',
-            animation: 'radialMoveHome 25s ease-in-out infinite'
           }}
         ></div>
         <div className="absolute inset-0 bg-grid-pattern-dark opacity-30 pointer-events-none"></div>

@@ -30,7 +30,13 @@ export function JsonLd({ schema }: SEOProps) {
   if (!schema) return null;
   
   // Also sanitize URLs inside the schema string if needed
-  const sanitizedSchema = schema.replace(/https:\/\/wp\.dreamycodes\.com/g, "https://dreamycodes.com");
+  const sanitizedSchema = schema
+    .replace(/https:\/\/wp\.dreamycodes\.com/g, "https://dreamycodes.com")
+    // The schema arrives as raw text from WordPress and is injected without
+    // React escaping it. Escaping "<" keeps a stray "</script>" in any SEO
+    // field from closing this tag early and injecting markup into the page.
+    // JSON parsers read < as "<", so the structured data is unchanged.
+    .replace(/</g, "\\u003c");
 
   return (
     <script

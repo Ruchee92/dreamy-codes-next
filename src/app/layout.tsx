@@ -1,18 +1,29 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Manrope, Dancing_Script } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Body copy. Variable font, so no explicit weight list is needed.
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Headings, nav, and every `font-display` utility.
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  display: "swap",
+});
+
+// Used only for the founder signature.
+const dancingScript = Dancing_Script({
+  variable: "--font-dancing-script",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -64,7 +75,7 @@ export default function RootLayout({
         <meta property="fb:app_id" content="956376413511772" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${manrope.variable} ${spaceGrotesk.variable} ${dancingScript.variable} antialiased`}
       >
         <div 
           className="elfsight-app-580e00ba-bef2-4038-9caa-48a2171af2ba" 

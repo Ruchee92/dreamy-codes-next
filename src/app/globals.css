@@ -1,16 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap');
 @import "tailwindcss";
 
-html {
-  scroll-behavior: smooth;
+/* Font families are loaded and self-hosted by next/font in src/app/layout.tsx,
+   which supplies these CSS variables on <body>. Do not re-add a Google Fonts
+   @import here — it is render-blocking and bypasses the preload/self-hosting
+   that next/font sets up.
+
+   This block must stay `@theme inline`. A plain `@theme` emits the values into
+   :root, where --font-manrope and friends are not defined (next/font puts them
+   on <body>), so every family silently collapses to the system fallback.
+   `inline` substitutes the var() references into the utilities themselves,
+   which resolve against <body> as intended. */
+@theme inline {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-signature: var(--font-dancing-script), ui-serif, cursive;
 }
 
-:root {}
-
 @theme {
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-signature: "Dancing Script", ui-serif, cursive;
 
   --color-brand-50: #f6f6f6;
   --color-brand-100: #e7e7e7;
@@ -78,6 +84,16 @@ html {
   @keyframes hero-draw-in {
     to { stroke-dashoffset: 0; }
   }
+
+  /* Drives the slow drifting glow behind the Services section. */
+  @keyframes radial-move {
+    0%   { background-position: 0% 0%; }
+    20%  { background-position: 100% 30%; }
+    40%  { background-position: 20% 100%; }
+    60%  { background-position: 100% 80%; }
+    80%  { background-position: 10% 40%; }
+    100% { background-position: 0% 0%; }
+  }
 }
 
 @layer utilities {
@@ -136,10 +152,22 @@ html {
   .animate-hero-draw-in {
     animation: hero-draw-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-}
 
-html {
-  scroll-behavior: smooth;
+  .animate-radial-move {
+    animation: radial-move 25s ease-in-out infinite;
+  }
+
+  /* The angled black band behind the client logo marquee. The desktop and
+     mobile shapes differ, so the clip path lives here rather than inline. */
+  .marquee-bg {
+    clip-path: polygon(0 42%, 14% 18%, 100% 48%, 100% 100%, 0 100%);
+  }
+
+  @media (max-width: 768px) {
+    .marquee-bg {
+      clip-path: polygon(0 0, 100% 25%, 100% 100%, 0 100%);
+    }
+  }
 }
 
 body {

@@ -10,6 +10,14 @@
    on <body>), so every family silently collapses to the system fallback.
    `inline` substitutes the var() references into the utilities themselves,
    which resolve against <body> as intended. */
+/* In-page anchors (the hero "Contact Us" button, the "View Our Work" link)
+   are plain <a href="#…"> with no JS behind them, so this is what makes them
+   glide rather than jump. The reduced-motion block at the end of this file
+   turns it back to auto. */
+html {
+  scroll-behavior: smooth;
+}
+
 @theme inline {
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;

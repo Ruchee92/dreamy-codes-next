@@ -16,8 +16,10 @@ export function prefersReducedMotion(): boolean {
  * property, so a hardcoded 'smooth' would still animate for everyone.
  */
 export function scrollIntoViewRespectingMotionPreference(element: Element) {
+  // "instant", not "auto": per spec "auto" defers to the CSS scroll-behavior
+  // property, which is `smooth` on <html>, so it would still animate.
   element.scrollIntoView({
-    behavior: prefersReducedMotion() ? "auto" : "smooth",
+    behavior: prefersReducedMotion() ? "instant" : "smooth",
   });
 }
 
@@ -27,6 +29,6 @@ export function scrollIntoViewRespectingMotionPreference(element: Element) {
 export function scrollToRespectingMotionPreference(options: ScrollToOptions) {
   window.scrollTo({
     ...options,
-    behavior: prefersReducedMotion() ? "auto" : "smooth",
+    behavior: prefersReducedMotion() ? "instant" : "smooth",
   });
 }

@@ -894,6 +894,7 @@ const FounderStory = () => {
 const Home = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   useEffect(() => {
     // Handle hash scrolling if coming from another page
@@ -909,6 +910,7 @@ const Home = () => {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
     const formData = new FormData(e.target as HTMLFormElement);
     const data = {
       access_key: "b60055de-dbc3-4b12-b737-b3eed8cfc062",
@@ -917,6 +919,9 @@ const Home = () => {
       url: formData.get('url'),
       message: formData.get('message'),
       subject: "New Contact Form Submission from Dreamy Codes",
+      // Honeypot. The field is hidden from people and left blank by them, so
+      // anything that fills it in is a bot; Web3Forms drops those submissions.
+      botcheck: formData.get('botcheck') ? true : false,
     };
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
@@ -928,11 +933,15 @@ const Home = () => {
         setShowSuccessModal(true);
         (e.target as HTMLFormElement).reset();
       } else {
-        alert('Something went wrong. Please try again.');
+        setSubmitError(
+          "We couldn't send that just now. Please try again, or email hello@dreamycodes.com."
+        );
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Network error. Please try again.');
+      setSubmitError(
+        "That didn't reach us — please check your connection and try again, or email hello@dreamycodes.com."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -1025,7 +1034,10 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 border border-brand-900">
             <div className="px-6 py-12 md:p-20 flex flex-col justify-center border-r lg:border-r border-brand-900 border-b lg:border-b-0 bg-[#fcfcfc]">
               <h2 className="font-display text-4xl md:text-5xl font-bold uppercase tracking-tighter mb-4">Don't leave conversions on the table!</h2>
-              <p className="text-gray-600 mb-12 font-light">Fill out the form below to request a comprehensive consultation or to discuss a new e-commerce build.</p>
+              <p className="text-gray-600 mb-4 font-light">Fill out the form below to request a comprehensive consultation or to discuss a new e-commerce build.</p>
+              <p className="text-sm font-display uppercase tracking-widest text-brand-900 font-bold mb-12">
+                Projects start at <span className="text-[#3432c7]">$990</span>
+              </p>
               <form className="space-y-8" onSubmit={handleFormSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="border-b border-brand-900 pb-2"><input name="name" type="text" placeholder="Your Name *" className="w-full bg-transparent focus:outline-none placeholder-gray-400 font-display text-sm tracking-widest cursor-text" required /></div>
@@ -1033,7 +1045,23 @@ const Home = () => {
                 </div>
                 <div className="border-b border-brand-900 pb-2"><input name="url" type="text" placeholder="Current Store URL (If applicable)" className="w-full bg-transparent focus:outline-none placeholder-gray-400 font-display text-sm tracking-widest cursor-text" /></div>
                 <div className="border-b border-brand-900 pb-2"><textarea name="message" rows={4} placeholder="Project Details / Current Bottlenecks *" className="w-full bg-transparent focus:outline-none placeholder-gray-400 font-display text-sm tracking-widest resize-none cursor-text" required></textarea></div>
+                {/* Honeypot: off-screen rather than display:none, since some
+                    bots skip hidden fields. Kept out of the tab order and the
+                    accessibility tree so nobody real can reach it. */}
+                <div className="absolute w-px h-px -left-[9999px] overflow-hidden" aria-hidden="true">
+                  <label htmlFor="botcheck">Leave this field empty</label>
+                  <input id="botcheck" name="botcheck" type="checkbox" tabIndex={-1} autoComplete="off" />
+                </div>
+
                 <button type="submit" disabled={isSubmitting} className="w-full bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold uppercase tracking-widest py-5 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">{isSubmitting ? 'Sending...' : 'Contact Us'}</button>
+
+                {submitError && (
+                  // role="alert" so the failure is announced rather than only
+                  // being visible; replaces a blocking alert() dialog.
+                  <p role="alert" className="text-sm text-red-600 font-light leading-relaxed">
+                    {submitError}
+                  </p>
+                )}
               </form>
             </div>
             <div className="px-6 py-12 md:p-20 flex flex-col justify-center bg-brand-50 relative overflow-hidden">

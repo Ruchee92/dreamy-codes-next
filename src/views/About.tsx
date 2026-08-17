@@ -220,8 +220,8 @@ const About = () => {
 
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: "Ruchi", role: "Founder & Lead Engineer", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/1.jpg" },
-              { name: "Sulakshi", role: "Head of Operations", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/4-1.jpg" },
+              { name: "Ruchi", role: "Founder & Lead Engineer", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/08/founder-Ruchi.jpg" },
+              { name: "Sulakshi", role: "Head of Operations", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/08/Sulakshi.jpg" },
               { name: "Asitha", role: "Senior Shopify Developer", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/3.jpg" },
               { name: "Lahiru", role: "CRO Specialist", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/2.jpg" }
             ].map((member, i) => (

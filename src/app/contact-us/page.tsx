@@ -37,7 +37,7 @@ export default async function ContactUs() {
       {/* ContactIntro clears the fixed navbar and carries the page's h1, so the
           contact block keeps its default h2. */}
       <ContactIntro />
-      <ContactSection />
+      <ContactSection title="Tell us about your store" />
       <Footer />
     </main>
   );

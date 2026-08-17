@@ -21,7 +21,7 @@ const INCLUDED = [
  */
 const ContactIntro = () => {
   return (
-    <section className="bg-white pt-28 md:pt-36 pb-10 md:pb-14">
+    <section className="bg-white pt-24 md:pt-36 pb-8 md:pb-14">
       <div className="max-w-screen-2xl mx-auto px-4 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -30,18 +30,19 @@ const ContactIntro = () => {
           className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 lg:gap-16 items-end"
         >
           <div>
-            {/* Rating, then the proof points as one editorial line. */}
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-3 mb-8">
+            {/* Stars on their own line, proof points beneath. Keeping them on
+                one row only worked at the widest breakpoints — everywhere else
+                the list wrapped and left the divider dangling. */}
+            <div className="flex flex-col gap-y-2.5 mb-7 sm:mb-8">
               <span className="flex items-center gap-1" aria-label="Rated 5 out of 5">
                 {[0, 1, 2, 3, 4].map((i) => (
-                  <Star key={i} size={16} className="text-[#3432c7] fill-[#3432c7]" aria-hidden="true" />
+                  <Star key={i} size={15} className="text-[#3432c7] fill-[#3432c7]" aria-hidden="true" />
                 ))}
               </span>
-              <span className="h-4 w-px bg-brand-900/15" aria-hidden="true"></span>
-              <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500" style={{ letterSpacing: '0.18em' }}>
+              <ul className="flex flex-wrap items-center gap-x-2.5 sm:gap-x-4 gap-y-1 font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 tracking-[0.12em] sm:tracking-[0.18em]">
                 {CREDENTIALS.map((item, i) => (
-                  <li key={item} className="flex items-center gap-4">
-                    {i > 0 && <span className="h-4 w-px bg-brand-900/15" aria-hidden="true"></span>}
+                  <li key={item} className="flex items-center gap-2.5 sm:gap-4">
+                    {i > 0 && <span className="w-1 h-1 rounded-full bg-brand-900/25" aria-hidden="true"></span>}
                     {item}
                   </li>
                 ))}
@@ -59,16 +60,18 @@ const ContactIntro = () => {
             </p>
           </div>
 
-          {/* What the call covers, as a bordered card matching the contact block below. */}
-          <div className="border border-brand-900 bg-[#fcfcfc] px-6 py-8 sm:px-8 sm:py-9">
-            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mb-6" style={{ letterSpacing: '0.2em' }}>
+          {/* A bordered card from sm up, matching the contact block below. On
+              phones the box and its padding cost most of a screen for three
+              short lines, so it collapses to a plain divided list. */}
+          <div className="sm:border sm:border-brand-900 sm:bg-[#fcfcfc] sm:px-8 sm:py-9">
+            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mb-3 sm:mb-6 tracking-[0.2em]">
               What you get
             </p>
-            <ul className="space-y-4">
+            <ul className="divide-y divide-brand-900/10 sm:divide-y-0 sm:space-y-4">
               {INCLUDED.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <Check size={18} strokeWidth={2.5} className="text-[#3432c7] flex-shrink-0 mt-0.5" aria-hidden="true" />
-                  <span className="text-sm sm:text-base text-brand-900 font-light leading-snug">{item}</span>
+                <li key={item} className="flex items-start gap-2.5 sm:gap-3 py-2.5 sm:py-0">
+                  <Check size={15} strokeWidth={2.5} className="text-[#3432c7] flex-shrink-0 mt-1 sm:mt-0.5 sm:w-[18px] sm:h-[18px]" aria-hidden="true" />
+                  <span className="text-[13px] sm:text-base text-brand-900 font-light leading-snug">{item}</span>
                 </li>
               ))}
             </ul>

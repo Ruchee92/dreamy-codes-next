@@ -25,6 +25,7 @@ const ContactIntro = () => {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-8 lg:gap-14 items-start"
         >
           <div>
             {/* Rating and the headline number read as one claim, so they share
@@ -64,20 +65,16 @@ const ContactIntro = () => {
             </p>
           </div>
 
-          {/* Full width under the copy rather than a second column beside it:
-              as a column it left a large hole at the top right and its rule
-              floated with nothing to align to. Three across on desktop, a
-              divided list on phones. */}
-          <div className="mt-8 sm:mt-12 lg:mt-16 border-t border-brand-900 pt-5 sm:pt-6">
-            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mb-3 sm:mb-5 tracking-[0.2em]">
+          {/* Top-aligned with the copy and separated by a vertical rule rather
+              than sitting in a box. Aligning it to the bottom left the whole
+              top right of the section empty, with the rule floating in it. */}
+          <div className="border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-1 lg:border-l lg:border-brand-900/15 lg:pl-14">
+            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mb-3 sm:mb-4 tracking-[0.2em]">
               What you get
             </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-brand-900/10">
+            <ul className="divide-y divide-brand-900/10">
               {INCLUDED.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-3 py-3 sm:py-1 sm:px-6 sm:first:pl-0 sm:last:pr-0"
-                >
+                <li key={item} className="flex items-start gap-3 py-3 sm:py-4 first:pt-0">
                   <Check size={15} strokeWidth={2.5} className="text-[#3432c7] flex-shrink-0 mt-1" aria-hidden="true" />
                   <span className="text-[13px] sm:text-[15px] text-brand-900 font-light leading-snug">{item}</span>
                 </li>

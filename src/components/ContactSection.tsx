@@ -85,7 +85,7 @@ const ContactSection = ({ headingLevel = 'h2' }: { headingLevel?: 'h1' | 'h2' })
                   <input id="botcheck" name="botcheck" type="checkbox" tabIndex={-1} autoComplete="off" />
                 </div>
 
-                <button type="submit" disabled={isSubmitting} className="w-full bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold uppercase tracking-widest py-5 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">{isSubmitting ? 'Sending...' : 'Contact Us'}</button>
+                <button type="submit" disabled={isSubmitting} className="w-full bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold uppercase tracking-widest py-5 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">{isSubmitting ? 'Sending...' : 'Book A Free Strategy Call'}</button>
 
                 {submitError && (
                   // role="alert" so the failure is announced rather than only

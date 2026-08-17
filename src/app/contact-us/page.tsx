@@ -2,6 +2,7 @@ export const revalidate = 60;
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ContactIntro from '@/components/ContactIntro';
 import ContactSection from '@/components/ContactSection';
 import { getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
 import { JsonLd } from '@/components/SEO';
@@ -33,10 +34,10 @@ export default async function ContactUs() {
     <main id="main-content" className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100 selection:text-brand-900">
       <JsonLd schema={seoData?.schema} />
       <Navbar menuItems={menuItems} />
-      {/* Offsets the fixed navbar, which the homepage handles with its hero. */}
-      <div className="pt-28 md:pt-36">
-        <ContactSection headingLevel="h1" />
-      </div>
+      {/* ContactIntro clears the fixed navbar and carries the page's h1, so the
+          contact block keeps its default h2. */}
+      <ContactIntro />
+      <ContactSection />
       <Footer />
     </main>
   );

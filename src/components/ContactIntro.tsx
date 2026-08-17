@@ -29,15 +29,8 @@ const ContactIntro = () => {
           // 50/50 with no column gap, so the divider lands on the container's
           // midpoint — the same x as the border splitting the contact block
           // below. A gap would push it off centre by half the gap.
-          className="relative grid grid-cols-1 lg:grid-cols-2 gap-y-8 items-start"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-y-8 items-start"
         >
-          {/* Drawn on the container rather than as a column border, so it
-              spans the taller of the two columns rather than only its own. */}
-          <span
-            className="hidden lg:block absolute inset-y-0 left-1/2 w-px bg-brand-900/15"
-            aria-hidden="true"
-          ></span>
-
           {/* Left: the headline and its proof. Right: everything that
               supports it. Splitting the copy across the columns is what makes
               the two sides carry comparable weight — with the heading alone on
@@ -75,7 +68,7 @@ const ContactIntro = () => {
             Ready to scale your <span className="text-[#3432c7]">Shopify</span> store?
           </h1>
 
-          <div className="lg:col-start-2 lg:row-start-2 border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:pl-12">
+          <div className="lg:col-start-2 lg:row-start-2 border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:border-l lg:border-brand-900/15 lg:pl-12">
             <p className="text-sm sm:text-lg text-gray-500 font-light leading-relaxed">
               Talk to a team that has seen your bottleneck before — and knows which fix actually
               moves revenue. Tell us where your store is stuck and we&rsquo;ll come back with a

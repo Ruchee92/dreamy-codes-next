@@ -29,17 +29,21 @@ const ContactIntro = () => {
           // 50/50 with no column gap, so the divider lands on the container's
           // midpoint — the same x as the border splitting the contact block
           // below. A gap would push it off centre by half the gap.
-          className="relative grid grid-cols-1 lg:grid-cols-2 gap-y-8"
+          className="relative grid grid-cols-1 lg:grid-cols-2 gap-y-8 items-start"
         >
-          {/* The rule is drawn on the container rather than as a column border,
-              so it still spans the full height while the list beside it starts
-              on the paragraph's row. */}
+          {/* Drawn on the container rather than as a column border, so it
+              spans the taller of the two columns rather than only its own. */}
           <span
             className="hidden lg:block absolute inset-y-0 left-1/2 w-px bg-brand-900/15"
             aria-hidden="true"
           ></span>
 
-          <div className="lg:col-start-1 lg:row-start-1 lg:pr-12">
+          {/* Left: the headline and its proof. Right: everything that
+              supports it. Splitting the copy across the columns is what makes
+              the two sides carry comparable weight — with the heading alone on
+              the left, the right half could only ever be empty at the top or
+              the bottom. */}
+          <div className="lg:pr-12">
             {/* Rating and the headline number read as one claim, so they share
                 a line. */}
             <div className="flex items-center gap-2.5 mb-3">
@@ -64,24 +68,19 @@ const ContactIntro = () => {
               ))}
             </ul>
 
-            {/* Capped so the line does not stretch the full grid on wide
-                screens, where it would read as a banner rather than a heading. */}
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-[0.95] mb-4 sm:mb-6 max-w-4xl">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-[0.95] max-w-4xl">
               Ready to scale your <span className="text-[#3432c7]">Shopify</span> store?
             </h1>
-
           </div>
 
-          {/* Its own cell so the inclusions list can share this row and line up
-              with the top of this paragraph. */}
-          <p className="lg:col-start-1 lg:row-start-2 lg:pr-12 text-sm sm:text-lg text-gray-500 font-light leading-relaxed max-w-2xl">
-            Talk to a team that has seen your bottleneck before — and knows which fix actually
-            moves revenue. Tell us where your store is stuck and we&rsquo;ll come back with a
-            plan, not a pitch.
-          </p>
+          <div className="border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:pl-12">
+            <p className="text-sm sm:text-lg text-gray-500 font-light leading-relaxed">
+              Talk to a team that has seen your bottleneck before — and knows which fix actually
+              moves revenue. Tell us where your store is stuck and we&rsquo;ll come back with a
+              plan, not a pitch.
+            </p>
 
-          <div className="lg:col-start-2 lg:row-start-2 border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:pl-12">
-            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mb-3 sm:mb-4 tracking-[0.2em]">
+            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mt-7 sm:mt-9 mb-3 sm:mb-4 tracking-[0.2em]">
               What you get
             </p>
             <ul className="divide-y divide-brand-900/10">

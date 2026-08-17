@@ -25,7 +25,7 @@ const ContactIntro = () => {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-8 lg:gap-14 items-start"
+          className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-8 lg:gap-14"
         >
           <div>
             {/* Rating and the headline number read as one claim, so they share
@@ -65,10 +65,11 @@ const ContactIntro = () => {
             </p>
           </div>
 
-          {/* Top-aligned with the copy and separated by a vertical rule rather
-              than sitting in a box. Aligning it to the bottom left the whole
-              top right of the section empty, with the rule floating in it. */}
-          <div className="border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-1 lg:border-l lg:border-brand-900/15 lg:pl-14">
+          {/* The column stretches the full row height so its rule runs the
+              whole way down, and the list centres against the copy. Pinning it
+              to the top or the bottom left a third of the column empty and cut
+              the rule short. */}
+          <div className="border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:border-l lg:border-brand-900/15 lg:pl-14 lg:flex lg:flex-col lg:justify-center">
             <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mb-3 sm:mb-4 tracking-[0.2em]">
               What you get
             </p>

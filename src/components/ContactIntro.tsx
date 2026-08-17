@@ -41,7 +41,7 @@ const ContactIntro = () => {
                 ))}
               </span>
               <span className="font-display font-bold uppercase text-[11px] sm:text-xs text-brand-900 tracking-[0.14em]">
-                500+ Projects Completed
+                300+ Projects Completed
               </span>
             </div>
 

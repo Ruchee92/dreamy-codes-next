@@ -33,7 +33,7 @@ const LogoMarquee = ({ className = "" }) => {
                 className="h-8 md:h-11 w-auto object-contain" 
               />
               <p className="text-[14px] md:text-[18px] font-display font-black text-white uppercase opacity-90" style={{ letterSpacing: '3px' }}>
-                Trusted by 500+ Brands
+                Trusted by 300+ Brands
               </p>
             </div>
           </div>

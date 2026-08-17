@@ -206,7 +206,7 @@ const Hero = () => {
                   ))}
                 </div>
                 <p className="text-xs md:text-sm font-display font-light uppercase tracking-widest text-brand-900/70 leading-tight md:whitespace-nowrap">
-                  Trusted by 500+ <br /> Shopify merchants
+                  Trusted by 300+ <br /> Shopify merchants
                 </p>
               </div>
             </div>
@@ -766,7 +766,7 @@ const Counter = ({ value, duration = 2 }: { value: string, duration?: number }) 
 const StatsSection = () => {
   const stats = [
     { value: "$19M+", label: "Client Revenue Generated" },
-    { value: "500+", label: "Stores Launched & Scaled" },
+    { value: "300+", label: "Stores Launched & Scaled" },
     { value: "2.4x", label: "Average ROI Increase" },
     { value: "4%", label: "AVG. Conversion Rate" }
   ];

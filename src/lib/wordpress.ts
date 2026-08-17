@@ -1,4 +1,8 @@
-import { sanitizeUrl } from "@/components/SEO";
+import { sanitizeUrl, sanitizeMediaUrl } from "@/components/SEO";
+
+// One spelling of the brand everywhere. Google was picking its own site name
+// because the schema said "DreamyCodes" and og:site_name said "Dreamy Codes".
+export const SITE_NAME = "Dreamy Codes";
 
 export async function fetchFromWordPress(query: string, variables: any = {}) {
   const wpUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
@@ -50,6 +54,23 @@ export async function getWordPressMenu(slug: string = "primary") {
   }
 }
 
+// Every SEO lookup below asks for the same Yoast fields. Image dimensions come
+// along because og:image without width/height makes some scrapers skip the
+// large card.
+const SEO_FIELDS = `
+            title
+            metaDesc
+            canonical
+            opengraphTitle
+            opengraphDescription
+            opengraphImage { mediaItemUrl altText mediaDetails { width height } }
+            twitterTitle
+            twitterDescription
+            twitterImage { mediaItemUrl }
+            metaRobotsNoindex
+            metaRobotsNofollow
+            schema { raw }`;
+
 export async function getWordPressSEO(id: string, type: "page" | "post" = "page") {
   const normalizedId = id === "/" ? "/" : `/${id.replace(/^\//, "").replace(/\/$/, "")}/`;
 
@@ -59,18 +80,7 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
       query GetSEO($id: ID!, $idType: ${type === "page" ? "PageIdType" : "PostIdType"}) {
         ${type}(id: $id, idType: $idType) {
           seo {
-            title
-            metaDesc
-            canonical
-            opengraphTitle
-            opengraphDescription
-            opengraphImage { mediaItemUrl }
-            twitterTitle
-            twitterDescription
-            twitterImage { mediaItemUrl }
-            metaRobotsNoindex
-            metaRobotsNofollow
-            schema { raw }
+${SEO_FIELDS}
           }
         }
       }
@@ -100,18 +110,7 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
           pages(where: { name: $name }) {
             nodes {
               seo {
-                title
-                metaDesc
-                canonical
-                opengraphTitle
-                opengraphDescription
-                opengraphImage { mediaItemUrl }
-                twitterTitle
-                twitterDescription
-                twitterImage { mediaItemUrl }
-                metaRobotsNoindex
-                metaRobotsNofollow
-                schema { raw }
+${SEO_FIELDS}
               }
             }
           }
@@ -127,18 +126,7 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
           nodeByUri(uri: "/blog/") {
             ... on Page {
               seo {
-                title
-                metaDesc
-                canonical
-                opengraphTitle
-                opengraphDescription
-                opengraphImage { mediaItemUrl }
-                twitterTitle
-                twitterDescription
-                twitterImage { mediaItemUrl }
-                metaRobotsNoindex
-                metaRobotsNofollow
-                schema { raw }
+${SEO_FIELDS}
               }
             }
           }
@@ -159,28 +147,42 @@ export async function getWordPressSEO(id: string, type: "page" | "post" = "page"
 function formatSeo(seo: any, ogType: "website" | "article" = "website") {
   const canonicalUrl = sanitizeUrl(seo.canonical) || "https://dreamycodes.com";
 
+  // Uploads live on the WordPress host. sanitizeMediaUrl undoes Yoast's rewrite
+  // to the front domain, which does not serve /wp-content and answers 403.
+  const ogImage = sanitizeMediaUrl(seo.opengraphImage?.mediaItemUrl) || "/default-og.jpg";
+  // Falling back to the OG image rather than the site default keeps both cards
+  // showing the same picture.
+  const twitterImage = sanitizeMediaUrl(seo.twitterImage?.mediaItemUrl) || ogImage;
+  const ogImageDetails = seo.opengraphImage?.mediaDetails;
+
   return {
     title: seo.title,
     description: seo.metaDesc,
-    alternates: { 
-      canonical: canonicalUrl 
+    alternates: {
+      canonical: canonicalUrl
     },
     openGraph: {
       title: seo.opengraphTitle || seo.title,
       description: seo.opengraphDescription || seo.metaDesc,
       type: ogType,
       url: canonicalUrl,
-      images: seo.opengraphImage?.mediaItemUrl 
-        ? [{ url: sanitizeUrl(seo.opengraphImage.mediaItemUrl) }] 
-        : [{ url: "/default-og.jpg" }],
+      siteName: SITE_NAME,
+      locale: "en_US",
+      images: [{
+        url: ogImage,
+        // Real dimensions when WordPress knows them; the bundled default is a
+        // 1200x630 card.
+        width: ogImageDetails?.width ?? 1200,
+        height: ogImageDetails?.height ?? 630,
+        alt: seo.opengraphImage?.altText || seo.opengraphTitle || seo.title,
+      }],
     },
     twitter: {
       card: "summary_large_image",
       title: seo.twitterTitle || seo.opengraphTitle || seo.title,
       description: seo.twitterDescription || seo.opengraphDescription || seo.metaDesc,
-      images: seo.twitterImage?.mediaItemUrl 
-        ? [sanitizeUrl(seo.twitterImage.mediaItemUrl)] 
-        : ["/default-og.jpg"],
+      creator: "@dreamycodes",
+      images: [twitterImage],
     },
     robots: {
       index: seo.metaRobotsNoindex !== "noindex",

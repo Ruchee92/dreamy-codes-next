@@ -81,7 +81,11 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
       width={box.width || undefined}
       height={box.height || undefined}
       style={{ overflow: 'visible', display: 'block' }}
-      aria-hidden="true"
+      // role + aria-label make this the accessible name for the word, so the
+      // heading needs no second, visually hidden copy of it. This SVG is the
+      // single source of the word in the DOM.
+      role="img"
+      aria-label={text}
     >
       <text
         ref={textRef}
@@ -125,12 +129,18 @@ const Hero = () => {
               <div className="animate-hero-fade-up" style={{ animationDelay: '0.15s' }}>
                 We engineer
               </div>
+              {/* The drawn outline is the only copy of this word in the DOM.
+                  It used to sit alongside an invisible sizing copy and a screen
+                  reader copy, so the heading reached crawlers as
+                  "We engineere-commerceE-COMMERCEe-commercefor scale."
+                  The empty div only reserves the line box: the SVG is
+                  absolutely positioned and has no measured size until the font
+                  has loaded. */}
               <div className="relative">
-                <div className="invisible" aria-hidden="true">e-commerce</div>
-                <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                <div className="h-[1.02em] md:h-[0.92em]" aria-hidden="true"></div>
+                <div className="absolute inset-0 flex items-center">
                   <DrawInWord text="e-commerce" delay={0.55} duration={1.2} />
                 </div>
-                <span className="sr-only">e-commerce</span>
               </div>
               <div className="animate-hero-fade-up" style={{ animationDelay: '1.45s' }}>
                 for scale.

@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Space_Grotesk, Manrope, Dancing_Script } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { OrganizationJsonLd } from "@/components/SEO";
 import "./globals.css";
 
 // Body copy. Variable font, so no explicit weight list is needed.
@@ -73,6 +74,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta property="fb:app_id" content="956376413511772" />
+        {/* Company-level facts for every page. Merges into Yoast's
+            Organization node by @id. */}
+        <OrganizationJsonLd />
       </head>
       <body
         className={`${manrope.variable} ${spaceGrotesk.variable} ${dancingScript.variable} antialiased`}

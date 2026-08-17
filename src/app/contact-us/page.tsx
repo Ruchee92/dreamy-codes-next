@@ -35,7 +35,7 @@ export default async function ContactUs() {
       <Navbar menuItems={menuItems} />
       {/* Offsets the fixed navbar, which the homepage handles with its hero. */}
       <div className="pt-28 md:pt-36">
-        <ContactSection />
+        <ContactSection headingLevel="h1" />
       </div>
       <Footer />
     </main>

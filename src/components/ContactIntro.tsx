@@ -20,14 +20,18 @@ const INCLUDED = [
 const ContactIntro = () => {
   return (
     <section className="bg-white pt-24 md:pt-36 pb-6 md:pb-14">
-      <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
+      {/* Same container padding as the contact block below, so the two line up. */}
+      <div className="max-w-screen-2xl mx-auto px-4 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-8 lg:gap-14"
+          // 50/50 with no column gap, so the divider lands on the container's
+          // midpoint — the same x as the border splitting the contact block
+          // below. A gap would push it off centre by half the gap.
+          className="grid grid-cols-1 lg:grid-cols-2 gap-y-8"
         >
-          <div>
+          <div className="lg:pr-12">
             {/* Rating and the headline number read as one claim, so they share
                 a line. */}
             <div className="flex items-center gap-2.5 mb-3">
@@ -69,7 +73,7 @@ const ContactIntro = () => {
               whole way down, and the list centres against the copy. Pinning it
               to the top or the bottom left a third of the column empty and cut
               the rule short. */}
-          <div className="border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:border-l lg:border-brand-900/15 lg:pl-14 lg:flex lg:flex-col lg:justify-center">
+          <div className="border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:border-l lg:border-brand-900/15 lg:pl-12 lg:flex lg:flex-col lg:justify-center">
             <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mb-3 sm:mb-4 tracking-[0.2em]">
               What you get
             </p>

@@ -43,7 +43,7 @@ const ContactIntro = () => {
               the two sides carry comparable weight — with the heading alone on
               the left, the right half could only ever be empty at the top or
               the bottom. */}
-          <div className="lg:pr-12">
+          <div className="lg:col-start-1 lg:row-start-1 lg:pr-12">
             {/* Rating and the headline number read as one claim, so they share
                 a line. */}
             <div className="flex items-center gap-2.5 mb-3">
@@ -67,13 +67,15 @@ const ContactIntro = () => {
                 </li>
               ))}
             </ul>
-
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-[0.95] max-w-4xl">
-              Ready to scale your <span className="text-[#3432c7]">Shopify</span> store?
-            </h1>
           </div>
 
-          <div className="border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:pl-12">
+          {/* Heading and the supporting column share row 2, so the paragraph
+              starts level with the top of the heading. */}
+          <h1 className="lg:col-start-1 lg:row-start-2 lg:pr-12 font-display text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-[0.95] max-w-4xl">
+            Ready to scale your <span className="text-[#3432c7]">Shopify</span> store?
+          </h1>
+
+          <div className="lg:col-start-2 lg:row-start-2 border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:pl-12">
             <p className="text-sm sm:text-lg text-gray-500 font-light leading-relaxed">
               Talk to a team that has seen your bottleneck before — and knows which fix actually
               moves revenue. Tell us where your store is stuck and we&rsquo;ll come back with a

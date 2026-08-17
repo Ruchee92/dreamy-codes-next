@@ -51,7 +51,7 @@ export default async function Blog() {
 
   const [data, menuItems, seoData] = await Promise.all([
     fetchFromWordPress(query),
-    getWordPressMenu("primary"),
+    getWordPressMenu(),
     getWordPressSEO("/blog")
   ]);
 

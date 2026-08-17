@@ -22,8 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function OurWork() {
   const [menuItems, seoData] = await Promise.all([
-    getWordPressMenu("primary"),
-    getWordPressMenu("primary"), // Fetching menu
+    getWordPressMenu(),
     getWordPressSEO("/our-work")
   ]);
 

@@ -5,9 +5,15 @@ import { fetchFromWordPress, getWordPressSEO } from "@/lib/wordpress"; // Adjust
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/SEO";
 
+// Next 15 hands `params` over as a promise. Reading .slug off it directly
+// yields undefined, which used to throw inside getWordPressSEO and turn every
+// unmatched URL into a 500 instead of a 404.
+type PageParams = { params: Promise<{ slug: string }> };
+
 // 1. This function handles the SEO (Title and Meta Description)
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const seo = await getWordPressSEO(params.slug, "page");
+export async function generateMetadata({ params }: PageParams) {
+  const { slug } = await params;
+  const seo = await getWordPressSEO(slug, "page");
 
   if (!seo) return { title: "Page Not Found" };
 
@@ -22,7 +28,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 // 2. This function builds the actual page content
-export default async function WordPressPage({ params }: { params: { slug: string } }) {
+export default async function WordPressPage({ params }: PageParams) {
+  const { slug } = await params;
+
   // Ask WordPress for the page title and content based on the URL slug
   const [data, seo] = await Promise.all([
     fetchFromWordPress(`
@@ -32,8 +40,8 @@ export default async function WordPressPage({ params }: { params: { slug: string
           content
         }
       }
-    `, { slug: params.slug }),
-    getWordPressSEO(params.slug, "page")
+    `, { slug }),
+    getWordPressSEO(slug, "page")
   ]);
 
   // If WordPress says the page doesn't exist, show the Next.js 404 page
@@ -46,11 +54,11 @@ export default async function WordPressPage({ params }: { params: { slug: string
     <main id="main-content" className="max-w-4xl mx-auto p-8">
       <JsonLd schema={seo?.schema} />
       <h1 className="text-4xl font-bold mb-8">{data.page.title}</h1>
-      
+
       {/* dangerouslySetInnerHTML is required to render WordPress HTML blocks */}
-      <div 
+      <div
         className="prose lg:prose-xl"
-        dangerouslySetInnerHTML={{ __html: data.page.content }} 
+        dangerouslySetInnerHTML={{ __html: data.page.content }}
       />
     </main>
   );

@@ -29,6 +29,13 @@ export async function fetchFromWordPress(query: string, variables: any = {}) {
   return body.data;
 }
 
+// Note: nothing in WordPress uses the slug "primary" — the menus there are
+// "main-menu" and "legal-menu" — so this lookup returns null and Navbar falls
+// back to its hardcoded links. That fallback is currently the intended nav:
+// the WordPress menu labels "Work" instead of "Our Work" and points the call
+// to action at /contact-us/ rather than the on-page /#contact form. Switching
+// the slug to "main-menu" connects the CMS but changes both, so it needs a
+// content decision first.
 export async function getWordPressMenu(slug: string = "primary") {
   try {
     const data = await fetchFromWordPress(`

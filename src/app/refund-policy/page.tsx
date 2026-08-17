@@ -16,12 +16,13 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: seo.alternates,
     openGraph: seo.openGraph,
     twitter: seo.twitter,
+    robots: seo.robots,
   };
 }
 
 export default async function RefundPolicy() {
   const [menuItems, seoData] = await Promise.all([
-    getWordPressMenu("primary"),
+    getWordPressMenu(),
     getWordPressSEO("/refund-policy")
   ]);
 

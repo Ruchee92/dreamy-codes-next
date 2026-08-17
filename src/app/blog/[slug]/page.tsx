@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import BlogPostPage from '@/views/BlogPost';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { notFound } from 'next/navigation';
 import { fetchFromWordPress, getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
 import { JsonLd } from '@/components/SEO';
 
@@ -17,6 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     alternates: seo.alternates,
     openGraph: seo.openGraph,
     twitter: seo.twitter,
+    robots: seo.robots,
   };
 }
 
@@ -65,7 +67,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
       }
     `),
     getWordPressSEO(slug, "post"),
-    getWordPressMenu("primary")
+    getWordPressMenu()
   ]);
 
   const post = postData?.post;
@@ -73,12 +75,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     .filter((p: any) => p.slug !== slug)
     .slice(0, 2);
 
+  // notFound() rather than a "Post not found" screen: the latter answered 200,
+  // so search engines indexed missing posts as real pages.
   if (!post) {
-    return (
-      <main id="main-content" className="min-h-screen bg-white text-slate-900 font-sans flex items-center justify-center">
-        <h1>Post not found</h1>
-      </main>
-    );
+    notFound();
   }
 
   return (

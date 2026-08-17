@@ -798,63 +798,70 @@ const FounderStory = () => {
 
   return (
     <section className="py-12 md:py-16 lg:py-20 bg-white">
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-1 lg:grid-cols-2 rounded-2xl md:rounded-3xl overflow-hidden"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
         >
-          {/* Photo panel */}
-          <div className="relative bg-[#e8e6e2] overflow-hidden flex flex-col px-6 pt-8 pb-6 sm:px-8 sm:pt-10 lg:px-10 lg:pt-12 lg:pb-8">
-            <span
-              className="pointer-events-none select-none absolute inset-x-0 top-0 flex justify-center font-serif text-[13rem] sm:text-[17rem] lg:text-[20rem] leading-[0.8] text-brand-900/[0.05] -translate-y-6"
+          {/* Photo panel — three layers: backdrop block, portrait, signature card */}
+          <div className="relative w-full max-w-[300px] sm:max-w-[380px] lg:max-w-[480px] mx-auto lg:mx-0 pr-5 sm:pr-6 lg:pr-8 pb-8 sm:pb-10 lg:pb-12">
+            {/* Layer 1 — backdrop block */}
+            <div
+              className="absolute right-0 bottom-0 left-6 sm:left-8 top-1/4 bg-[#efedea]"
               aria-hidden="true"
-            >
-              DC
-            </span>
+            ></div>
 
-            <div className="relative z-10 flex-1 flex items-center justify-center">
+            {/* Layer 2 — portrait */}
+            <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#efedea]">
               <Image
-                src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/Ruchi1.jpg"
+                src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/Founder.jpg"
                 alt="Ruchi, Founder and Lead Engineer at Dreamy Codes"
-                width={640}
-                height={640}
-                sizes="(max-width: 640px) 220px, (max-width: 1024px) 260px, 300px"
-                className="w-full max-w-[220px] sm:max-w-[260px] lg:max-w-[300px] h-auto object-cover rounded-xl"
+                fill
+                sizes="(max-width: 640px) 300px, (max-width: 1024px) 380px, 480px"
+                className="object-cover"
               />
             </div>
 
-            <div className="relative z-10 mt-6 lg:mt-8">
-              <p className="font-signature text-3xl sm:text-4xl text-brand-900 leading-none mb-1">Ruchi</p>
-              <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-600" style={{ letterSpacing: '0.15em' }}>
+            {/* Layer 3 — signature + title, riding half over the portrait */}
+            <div className="relative z-10 -mt-7 sm:-mt-8">
+              <Image
+                src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/sign-2.png"
+                alt="Ruchi's signature"
+                width={520}
+                height={200}
+                sizes="220px"
+                className="h-14 sm:h-16 w-auto object-contain object-left -ml-1"
+              />
+              <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mt-1.5" style={{ letterSpacing: '0.2em' }}>
                 Founder &amp; Lead Engineer
               </p>
             </div>
           </div>
 
           {/* Content panel */}
-          <div className="bg-[#fafafa] px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-10 flex flex-col justify-center">
+          <div className="flex flex-col justify-center">
             <p className="font-display font-bold text-gray-500 uppercase text-[10px] sm:text-xs mb-3" style={{ letterSpacing: '0.2em' }}>
-              Founder / Mission
+              Founder&rsquo;s Story &amp; Mission
             </p>
 
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-[2.6rem] xl:text-[3.4rem] 2xl:text-6xl font-bold uppercase tracking-tighter leading-[0.95] lg:whitespace-nowrap">
+            <h2 className="font-display text-5xl md:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-[0.95]">
               Built to <span className="text-[#3432c7]">Convert</span>
             </h2>
 
-            <div className="w-12 h-[3px] bg-[#3432c7] my-5" aria-hidden="true"></div>
+            <div className="w-12 h-[3px] bg-brand-900 my-5" aria-hidden="true"></div>
 
             <p className="text-sm sm:text-base text-gray-500 font-light leading-relaxed max-w-xl mb-5">
               Dreamy Codes exists to help founders turn Shopify stores into businesses that grow.
             </p>
 
-            <div className="border-l-2 border-[#3432c7] pl-4 mb-7">
+            <div className="border-l-2 border-brand-900 pl-4 mb-7">
               <p className="text-sm sm:text-base font-bold text-brand-900 leading-snug">
                 We don’t just make stores look better.
               </p>
-              <p className="text-sm sm:text-base font-bold text-[#3432c7] leading-snug">
+              <p className="text-sm sm:text-base font-bold text-brand-900 leading-snug">
                 We engineer better ways for customers to buy.
               </p>
             </div>
@@ -867,11 +874,11 @@ const FounderStory = () => {
                     key={i}
                     className={`flex items-center gap-3 sm:gap-5 py-3 ${i > 0 ? 'border-t border-brand-900/10' : ''}`}
                   >
-                    <span className="font-serif text-xl sm:text-2xl text-[#3432c7] w-7 sm:w-9 flex-shrink-0 tabular-nums" aria-hidden="true">
+                    <span className="font-serif text-xl sm:text-2xl text-gray-400 w-7 sm:w-9 flex-shrink-0 tabular-nums" aria-hidden="true">
                       {`0${i + 1}`}
                     </span>
                     <span className="w-px self-stretch bg-brand-900/10 flex-shrink-0" aria-hidden="true"></span>
-                    <Icon size={22} strokeWidth={1.75} className="text-[#3432c7] flex-shrink-0" aria-hidden="true" />
+                    <Icon size={22} strokeWidth={1.75} className="text-brand-900 flex-shrink-0" aria-hidden="true" />
                     <div className="min-w-0">
                       <p className="font-display font-bold uppercase text-xs sm:text-sm text-brand-900 tracking-wide mb-0.5">
                         {value.label}
@@ -887,10 +894,10 @@ const FounderStory = () => {
 
             <Link
               href="/about"
-              className="self-start inline-flex items-center gap-3 font-display font-bold uppercase text-xs sm:text-sm text-[#3432c7] border-b-2 border-[#3432c7] pb-1.5 hover:gap-4 transition-all duration-300 group"
+              className="self-start inline-flex items-center gap-3 font-display font-bold uppercase text-xs sm:text-sm text-brand-900 border-b-2 border-brand-900 pb-1.5 hover:gap-4 transition-all duration-300 group"
               style={{ letterSpacing: '0.15em' }}
             >
-              <span>Meet Ruchi</span>
+              <span>Read More</span>
               <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

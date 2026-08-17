@@ -83,7 +83,7 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
     { name: 'Case Studies', href: '/case-studies' },
     { name: 'Services', href: '/services' },
     { name: 'About', href: '/about' },
-    { name: "Let's Talk!", href: '/#contact' },
+    { name: "Let's Talk!", href: '/contact-us' },
   ];
 
   const navLinks = menuItems?.length ? menuItems : defaultNavLinks;
@@ -91,7 +91,10 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
   // Which entry gets the outlined button treatment. Keyed off the target
   // rather than the label, so a rename in the WordPress menu cannot silently
   // demote the call to action back to a plain text link.
-  const isCallToAction = (link: NavLink) => link.href.replace(/\/$/, '') === '/#contact';
+  // Both spellings count: the WordPress menu points at /contact-us/, and the
+  // homepage anchor is still a valid target for anyone linking to it.
+  const isCallToAction = (link: NavLink) =>
+    ['/contact-us', '/#contact'].includes(link.href.replace(/\/$/, ''));
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,

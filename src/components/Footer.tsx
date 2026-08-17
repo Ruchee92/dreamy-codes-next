@@ -72,7 +72,7 @@ const Footer = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h4 className="font-display font-bold uppercase tracking-widest text-sm text-white mb-2">Menu</h4>
+            <h4 className="font-display font-bold uppercase tracking-widest text-sm text-white mb-2">Company</h4>
             <nav aria-label="Footer" className="flex flex-col gap-3 font-display uppercase tracking-widest text-xs font-bold text-gray-400">
               <Link href="/our-work" className="hover:text-white transition-colors">Our Work</Link>
               <Link href="/case-studies" className="hover:text-white transition-colors">Case studies</Link>

@@ -75,6 +75,34 @@ export function JsonLd({ schema }: SEOProps) {
 }
 
 /**
+ * FAQPage markup for question-and-answer content already rendered on the page.
+ * It adds nothing a visitor cannot read; it just makes the pairing explicit for
+ * search engines and answer engines. Google narrowed FAQ rich results to
+ * government and health sites in 2023, so the value here is machine parsing
+ * rather than a richer SERP listing.
+ */
+export function FaqJsonLd({ items }: { items: { question: string; answer: string }[] }) {
+  if (!items?.length) return null;
+
+  const faq = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(faq).replace(/</g, "\\u003c") }}
+    />
+  );
+}
+
+/**
  * Extends the Organization node Yoast emits. Sharing its @id merges these
  * properties into the same entity rather than declaring a second company.
  *

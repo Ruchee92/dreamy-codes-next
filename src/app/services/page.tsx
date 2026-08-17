@@ -4,7 +4,8 @@ import ServicesPage from '@/views/Services';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
-import { JsonLd } from '@/components/SEO';
+import { serviceFaqs } from '@/data/serviceFaqs';
+import { JsonLd, FaqJsonLd } from '@/components/SEO';
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getWordPressSEO("/services");
@@ -29,6 +30,7 @@ export default async function Services() {
   return (
     <main id="main-content" className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100 selection:text-brand-900">
       <JsonLd schema={seoData?.schema} />
+      <FaqJsonLd items={serviceFaqs} />
       <Navbar menuItems={menuItems} />
       <ServicesPage />
       <Footer />

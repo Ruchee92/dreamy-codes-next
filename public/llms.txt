@@ -1,15 +1,35 @@
 # Dreamy Codes
 
-> Shopify Web Development Agency | Custom E-Commerce Design
+> Scaling your D2C brand with expert Shopify engineering.
 
-## About
-Dreamy Codes is a specialized agency focused on premium e-commerce architecture and scaling Shopify brands. We provide high-performance, conversion-optimized solutions for modern e-commerce businesses.
+Dreamy Codes exists to help founders turn Shopify stores into businesses that
+grow. Projects start at $990. Based globally, operating in EST and GMT
+timezones.
+
+## Pages
+
+- [Home](https://dreamycodes.com/): Shopify Web Development Agency | Custom E-Commerce Design
+- [Services](https://dreamycodes.com/services): Expert Shopify Design, CRO & Development Services
+- [Our Work](https://dreamycodes.com/our-work): Custom Shopify Store Portfolio
+- [Case Studies](https://dreamycodes.com/case-studies): Shopify Case Studies & Success Stories
+- [About](https://dreamycodes.com/about): Dedicated Shopify Experts & Developers
+- [Blog](https://dreamycodes.com/blog): Shopify E-Commerce & Development Blog
 
 ## Services
-- Shopify Store Development & Architecture
-- E-Commerce Scaling & Optimization
-- Custom Headless Commerce Solutions
-- Performance & Conversion Rate Optimization (CRO)
+
+- [Shopify Design and Development](https://dreamycodes.com/services)
+- [Conversion Optimization](https://dreamycodes.com/services)
+- [E-Commerce Integrations](https://dreamycodes.com/services)
 
 ## Contact
-For inquiries, please visit our main website or contact our team directly.
+
+- Email: hello@dreamycodes.com
+- WhatsApp: +94 71 416 6608
+- [Contact form](https://dreamycodes.com/#contact)
+
+## Optional
+
+- [Privacy Policy](https://dreamycodes.com/privacy-policy)
+- [Terms of Service](https://dreamycodes.com/terms-of-service)
+- [Refund Policy](https://dreamycodes.com/refund-policy)
+- [Sitemap](https://dreamycodes.com/sitemap.xml)

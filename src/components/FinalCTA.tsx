@@ -23,8 +23,8 @@ const FinalCTA: React.FC<FinalCTAProps> = ({ variant = 'light', title }) => {
           <p className={`${isLight ? 'text-gray-600' : 'text-gray-400'} text-lg md:text-xl font-light leading-relaxed mb-12`}>
             Let's discuss how our Shopify engineering expertise can help you reach your next revenue milestone.
           </p>
-          <Link 
-            href="/#contact" 
+          <Link
+            href="/contact-us"
             className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-[#3432c7] border border-[#3432c7] transition-all duration-300 group whitespace-nowrap"
           >
             <span>Let's Talk</span>

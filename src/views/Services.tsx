@@ -174,8 +174,8 @@ const Services = () => {
                 We provide end-to-end e-commerce solutions. From the first line of code to the final checkout optimization, we build systems <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">designed to generate revenue</span>.
               </p>
               <div className="flex flex-col md:flex-row gap-6">
-                <Link 
-                  href="/#contact" 
+                <Link
+                  href="/contact-us"
                   className="inline-flex items-center justify-between md:gap-4 px-8 py-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
                 >
                   <span>Book Strategy Call</span>

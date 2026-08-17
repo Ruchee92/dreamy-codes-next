@@ -2,10 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Mail, Phone, Linkedin, Facebook } from 'lucide-react';
 import Image from 'next/image';
-import { scrollIntoViewRespectingMotionPreference } from '../utils/motion';
 
 // Added TypeScript interface for the Pinterest props
 interface PinterestProps {
@@ -26,21 +24,6 @@ const Pinterest = ({ size = 20, className = "" }: PinterestProps) => (
 );
 
 const Footer = () => {
-  const pathname = usePathname();
-
-  // Added TypeScript types for 'e' and 'href'
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('/#')) {
-      // Fixed: location.pathname is now just pathname
-      if (pathname === '/') {
-        e.preventDefault();
-        const id = href.replace('/#', '');
-        const target = document.getElementById(id);
-        if (target) scrollIntoViewRespectingMotionPreference(target);
-      }
-    }
-  };
-
   return (
     <footer 
       className="bg-black text-white py-16"
@@ -95,7 +78,7 @@ const Footer = () => {
               <Link href="/case-studies" className="hover:text-white transition-colors">Case studies</Link>
               <Link href="/services" className="hover:text-white transition-colors">Services</Link>
               <Link href="/about" className="hover:text-white transition-colors">About</Link>
-              <Link href="/#contact" onClick={(e) => handleLinkClick(e, '/#contact')} className="hover:text-white transition-colors">Contact Us</Link>
+              <Link href="/contact-us" className="hover:text-white transition-colors">Contact Us</Link>
               <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
             </nav>
           </div>

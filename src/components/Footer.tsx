@@ -36,12 +36,15 @@ const Footer = () => {
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-3 inline-block">
-                <Image 
-                  src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/DREAMY-CODES-min-2.png" 
+                {/* Footer artwork is supplied light on transparent, so unlike
+                    the header mark it needs no inversion here. */}
+                <Image
+                  src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/Footer-logo-Dreamy-Codes.png"
                   alt="Dreamy Codes"
-                  width={150}
-                  height={32}
-                  className="h-8 w-auto object-contain brightness-0 invert"
+                  width={450}
+                  height={87}
+                  sizes="200px"
+                  className="w-[170px] h-auto object-contain"
                 />
               </Link>
               <p className="text-gray-400 text-sm max-w-xs">Scaling your D2C brand with expert Shopify engineering.</p>
@@ -105,7 +108,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-white/10 pt-8 text-center text-gray-500 text-xs font-display uppercase tracking-widest">
-          Copyright &copy; {new Date().getFullYear()} Dreamy Codes. All Rights Reserved.
+          Copyright &copy; {new Date().getFullYear()} Dreamy Codes (Pvt) Ltd. All Rights Reserved.
         </div>
       </div>
     </footer>

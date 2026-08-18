@@ -32,8 +32,11 @@ const Footer = () => {
       }}
     >
       <div className="max-w-screen-2xl mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-          <div className="flex flex-col gap-6">
+        {/* Phones: brand across the top, then the two menus side by side,
+            with the partner badge on its own row underneath. Desktop keeps the
+            three columns, so the badge is placed back under Legal. */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10 md:gap-12 mb-12 md:mb-16">
+          <div className="col-span-2 md:col-span-1 flex flex-col gap-6">
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-3 inline-block">
                 {/* Footer artwork is supplied light on transparent, so unlike
@@ -93,18 +96,19 @@ const Footer = () => {
               <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
               <Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link>
             </nav>
-
-            {/* Partner badge. The artwork is already light on transparent, so
-                it needs no inversion to read on the black footer. */}
-            <Image
-              src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/shopify-partners.png"
-              alt="Shopify Partners"
-              width={559}
-              height={107}
-              sizes="220px"
-              className="mt-6 w-[190px] h-auto object-contain object-left"
-            />
           </div>
+
+          {/* Partner badge. The artwork is already light on transparent, so it
+              needs no inversion to read on the black footer. Placed at column
+              three on desktop so it sits under Legal as before. */}
+          <Image
+            src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/shopify-partners.png"
+            alt="Shopify Partners"
+            width={559}
+            height={107}
+            sizes="220px"
+            className="col-span-2 md:col-span-1 md:col-start-3 -mt-2 md:mt-0 w-[190px] h-auto object-contain object-left"
+          />
         </div>
         
         <div className="border-t border-white/10 pt-8 text-center text-gray-500 text-xs font-display uppercase tracking-widest">

@@ -93,6 +93,17 @@ html {
     to { stroke-dashoffset: 0; }
   }
 
+  /* WhatsApp launcher ripple. One burst, then a long hold, so the button
+     draws attention periodically rather than pulsing without pause. Only
+     transform and opacity animate, which keeps it on the compositor and off
+     the main thread — the earlier framer-motion version scaled a border and
+     jittered. */
+  @keyframes wa-ripple {
+    0%   { transform: scale(1); opacity: 0.5; }
+    22%  { transform: scale(2.1); opacity: 0; }
+    100% { transform: scale(2.1); opacity: 0; }
+  }
+
   /* Drives the slow drifting glow behind the Services section. */
   @keyframes radial-move {
     0%   { background-position: 0% 0%; }
@@ -163,6 +174,22 @@ html {
 
   .animate-radial-move {
     animation: radial-move 25s ease-in-out infinite;
+  }
+
+  /* 6.8s cycle: roughly 1.5s of ripple followed by a 5s rest. */
+  .animate-wa-ripple {
+    animation: wa-ripple 6.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    will-change: transform, opacity;
+  }
+
+  .animate-wa-ripple-delayed {
+    animation-delay: 0.55s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-wa-ripple {
+      animation: none;
+    }
   }
 
   /* The angled black band behind the client logo marquee. The desktop and

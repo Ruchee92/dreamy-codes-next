@@ -214,16 +214,17 @@ const WhatsAppWidget = () => {
             className="relative flex h-14 w-14 cursor-pointer items-center justify-center rounded-full text-white shadow-[0_10px_28px_rgba(37,211,102,0.45)]"
             style={{ backgroundColor: BRAND_GREEN }}
           >
-            {/* Idle ripple. Two offset rings so it reads as continuous rather
-                than a repeating blink; dropped entirely for reduced motion. */}
-            {!reducedMotion && !isOpen && [0, 1].map((i) => (
-              <motion.span
+            {/* Idle ripple: a two-ring burst every ~6.8s rather than a
+                constant pulse. Driven by CSS so it stays on the compositor;
+                animating it through framer-motion scaled a border and jittered.
+                The keyframes opt out under prefers-reduced-motion. */}
+            {!isOpen && [0, 1].map((i) => (
+              <span
                 key={i}
-                className="pointer-events-none absolute inset-0 rounded-full border-2"
+                className={`pointer-events-none absolute inset-0 rounded-full border-2 opacity-0 animate-wa-ripple${
+                  i === 1 ? ' animate-wa-ripple-delayed' : ''
+                }`}
                 style={{ borderColor: BRAND_GREEN }}
-                initial={{ opacity: 0.55, scale: 1 }}
-                animate={{ opacity: 0, scale: 1.75 }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: i * 1.2 }}
                 aria-hidden="true"
               />
             ))}

@@ -14,6 +14,27 @@ const INCLUDED = [
 ];
 
 /**
+ * What a call covers. Beside the copy on desktop; on phones it reads better
+ * after the form, so the page renders it there instead — hence a component
+ * rather than markup fixed inside the intro.
+ */
+export const ContactInclusions = ({ className = '' }: { className?: string }) => (
+  <div className={className}>
+    <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mb-3 sm:mb-4 tracking-[0.2em]">
+      What you get
+    </p>
+    <ul className="divide-y divide-brand-900/10">
+      {INCLUDED.map((item) => (
+        <li key={item} className="flex items-start gap-3 py-3 sm:py-4 first:pt-0">
+          <Check size={15} strokeWidth={2.5} className="text-[#3432c7] flex-shrink-0 mt-1" aria-hidden="true" />
+          <span className="text-[13px] sm:text-[15px] text-brand-900 font-light leading-snug">{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+/**
  * Opens /contact-us. Carries the page's h1, so the contact block below it
  * stays an h2 on this route.
  */
@@ -36,7 +57,10 @@ const ContactIntro = () => {
               the two sides carry comparable weight — with the heading alone on
               the left, the right half could only ever be empty at the top or
               the bottom. */}
-          <div className="lg:col-start-1 lg:row-start-1 lg:pr-12">
+          {/* order-2 on phones: the heading should land first there, while on
+              desktop the explicit grid placement below decides position and
+              order is ignored. */}
+          <div className="order-2 lg:order-none lg:col-start-1 lg:row-start-1 lg:pr-12">
             {/* Rating and the headline number read as one claim, so they share
                 a line. */}
             <div className="flex items-center gap-2.5 mb-3">
@@ -50,7 +74,7 @@ const ContactIntro = () => {
               </span>
             </div>
 
-            <ul className="flex flex-wrap items-center gap-2 mb-6 sm:mb-8">
+            <ul className="flex flex-wrap items-center gap-2 lg:mb-8">
               {BADGES.map((badge) => (
                 <li
                   key={badge}
@@ -64,28 +88,19 @@ const ContactIntro = () => {
 
           {/* Heading and the supporting column share row 2, so the paragraph
               starts level with the top of the heading. */}
-          <h1 className="lg:col-start-1 lg:row-start-2 lg:pr-12 font-display text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-[0.95] max-w-4xl">
+          <h1 className="order-1 lg:order-none lg:col-start-1 lg:row-start-2 lg:pr-12 font-display text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold uppercase tracking-tighter leading-[0.95] max-w-4xl">
             Ready to scale your <span className="text-[#3432c7]">Shopify</span> store?
           </h1>
 
-          <div className="lg:col-start-2 lg:row-start-2 border-t border-brand-900 pt-5 lg:border-t-0 lg:pt-0 lg:border-l lg:border-brand-900/15 lg:pl-12">
+          <div className="order-3 lg:order-none lg:col-start-2 lg:row-start-2 lg:border-l lg:border-brand-900/15 lg:pl-12">
             <p className="text-sm sm:text-lg text-gray-500 font-light leading-relaxed">
               Talk to a team that has seen your bottleneck before — and knows which fix actually
               moves revenue. Tell us where your store is stuck and we&rsquo;ll come back with a
               plan, not a pitch.
             </p>
 
-            <p className="font-display font-bold uppercase text-[10px] sm:text-xs text-gray-500 mt-7 sm:mt-9 mb-3 sm:mb-4 tracking-[0.2em]">
-              What you get
-            </p>
-            <ul className="divide-y divide-brand-900/10">
-              {INCLUDED.map((item) => (
-                <li key={item} className="flex items-start gap-3 py-3 sm:py-4 first:pt-0">
-                  <Check size={15} strokeWidth={2.5} className="text-[#3432c7] flex-shrink-0 mt-1" aria-hidden="true" />
-                  <span className="text-[13px] sm:text-[15px] text-brand-900 font-light leading-snug">{item}</span>
-                </li>
-              ))}
-            </ul>
+            {/* Phones get this after the form instead — see the page. */}
+            <ContactInclusions className="hidden lg:block mt-9" />
           </div>
         </motion.div>
       </div>

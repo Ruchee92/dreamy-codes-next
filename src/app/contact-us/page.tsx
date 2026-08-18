@@ -2,7 +2,7 @@ export const revalidate = 60;
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import ContactIntro from '@/components/ContactIntro';
+import ContactIntro, { ContactInclusions } from '@/components/ContactIntro';
 import ContactSection from '@/components/ContactSection';
 import { getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
 import { JsonLd } from '@/components/SEO';
@@ -38,6 +38,10 @@ export default async function ContactUs() {
           contact block keeps its default h2. */}
       <ContactIntro />
       <ContactSection title="Tell us about your store" />
+      {/* On phones the inclusions read better as a closing summary than as
+          something to scroll past before reaching the form. Desktop renders
+          them beside the copy, inside ContactIntro. */}
+      <ContactInclusions className="lg:hidden max-w-screen-2xl mx-auto px-4 pt-8 pb-12" />
       <Footer />
     </main>
   );

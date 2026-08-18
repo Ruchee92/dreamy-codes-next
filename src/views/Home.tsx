@@ -610,18 +610,18 @@ const PortfolioItem = ({ title, category, imageSrc, link }: { title: string, cat
       transition={{ duration: 0.6 }}
       className="group cursor-pointer block"
     >
-      <div className={`aspect-[4/5] mb-5 overflow-hidden relative border border-black shadow-sm ${isLoaded ? 'bg-transparent' : 'bg-gray-200 animate-pulse'}`}>
+      <div className={`aspect-[4/5] mb-3 md:mb-5 overflow-hidden relative border border-black shadow-sm ${isLoaded ? 'bg-transparent' : 'bg-gray-200 animate-pulse'}`}>
         <Image
           src={imageSrc}
           alt={title}
           fill
-          sizes="(max-width: 768px) 100vw, 33vw"
+          sizes="(max-width: 768px) 50vw, 33vw"
           onLoad={() => setIsLoaded(true)}
           className={`absolute inset-0 object-cover transform group-hover:scale-105 transition-all duration-700 ease-out ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-sm'}`}
         />
-        <div className="absolute top-5 right-5 z-10">
+        <div className="absolute top-3 right-3 md:top-5 md:right-5 z-10">
           <div className="text-white drop-shadow-lg transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300">
-            <ArrowUpRight size={32} strokeWidth={1.0} aria-label={`View the ${title} Project`} />
+            <ArrowUpRight size={22} strokeWidth={1.0} className="md:w-8 md:h-8" aria-label={`View the ${title} Project`} />
           </div>
         </div>
         <div className="absolute bottom-5 left-5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -631,7 +631,7 @@ const PortfolioItem = ({ title, category, imageSrc, link }: { title: string, cat
         </div>
       </div>
       <div className="flex flex-col gap-2 px-1">
-        <h3 className="font-display font-bold text-xl text-gray-900 leading-[1.2] group-hover:text-brand-600 transition-colors duration-300 max-w-full">
+        <h3 className="font-display font-bold text-sm md:text-xl text-gray-900 leading-[1.25] md:leading-[1.2] group-hover:text-brand-600 transition-colors duration-300 max-w-full">
           {title}
         </h3>
       </div>
@@ -966,7 +966,7 @@ const Home = () => {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-12 gap-y-10 md:gap-y-20">
           <PortfolioItem title="CRO Optimized Store For Natural Hair Product" category="Theme Dev & CRO" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/P1-9.jpg" link="https://adovz.com/" />
           <PortfolioItem title="Modern Shopify Store Redesign For Snack Brand" category="Full Site Redesign" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/p6-3.jpg" link="https://flowstastytreats.com/" />
           <PortfolioItem title="Subscription Store Design With 3.2x Subscription Growth" category="Subscription Store Design" imageSrc="https://wp.dreamycodes.com/wp-content/uploads/2026/03/P3-11.jpg" link="https://succly.com/" />

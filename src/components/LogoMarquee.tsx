@@ -17,13 +17,16 @@ const LogoMarquee = ({ className = "" }) => {
   return (
     <div className={`relative z-20 overflow-hidden ${className}`}>
       <div
-        className="marquee-bg bg-black pt-20 pb-6 md:pt-28 md:pb-10 relative"
+        // The diagonal clip eats into the top of the band, so the padding has to
+        // clear it before content starts. On phones the wedge only reaches
+        // ~15px at the wordmark, so 80px of padding was mostly dead space.
+        className="marquee-bg bg-black pt-12 pb-6 md:pt-28 md:pb-10 relative"
         style={{
           backgroundImage: 'radial-gradient(circle at 70% 30%, #222 0%, #000 100%)',
         }}
       >
         <div className="max-w-screen-2xl mx-auto px-6 lg:px-12 relative">
-          <div className="flex flex-col items-start md:ml-[8%] text-white mb-6 md:mb-8">
+          <div className="flex flex-col items-start md:ml-[8%] text-white mb-4 md:mb-8">
             <div className="mt-0 flex flex-col items-start gap-1">
               <Image 
                 src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/kindpng_1738320.png" 

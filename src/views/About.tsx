@@ -222,8 +222,8 @@ const About = () => {
             {[
               { name: "Ruchi", role: "Founder & Lead Engineer", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/08/founder-Ruchi.jpg" },
               { name: "Sulakshi", role: "Head of Operations", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/08/Sulakshi.jpg" },
-              { name: "Asitha", role: "Senior Shopify Developer", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/3.jpg" },
-              { name: "Lahiru", role: "CRO Specialist", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/03/2.jpg" }
+              { name: "Ashen", role: "Shopify Developer", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/08/Ashen-Shopify-developer.jpg" },
+              { name: "Lahiru", role: "UI/UX Designer", image: "https://wp.dreamycodes.com/wp-content/uploads/2026/08/Lahiru.jpg" }
             ].map((member, i) => (
               <motion.div
                 key={i}

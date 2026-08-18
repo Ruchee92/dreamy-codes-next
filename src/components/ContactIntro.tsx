@@ -66,7 +66,9 @@ const ContactIntro = () => {
             <div className="flex items-center gap-2.5 mb-3">
               <span className="flex items-center gap-0.5" aria-label="Rated 5 out of 5">
                 {[0, 1, 2, 3, 4].map((i) => (
-                  <Star key={i} size={14} className="text-[#3432c7] fill-[#3432c7]" aria-hidden="true" />
+                  // fill follows the text colour, so the stars read as part of
+                  // the line beside them rather than a separate accent.
+                  <Star key={i} size={14} className="text-brand-900" fill="currentColor" aria-hidden="true" />
                 ))}
               </span>
               <span className="font-display font-bold uppercase text-[11px] sm:text-xs text-brand-900 tracking-[0.14em]">

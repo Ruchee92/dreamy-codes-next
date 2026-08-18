@@ -105,9 +105,14 @@ const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; dela
   );
 };
 
+// Calendar quarters: Jan-Mar is Q1 through Oct-Dec is Q4. Computed at render,
+// so the statically generated page picks up the change on its next
+// revalidation rather than needing a deploy.
+const currentQuarter = () => `Q${Math.floor(new Date().getMonth() / 3) + 1}`;
+
 const Hero = () => {
   return (
-    <section className="relative bg-grid-pattern pt-32 pb-24 md:pt-40 md:pb-32 min-h-[8vh] flex flex-col justify-center overflow-hidden">
+    <section className="relative bg-grid-pattern pt-28 pb-16 md:pt-40 md:pb-32 min-h-[8vh] flex flex-col justify-center overflow-hidden">
       <FloatingParticles />
 
       <div className="absolute top-1/4 right-[10%] w-[500px] h-[500px] bg-gray-200 rounded-full mix-blend-multiply filter blur-[100px] animate-slow-glow -z-10"></div>
@@ -118,13 +123,13 @@ const Hero = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex items-center gap-3 mt-6 md:mt-0 mb-8 relative z-10"
+          className="flex items-center gap-3 mt-4 md:mt-0 mb-5 md:mb-8 relative z-10"
         >
           <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-blink"></div>
-          <p className="font-display font-bold text-brand-900/60 uppercase text-[10px] md:text-sm" style={{ letterSpacing: '0.2rem' }}>ACCEPTING PARTNERS FOR Q3</p>
+          <p className="font-display font-bold text-brand-900/60 uppercase text-[10px] md:text-sm" style={{ letterSpacing: '0.2rem' }}>ACCEPTING PARTNERS FOR {currentQuarter()}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-8 items-start relative z-10">
           <div className="lg:col-span-9">
             <h1 className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold leading-[1.02] md:leading-[0.92] tracking-tighter uppercase whitespace-nowrap">
               <div className="animate-hero-fade-up" style={{ animationDelay: '0.15s' }}>
@@ -149,11 +154,11 @@ const Hero = () => {
             </h1>
           </div>
           <div className="lg:col-span-3 pb-4">
-            <p className="animate-hero-fade-up text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-8" style={{ animationDelay: '1.85s' }}>
+            <p className="animate-hero-fade-up text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-6 md:mb-8" style={{ animationDelay: '1.85s' }}>
               Scaling is tough. <br />
               Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">high-converting storefront</span> so you can focus on D2C growth.
             </p>
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-6 md:gap-8">
               {/* One row from the smallest screens up, stacking only at lg
                   where the column is too narrow to hold both. */}
               <div className="flex flex-row items-center gap-3 md:gap-8 lg:flex-col lg:items-start">

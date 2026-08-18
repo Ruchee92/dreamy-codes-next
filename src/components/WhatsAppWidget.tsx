@@ -15,6 +15,7 @@ const subscribeToReducedMotion = (onChange: () => void) => {
 };
 
 const WHATSAPP_URL = 'https://wa.me/+94714166608';
+const MESSAGES = ['Hi there 👋', 'How can I help you?'];
 const BRAND_GREEN = '#25D366';
 
 const WhatsAppGlyph = ({ size = 28 }: { size?: number }) => (
@@ -38,6 +39,9 @@ const WhatsAppWidget = () => {
     () => false,
   );
   const [time, setTime] = useState('');
+  // How many of the scripted messages have landed. Typing shows while more are
+  // still to come.
+  const [delivered, setDelivered] = useState(0);
   const launcherRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -52,10 +56,29 @@ const WhatsAppWidget = () => {
   // time it is where the visitor is.
   const toggle = useCallback(() => {
     setIsOpen((open) => {
-      if (!open) setTime(new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }));
+      if (!open) {
+        setTime(new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }));
+        setDelivered(0);
+      }
       return !open;
     });
   }, []);
+
+  // Plays the exchange out on open: type, first line, type again, second line.
+  // Reduced motion skips straight to both lines.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    if (reducedMotion) {
+      const show = setTimeout(() => setDelivered(MESSAGES.length), 0);
+      return () => clearTimeout(show);
+    }
+
+    const timers = MESSAGES.map((_, i) =>
+      setTimeout(() => setDelivered(i + 1), 1300 + i * 1400)
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [isOpen, reducedMotion]);
 
   // Escape closes the card, and focus returns to the launcher that opened it.
   useEffect(() => {
@@ -130,15 +153,35 @@ const WhatsAppWidget = () => {
 
             <div className="bg-[#ECE5DD] px-4 py-5">
               <p className="mb-3 text-center text-[10px] font-medium text-black/40">{time}</p>
-              <div className="mb-5 inline-flex items-center gap-1.5 rounded-2xl rounded-tl-sm bg-white px-4 py-3 shadow-sm">
-                {[0, 1, 2].map((i) => (
-                  <motion.span
-                    key={i}
-                    className="block h-2 w-2 rounded-full bg-gray-400"
-                    animate={reducedMotion ? undefined : { opacity: [0.3, 1, 0.3] }}
-                    transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.18 }}
-                  />
+              <div className="mb-5 flex flex-col items-start gap-2">
+                {MESSAGES.slice(0, delivered).map((message) => (
+                  <motion.p
+                    key={message}
+                    initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                    className="max-w-[85%] rounded-2xl rounded-tl-sm bg-white px-4 py-2.5 text-sm text-brand-900 shadow-sm"
+                  >
+                    {message}
+                  </motion.p>
                 ))}
+
+                {delivered < MESSAGES.length && (
+                  <motion.span
+                    layout
+                    className="inline-flex items-center gap-1.5 rounded-2xl rounded-tl-sm bg-white px-4 py-3 shadow-sm"
+                    aria-label="Typing"
+                  >
+                    {[0, 1, 2].map((i) => (
+                      <motion.span
+                        key={i}
+                        className="block h-2 w-2 rounded-full bg-gray-400"
+                        animate={reducedMotion ? undefined : { opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.18 }}
+                      />
+                    ))}
+                  </motion.span>
+                )}
               </div>
               <a
                 href={WHATSAPP_URL}

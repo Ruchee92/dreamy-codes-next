@@ -4,6 +4,7 @@ import { Space_Grotesk, Manrope, Dancing_Script } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { OrganizationJsonLd } from "@/components/SEO";
+import WhatsAppWidget from "@/components/WhatsAppWidget";
 import "./globals.css";
 
 // Body copy. Variable font, so no explicit weight list is needed.
@@ -89,12 +90,8 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <div
-          className="elfsight-app-580e00ba-bef2-4038-9caa-48a2171af2ba"
-          data-elfsight-app-lazy
-          style={{ position: 'absolute', top: 0, left: 0, height: 0, width: 0, overflow: 'hidden' }}
-        />
         {children}
+        <WhatsAppWidget />
         <Analytics />
         <SpeedInsights />
         <Script
@@ -109,10 +106,6 @@ export default function RootLayout({
             gtag('config', 'G-ESWXVSE2R9');
           `}
         </Script>
-        <Script 
-          src="https://elfsightcdn.com/platform.js" 
-          strategy="lazyOnload" 
-        />
       </body>
     </html>
   );

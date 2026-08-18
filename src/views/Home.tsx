@@ -877,7 +877,16 @@ const FounderStory = () => {
               </p>
             </div>
 
-            <div className="mb-6">
+            <div className="relative mb-6">
+              {/* One rule down the whole list. Drawing it per row left a gap
+                  wherever the row padding sat, so it broke after every item.
+                  Its offset is the number column plus the gap after it, which
+                  is where the spacer below reserves space. */}
+              <span
+                className="absolute top-0 bottom-0 left-10 sm:left-14 w-px bg-brand-900/10"
+                aria-hidden="true"
+              ></span>
+
               {values.map((value, i) => {
                 const Icon = value.icon;
                 return (
@@ -888,7 +897,9 @@ const FounderStory = () => {
                     <span className="font-serif text-xl sm:text-2xl text-gray-400 w-7 sm:w-9 flex-shrink-0 tabular-nums" aria-hidden="true">
                       {`0${i + 1}`}
                     </span>
-                    <span className="w-px self-stretch bg-brand-900/10 flex-shrink-0" aria-hidden="true"></span>
+                    {/* Reserves the rule's column; the rule itself is drawn
+                        once for the whole list above. */}
+                    <span className="w-px flex-shrink-0" aria-hidden="true"></span>
                     <Icon size={22} strokeWidth={1.75} className="text-brand-900 flex-shrink-0" aria-hidden="true" />
                     <div className="min-w-0">
                       <p className="font-display font-bold uppercase text-xs sm:text-sm text-brand-900 tracking-wide mb-0.5">

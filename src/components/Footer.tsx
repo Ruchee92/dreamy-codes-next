@@ -90,6 +90,17 @@ const Footer = () => {
               <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
               <Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link>
             </nav>
+
+            {/* Partner badge. The artwork is already light on transparent, so
+                it needs no inversion to read on the black footer. */}
+            <Image
+              src="https://wp.dreamycodes.com/wp-content/uploads/2026/08/shopify-partners.png"
+              alt="Shopify Partners"
+              width={559}
+              height={107}
+              sizes="220px"
+              className="mt-6 w-[190px] h-auto object-contain object-left"
+            />
           </div>
         </div>
         

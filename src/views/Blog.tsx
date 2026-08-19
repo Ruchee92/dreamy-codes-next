@@ -48,7 +48,7 @@ const BlogCard = ({ title, excerpt, date, author, category, image, delay, slug }
         <span className="flex items-center gap-1"><User size={12} /> {author}</span>
         <span className="flex items-center gap-1 text-[#3432c7]"><Tag size={12} /> {category}</span>
       </div>
-      <h2 className="font-display text-2xl font-bold uppercase mb-4 group-hover:text-[#3432c7] transition-colors">{title}</h2>
+      <h2 className="font-display text-2xl font-bold tracking-[-1px] mb-4 group-hover:text-[#3432c7] transition-colors leading-snug">{title}</h2>
       <p className="text-gray-600 font-light mb-6 line-clamp-2">{excerpt}</p>
       <div className="flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest group-hover:gap-4 transition-all">
         Read More <ArrowRight size={16} />
@@ -63,7 +63,7 @@ const Blog = ({ posts }: { posts: any[] }) => {
       <section className="px-6 lg:px-12 max-w-screen-2xl mx-auto mb-12 md:mb-20">
         <div className="max-w-4xl">
           <p className="font-display font-bold text-brand-900/40 uppercase tracking-[0.3em] text-xs mb-6">Unfiltered Insights</p>
-          <h1 className="font-display text-5xl md:text-8xl font-bold uppercase tracking-tighter mb-8 leading-[0.9]">
+          <h1 className="font-display text-5xl md:text-7xl font-bold tracking-[-1px] mb-8 leading-[1.05]">
             Blog
           </h1>
           <p className="text-xl text-gray-600 font-light leading-relaxed max-w-2xl">

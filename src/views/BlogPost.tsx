@@ -63,7 +63,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
               <span className="text-gray-500 flex items-center gap-1"><Clock size={14} /> {readMinutes} min read</span>
             </div>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 md:mb-8 leading-[1.12] md:leading-[1.08] lg:leading-[1.05] text-brand-900 max-w-4xl text-balance">
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-[-1px] mb-6 md:mb-8 leading-[1.12] md:leading-[1.08] lg:leading-[1.05] text-brand-900 max-w-4xl text-balance">
               {post?.title}
             </h1>
           </div>
@@ -120,8 +120,8 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                 className="
                   prose-dc max-w-none font-light text-gray-700
                   text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed
-                  [&_h2]:font-display [&_h2]:font-bold [&_h2]:tracking-tighter [&_h2]:text-3xl md:[&_h2]:text-4xl lg:[&_h2]:text-5xl [&_h2]:mt-12 md:[&_h2]:mt-20 [&_h2]:mb-6 md:[&_h2]:mb-10 [&_h2]:text-brand-900 [&_h2]:leading-[1.05]
-                  [&_h3]:font-display [&_h3]:font-bold [&_h3]:tracking-tighter [&_h3]:text-2xl md:[&_h3]:text-3xl [&_h3]:mt-10 md:[&_h3]:mt-16 [&_h3]:mb-4 md:[&_h3]:mb-8 [&_h3]:text-brand-900 [&_h3]:leading-[1.1]
+                  [&_h2]:font-display [&_h2]:font-bold [&_h2]:tracking-[-1px] [&_h2]:text-3xl md:[&_h2]:text-4xl lg:[&_h2]:text-5xl [&_h2]:mt-12 md:[&_h2]:mt-20 [&_h2]:mb-6 md:[&_h2]:mb-10 [&_h2]:text-brand-900 [&_h2]:leading-[1.05]
+                  [&_h3]:font-display [&_h3]:font-bold [&_h3]:tracking-[-1px] [&_h3]:text-2xl md:[&_h3]:text-3xl [&_h3]:mt-10 md:[&_h3]:mt-16 [&_h3]:mb-4 md:[&_h3]:mb-8 [&_h3]:text-brand-900 [&_h3]:leading-[1.1]
                   [&_h4]:font-display [&_h4]:font-bold [&_h4]:tracking-tight [&_h4]:text-xl [&_h4]:mt-8 md:[&_h4]:mt-12 [&_h4]:mb-3 md:[&_h4]:mb-6 [&_h4]:text-brand-900
                   [&_blockquote]:border-l-4 [&_blockquote]:border-[#3432c7] [&_blockquote]:bg-brand-50 [&_blockquote]:p-8 md:[&_blockquote]:p-12 [&_blockquote]:my-16 [&_blockquote]:font-display [&_blockquote]:text-2xl md:[&_blockquote]:text-3xl [&_blockquote]:font-bold [&_blockquote]:uppercase [&_blockquote]:tracking-tighter [&_blockquote]:text-brand-900 [&_blockquote]:not-italic
                 "

@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { OrganizationJsonLd } from "@/components/SEO";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
+import BackToTop from "@/components/BackToTop";
 import "./globals.css";
 
 // Body copy. Variable font, so no explicit weight list is needed.
@@ -75,6 +76,13 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta property="fb:app_id" content="956376413511772" />
+        {/* Every image on the site is proxied from the WordPress host, and the
+            hero avatars are priority loads, so the connection is worth opening
+            before the HTML finishes parsing. */}
+        <link rel="preconnect" href="https://wp.dreamycodes.com" />
+        <link rel="dns-prefetch" href="https://wp.dreamycodes.com" />
+        {/* Analytics loads late by design, so a DNS hint is enough here. */}
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         {/* Company-level facts for every page. Merges into Yoast's
             Organization node by @id. */}
         <OrganizationJsonLd />
@@ -92,13 +100,17 @@ export default function RootLayout({
         </a>
         {children}
         <WhatsAppWidget />
+        <BackToTop />
         <Analytics />
         <SpeedInsights />
+        {/* 164 KiB of it, two thirds unused, and it was the largest single
+            contributor to main-thread blocking. Nothing on the page depends on
+            gtag being ready early, so it waits for idle. */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-ESWXVSE2R9"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

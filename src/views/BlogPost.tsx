@@ -20,6 +20,11 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
   const author = post?.author?.node;
   const authorName = author?.name || 'Ruchira Madushan';
 
+  // TODO: swap in the CTA artwork (device mockup) once supplied. While null,
+  // the CTA renders a dashed placeholder of the right aspect ratio so the
+  // layout is already correct when the real asset lands.
+  const CTA_IMAGE: string | null = null;
+
   // Same portrait as the About page team section.
   const AUTHOR_PORTRAIT =
     'https://wp.dreamycodes.com/wp-content/uploads/2026/08/founder-Ruchi.jpg';
@@ -126,15 +131,8 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                 dangerouslySetInnerHTML={{ __html: post?.content || '' }}
               />
 
-              {/* Tags / Share row */}
-              <div className="mt-24 pt-12 border-t border-gray-100 flex flex-wrap gap-6 items-center justify-between">
-                <div className="flex flex-wrap gap-3">
-                  {(post?.categories?.nodes || []).map((cat: any) => (
-                    <span key={cat.name} className="px-5 py-2.5 bg-gray-50 text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 hover:bg-brand-900 hover:text-white transition-colors cursor-default">
-                      #{cat.name}
-                    </span>
-                  ))}
-                </div>
+              {/* Share row (mobile only — the desktop rail handles this) */}
+              <div className="mt-24 pt-12 border-t border-gray-100 flex items-center justify-end lg:hidden">
                 <div className="flex items-center gap-6 lg:hidden">
                   <button aria-label="Share on Twitter" onClick={() => handleShare('twitter')} className="text-gray-500 hover:text-brand-900 cursor-pointer inline-flex items-center justify-center min-w-11 min-h-11 border border-transparent hover:border-brand-100 rounded-full transition-colors">
                     <Twitter size={20} />
@@ -148,73 +146,88 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                 </div>
               </div>
 
-              {/* ── Author bio and CTA ──────────────────────────────────
-                  One bordered unit, two zones: the CTA reads as a continuation
-                  of the bio rather than a second, unrelated card. The copy is
-                  deliberately service-agnostic so it fits any post topic. */}
-              <div className="mt-16 border border-brand-900/10">
-                {/* Zone 1 — who wrote this */}
-                <div className="bg-brand-50/60 p-8 md:p-10 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
+              {/* ── Author bio ─────────────────────────────────────────── */}
+              <div className="mt-16 border border-gray-200 rounded-2xl bg-white p-8 md:p-10">
+                <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
                   <Image
                     src={AUTHOR_PORTRAIT}
                     alt={`${authorName}, founder of Dreamy Codes`}
-                    width={112}
-                    height={112}
-                    className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-brand-900/10 flex-shrink-0"
+                    width={128}
+                    height={128}
+                    className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover flex-shrink-0"
                   />
                   <div>
-                    <p className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-[#3432c7] mb-1.5">
+                    <p className="text-xs font-display font-bold uppercase tracking-[0.15em] text-[#3432c7] mb-2">
                       Written by
                     </p>
-                    <p className="font-display text-xl md:text-2xl font-bold uppercase tracking-tight text-brand-900 leading-tight">
+                    <p className="font-display text-2xl md:text-3xl font-bold uppercase tracking-tight text-brand-900 leading-tight">
                       {authorName}
                     </p>
-                    <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mt-1.5 mb-4">
+                    <p className="text-xs md:text-sm font-display font-bold uppercase tracking-widest text-gray-500 mt-2 mb-5">
                       Founder &middot; Shopify Designer &amp; CRO Specialist
                     </p>
                     <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg">
                       Ruchira Madushan, known as &ldquo;Ruchi,&rdquo; is the founder of{' '}
                       <Link
                         href="/"
-                        className="text-[#3432c7] underline underline-offset-[3px] decoration-1 font-normal hover:text-brand-900 transition-colors"
+                        className="text-[#3432c7] underline underline-offset-[3px] decoration-1 hover:text-brand-900 transition-colors"
                       >
                         Dreamy Codes
                       </Link>{' '}
                       and a Shopify designer and CRO specialist with a decade of hands-on
-                      experience. He has designed and optimized Shopify stores for brands
-                      across multiple industries, combining strategy, design, and
-                      conversion-focused thinking to create better ecommerce experiences.
+                      experience. He helps brands create Shopify stores that look better,
+                      work better, and convert better.
                     </p>
                   </div>
                 </div>
+              </div>
 
-                {/* Zone 2 — the ask. Shares the border, so it reads as one block. */}
-                <div className="relative overflow-hidden border-t border-brand-900/10 bg-[#3432c7]/[0.05] p-8 md:p-12">
-                  <div
-                    className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-[#3432c7]/25 blur-3xl pointer-events-none"
-                    aria-hidden="true"
-                  ></div>
-                  <div
-                    className="absolute -bottom-28 -left-20 w-72 h-72 rounded-full bg-[#3432c7]/15 blur-3xl pointer-events-none"
-                    aria-hidden="true"
-                  ></div>
-
-                  <div className="relative z-10">
-                    <h2 className="font-display text-2xl md:text-4xl font-bold uppercase tracking-tighter text-brand-900 mb-4 leading-[1.05] max-w-2xl">
-                      Ready to build a better Shopify store?
+              {/* ── Universal CTA ──────────────────────────────────────────
+                  Service-agnostic on purpose: it suits any post topic rather
+                  than pushing whatever the article happened to cover. */}
+              <div className="mt-8 rounded-2xl overflow-hidden bg-gradient-to-br from-[#f0edfd] via-[#eae6fb] to-[#dedaf8]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-center p-8 md:p-12 lg:pr-0">
+                  <div>
+                    <h2 className="font-display text-3xl md:text-5xl font-bold uppercase tracking-tighter text-brand-900 leading-[1.02] text-balance">
+                      Ready to take your Shopify store to the next level?
                     </h2>
-                    <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg max-w-2xl mb-8">
+                    <div className="w-14 h-1 bg-[#3432c7] mt-6 mb-6" aria-hidden="true"></div>
+                    <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg max-w-md mb-8">
                       Whether you need a new Shopify store, a redesign, or help improving
                       your existing store, let&rsquo;s create an ecommerce experience
                       designed to look better, work better, and convert better.
                     </p>
                     <Link
                       href="/contact-us"
-                      className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-[#3432c7] border border-[#3432c7] transition-all duration-300 group whitespace-nowrap"
+                      className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 rounded-md font-display font-bold uppercase tracking-widest hover:bg-brand-900 border border-[#3432c7] hover:border-brand-900 transition-all duration-300 group whitespace-nowrap"
                     >
                       <span>Let&rsquo;s Work Together</span>
                       <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
                     </Link>
+                  </div>
+
+                  <div className="relative">
+                    {CTA_IMAGE ? (
+                      <Image
+                        src={CTA_IMAGE}
+                        alt="Dreamy Codes Shopify store shown on desktop, tablet and mobile"
+                        width={880}
+                        height={660}
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        className="w-full h-auto"
+                      />
+                    ) : (
+                      <div
+                        className="w-full aspect-[4/3] border-2 border-dashed border-[#3432c7]/25 rounded-xl flex items-center justify-center"
+                        aria-hidden="true"
+                      >
+                        <span className="font-display font-bold uppercase tracking-widest text-[10px] text-[#3432c7]/45 text-center px-4">
+                          CTA artwork
+                          <br />
+                          placeholder
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

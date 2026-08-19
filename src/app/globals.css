@@ -343,10 +343,9 @@ h6 {
   .prose-dc .schema-faq-question {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1.375rem;
     font-weight: 700;
-    text-transform: uppercase;
-    line-height: 1.35;
+    line-height: 1.3;
     letter-spacing: -0.01em;
     color: var(--color-brand-900);
     margin-bottom: 0.875rem;

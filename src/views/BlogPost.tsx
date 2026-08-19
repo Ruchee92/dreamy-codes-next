@@ -181,29 +181,33 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
 
               {/* ── Universal CTA ──────────────────────────────────────────
                   Service-agnostic on purpose: it suits any post topic rather
-                  than pushing whatever the article happened to cover. */}
+                  than pushing whatever the article happened to cover.
+
+                  Padding lives on the text column, not the grid, so the artwork
+                  can bleed to the card's edges without the heading and button
+                  losing their own breathing room along with it. */}
               <div className="mt-8 overflow-hidden bg-gradient-to-br from-[#f0edfd] via-[#eae6fb] to-[#dedaf8]">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center lg:items-stretch p-8 md:p-12 lg:pr-0 lg:pb-0 lg:pt-0">
-                  <div>
-                    <h2 className="font-display text-3xl md:text-5xl font-bold uppercase tracking-tighter text-brand-900 leading-[1.02] text-balance mb-8 md:mb-10">
+                <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] items-stretch lg:min-h-[26rem]">
+                  <div className="flex flex-col justify-center p-8 md:p-12 lg:py-14 order-2 lg:order-1">
+                    <h2 className="font-display text-3xl md:text-4xl font-bold uppercase tracking-tighter text-brand-900 leading-[1.05] text-balance mb-8">
                       Ready to take your Shopify store to the next level?
                     </h2>
                     <Link
                       href="/contact-us"
-                      className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 font-display font-bold uppercase tracking-widest hover:bg-brand-900 border border-[#3432c7] hover:border-brand-900 transition-all duration-300 group whitespace-nowrap"
+                      className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 font-display font-bold uppercase tracking-widest hover:bg-brand-900 border border-[#3432c7] hover:border-brand-900 transition-all duration-300 group whitespace-nowrap self-start"
                     >
                       <span>Let&rsquo;s Work Together</span>
                       <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
                     </Link>
                   </div>
 
-                  <div className="relative aspect-square lg:aspect-auto w-full">
+                  <div className="relative aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto w-full order-1 lg:order-2">
                     <Image
                       src={CTA_IMAGE}
                       alt="Shopify product and homepage design work by Dreamy Codes shown on desktop and mobile"
                       fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 45vw"
+                      className="object-cover object-center"
                     />
                   </div>
                 </div>

@@ -1,11 +1,9 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { motion } from 'motion/react';
-import { ArrowLeft, Calendar, Tag, Twitter, Linkedin, Facebook, Clock } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Tag, Twitter, Linkedin, Facebook, Clock } from 'lucide-react';
 import Image from 'next/image';
-import FinalCTA from '../components/FinalCTA';
 
 interface RelatedPost {
   title: string;
@@ -15,15 +13,23 @@ interface RelatedPost {
 }
 
 const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: RelatedPost[] }) => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  // The old value was a hardcoded "5 min read" on every post; this one is ~15.
+  const wordCount = (post?.content || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+  const readMinutes = Math.max(1, Math.round(wordCount / 225));
 
   const author = post?.author?.node;
-  const authorName = author?.name || 'Dreamy Codes';
-  const authorBio = author?.description || 'Lead e-commerce engineer and Shopify expert helping D2C brands scale through conversion-focused design and development.';
-  const authorAvatar = author?.avatar?.url;
-  const authorInitial = authorName[0];
+  const authorName = author?.name || 'Ruchira Madushan';
+
+  // Deliberately not post.author.node.description. The WordPress bio is a
+  // ~90-word block that arrives HTML-encoded ("Designer &amp; Conversion"),
+  // which renders as a literal entity here since this is printed as text.
+  // Single-author site, so the canonical copy lives with the component.
+  const AUTHOR_BIO =
+    'Ruchira Madushan — "Ruchi" — is the founder of Dreamy Codes and a Shopify Designer & Conversion Rate Specialist with a decade of hands-on Shopify experience. He has redesigned and audited 200+ stores across subscription, beauty, food, lifestyle, and DTC brands, combining design, psychology, and CRO to turn traffic into paying customers — helping clients reach conversion rates above 6% and grow revenue without increasing ad spend.';
+
+  // Same portrait as the About page team section.
+  const AUTHOR_PORTRAIT =
+    'https://wp.dreamycodes.com/wp-content/uploads/2026/08/founder-Ruchi.jpg';
 
   const handleShare = (platform: 'twitter' | 'linkedin' | 'facebook') => {
     if (typeof window === 'undefined') return;
@@ -55,14 +61,14 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
         <header className="px-6 lg:px-12 max-w-screen-2xl mx-auto mb-6 md:mb-10">
           <div className="max-w-4xl">
             {/* Category + date + read time */}
-            <div className="flex flex-wrap items-center gap-4 mb-8 text-xs font-display font-bold uppercase tracking-widest text-brand-600">
+            <div className="flex flex-wrap items-center gap-4 mb-8 text-xs font-display font-bold uppercase tracking-widest text-[#3432c7]">
               <span className="flex items-center gap-1"><Tag size={14} /> {post?.categories?.nodes?.[0]?.name || 'Journal'}</span>
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
               <span className="text-gray-500 flex items-center gap-1"><Calendar size={14} /> {post?.date ? new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Unknown Date'}</span>
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-              <span className="text-gray-500 flex items-center gap-1"><Clock size={14} /> 5 min read</span>
+              <span className="text-gray-500 flex items-center gap-1"><Clock size={14} /> {readMinutes} min read</span>
             </div>
-            <h1 className="font-display text-4xl md:text-6xl lg:text-8xl font-bold uppercase tracking-tighter mb-6 md:mb-10 leading-[0.9] lg:leading-[0.85]">
+            <h1 className="font-display text-4xl md:text-6xl lg:text-8xl font-bold uppercase tracking-tighter mb-6 md:mb-10 leading-[1.05] md:leading-[0.95] lg:leading-[0.85]">
               {post?.title}
             </h1>
           </div>
@@ -70,11 +76,12 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
 
         {/* Featured Image */}
         <div className="px-6 lg:px-12 max-w-screen-2xl mx-auto mb-8 md:mb-16">
-          <div className="relative aspect-[21/9] overflow-hidden border border-brand-900 shadow-2xl">
+          <div className="relative aspect-[16/9] md:aspect-[2/1] overflow-hidden border border-brand-900 shadow-2xl">
             <Image
               src={post?.featuredImage?.node?.sourceUrl || 'https://picsum.photos/seed/placeholder/1920/1080'}
               alt={post?.title || 'Blog Post'}
               fill
+              priority
               sizes="(max-width: 1536px) 100vw, 1536px"
               className="object-cover"
             />
@@ -116,15 +123,12 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
             <div className="lg:col-span-8 lg:col-start-3">
               <div
                 className="
-                  max-w-none font-light text-gray-700
+                  prose-dc max-w-none font-light text-gray-700
                   text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed
-                  [&>p]:mb-10 lg:[&>p]:mb-12
-                  [&>h2]:font-display [&>h2]:font-bold [&>h2]:uppercase [&>h2]:tracking-tighter [&>h2]:text-3xl md:[&>h2]:text-4xl lg:[&>h2]:text-5xl [&>h2]:mt-12 md:[&>h2]:mt-20 [&>h2]:mb-6 md:[&>h2]:mb-10 [&>h2]:text-brand-900
-                  [&>h3]:font-display [&>h3]:font-bold [&>h3]:uppercase [&>h3]:tracking-tighter [&>h3]:text-2xl md:[&>h3]:text-3xl [&>h3]:mt-10 md:[&>h3]:mt-16 [&>h3]:mb-4 md:[&>h3]:mb-8 [&>h3]:text-brand-800
-                  [&>h4]:font-display [&>h4]:font-bold [&>h4]:uppercase [&>h4]:tracking-tight [&>h4]:text-xl [&>h4]:mt-8 md:[&>h4]:mt-12 [&>h4]:mb-3 md:[&>h4]:mb-6 [&>h4]:text-brand-700
-                  [&>blockquote]:border-l-4 [&>blockquote]:border-brand-600 [&>blockquote]:bg-brand-50/50 [&>blockquote]:p-10 md:[&>blockquote]:p-12 [&>blockquote]:my-16 [&>blockquote]:font-display [&>blockquote]:text-2xl md:[&>blockquote]:text-3xl lg:[&>blockquote]:text-4xl [&>blockquote]:font-bold [&>blockquote]:uppercase [&>blockquote]:tracking-tighter [&>blockquote]:text-brand-900 [&>blockquote]:not-italic
-                  [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-10 [&>ul]:space-y-4
-                  [&>li]:pl-2
+                  [&_h2]:font-display [&_h2]:font-bold [&_h2]:uppercase [&_h2]:tracking-tighter [&_h2]:text-3xl md:[&_h2]:text-4xl lg:[&_h2]:text-5xl [&_h2]:mt-12 md:[&_h2]:mt-20 [&_h2]:mb-6 md:[&_h2]:mb-10 [&_h2]:text-brand-900 [&_h2]:leading-[1.05]
+                  [&_h3]:font-display [&_h3]:font-bold [&_h3]:uppercase [&_h3]:tracking-tighter [&_h3]:text-2xl md:[&_h3]:text-3xl [&_h3]:mt-10 md:[&_h3]:mt-16 [&_h3]:mb-4 md:[&_h3]:mb-8 [&_h3]:text-brand-900 [&_h3]:leading-[1.1]
+                  [&_h4]:font-display [&_h4]:font-bold [&_h4]:uppercase [&_h4]:tracking-tight [&_h4]:text-xl [&_h4]:mt-8 md:[&_h4]:mt-12 [&_h4]:mb-3 md:[&_h4]:mb-6 [&_h4]:text-brand-900
+                  [&_blockquote]:border-l-4 [&_blockquote]:border-[#3432c7] [&_blockquote]:bg-brand-50 [&_blockquote]:p-8 md:[&_blockquote]:p-12 [&_blockquote]:my-16 [&_blockquote]:font-display [&_blockquote]:text-2xl md:[&_blockquote]:text-3xl [&_blockquote]:font-bold [&_blockquote]:uppercase [&_blockquote]:tracking-tighter [&_blockquote]:text-brand-900 [&_blockquote]:not-italic
                 "
                 dangerouslySetInnerHTML={{ __html: post?.content || '' }}
               />
@@ -139,42 +143,61 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                   ))}
                 </div>
                 <div className="flex items-center gap-6 lg:hidden">
-                  <button aria-label="Share on Twitter" onClick={() => handleShare('twitter')} className="text-gray-500 hover:text-brand-900 cursor-pointer p-0.5 border border-transparent hover:border-brand-100 rounded-full">
+                  <button aria-label="Share on Twitter" onClick={() => handleShare('twitter')} className="text-gray-500 hover:text-brand-900 cursor-pointer inline-flex items-center justify-center min-w-11 min-h-11 border border-transparent hover:border-brand-100 rounded-full transition-colors">
                     <Twitter size={20} />
                   </button>
-                  <button aria-label="Share on LinkedIn" onClick={() => handleShare('linkedin')} className="text-gray-500 hover:text-brand-900 cursor-pointer p-0.5 border border-transparent hover:border-brand-100 rounded-full">
+                  <button aria-label="Share on LinkedIn" onClick={() => handleShare('linkedin')} className="text-gray-500 hover:text-brand-900 cursor-pointer inline-flex items-center justify-center min-w-11 min-h-11 border border-transparent hover:border-brand-100 rounded-full transition-colors">
                     <Linkedin size={20} />
                   </button>
-                  <button aria-label="Share on Facebook" onClick={() => handleShare('facebook')} className="text-gray-500 hover:text-brand-900 cursor-pointer p-0.5 border border-transparent hover:border-brand-100 rounded-full">
+                  <button aria-label="Share on Facebook" onClick={() => handleShare('facebook')} className="text-gray-500 hover:text-brand-900 cursor-pointer inline-flex items-center justify-center min-w-11 min-h-11 border border-transparent hover:border-brand-100 rounded-full transition-colors">
                     <Facebook size={20} />
                   </button>
                 </div>
               </div>
 
-              {/* ── Author Bio Card ── */}
+              {/* ── Author Bio + Work-With-Us CTA ── */}
               <div className="mt-16 border border-brand-900/10 bg-brand-50/50 p-8 md:p-10 flex flex-col md:flex-row gap-6 md:gap-10 items-start">
-                {/* Avatar */}
                 <div className="flex-shrink-0">
-                  {authorAvatar ? (
-                    <Image
-                      src={authorAvatar}
-                      alt={authorName}
-                      width={80}
-                      height={80}
-                      className="w-20 h-20 rounded-full object-cover border-2 border-brand-900/10"
-                    />
-                  ) : (
-                    <div className="w-20 h-20 rounded-full bg-brand-900 flex items-center justify-center font-display font-bold text-white text-2xl flex-shrink-0">
-                      {authorInitial}
-                    </div>
-                  )}
+                  <Image
+                    src={AUTHOR_PORTRAIT}
+                    alt={`${authorName}, founder of Dreamy Codes`}
+                    width={112}
+                    height={112}
+                    className="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-2 border-brand-900/10"
+                  />
                 </div>
-                {/* Info */}
                 <div>
-                  <p className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-brand-600 mb-1">Written by</p>
-                  <h2 className="font-display text-xl md:text-2xl font-bold uppercase tracking-tighter text-brand-900 mb-1">{authorName}</h2>
-                  <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mb-4">Lead E-commerce Engineer</p>
-                  <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg">{authorBio}</p>
+                  <p className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-[#3432c7] mb-1">Written by</p>
+                  <p className="font-display text-xl md:text-2xl font-bold uppercase tracking-tighter text-brand-900 mb-1">{authorName}</p>
+                  <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mb-4">
+                    Founder &middot; Shopify Designer &amp; CRO Specialist
+                  </p>
+                  <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg">{AUTHOR_BIO}</p>
+                </div>
+              </div>
+
+              {/* Conversion point for readers who finished the article. */}
+              <div className="mt-8 relative overflow-hidden border border-[#3432c7]/20 bg-[#3432c7]/[0.04] p-8 md:p-12">
+                {/* Accent glow, purely decorative. */}
+                <div className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-[#3432c7]/25 blur-3xl pointer-events-none" aria-hidden="true"></div>
+                <div className="absolute -bottom-28 -left-20 w-72 h-72 rounded-full bg-[#3432c7]/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                  <div className="max-w-xl">
+                    <h2 className="font-display text-2xl md:text-4xl font-bold uppercase tracking-tighter text-brand-900 mb-3 leading-[1.05]">
+                      Want this fixed on your store?
+                    </h2>
+                    <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg">
+                      Get a free teardown of your Shopify store &mdash; the exact conversion leaks costing you sales, and what to fix first.
+                    </p>
+                  </div>
+                  <Link
+                    href="/contact-us"
+                    className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-[#3432c7] border border-[#3432c7] transition-all duration-300 group whitespace-nowrap self-start lg:self-auto"
+                  >
+                    <span>Let&apos;s Talk</span>
+                    <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
+                  </Link>
                 </div>
               </div>
 
@@ -189,50 +212,47 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
         </div>
       </article>
 
-      <FinalCTA
-        variant="dark"
-        title={<>READY TO OPTIMIZE <br /> YOUR STORE?</>}
-      />
-
-      {/* Related Posts */}
-      <section className="py-20 md:py-40 bg-brand-50 px-6 lg:px-12">
-        <div className="max-w-screen-2xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
-            <div>
-              <p className="font-display font-bold text-brand-900/40 uppercase tracking-[0.3em] text-xs mb-6">Keep Reading</p>
-              <h2 className="font-display text-4xl md:text-6xl font-bold uppercase tracking-tighter">Related <span className="text-brand-600">Insights</span></h2>
-            </div>
-            <Link href="/blog" className="flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest hover:gap-4 transition-all">
-              View All Journal Entries <ArrowLeft className="rotate-180" size={16} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            {relatedPosts.length > 0 ? relatedPosts.map((related) => (
-              <Link key={related.slug} href={`/blog/${related.slug}`} className="group">
-                <div className="relative aspect-[16/9] overflow-hidden mb-8 border border-gray-200 shadow-lg">
-                  <Image
-                    src={related.featuredImage?.node?.sourceUrl || `https://picsum.photos/seed/${related.slug}/800/450`}
-                    alt={related.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transform group-hover:scale-105 transition-transform duration-700"
-                  />
-                </div>
-                <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mb-4">
-                  {related.date ? new Date(related.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : ''}
-                </p>
-                <h3 className="font-display text-2xl md:text-3xl font-bold uppercase mb-4 group-hover:text-brand-600 transition-colors leading-tight">{related.title}</h3>
-                <div className="flex items-center gap-2 font-display font-bold text-[10px] uppercase tracking-widest group-hover:gap-4 transition-all text-brand-900">
-                  Read Article <ArrowLeft className="rotate-180" size={14} />
-                </div>
+      {/* Related Posts. Hidden entirely when there is nothing to link to,
+          rather than rendering a heading over an empty-state message. */}
+      {relatedPosts.length > 0 && (
+        <section className="py-20 md:py-40 bg-brand-50 px-6 lg:px-12">
+          <div className="max-w-screen-2xl mx-auto">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+              <div>
+                <p className="font-display font-bold text-brand-900/40 uppercase tracking-[0.3em] text-xs mb-6">Keep Reading</p>
+                <h2 className="font-display text-4xl md:text-6xl font-bold uppercase tracking-tighter">Related <span className="text-[#3432c7]">Insights</span></h2>
+              </div>
+              <Link href="/blog" className="flex items-center gap-2 font-display font-bold text-xs uppercase tracking-widest hover:gap-4 transition-all">
+                View All Journal Entries <ArrowLeft className="rotate-180" size={16} />
               </Link>
-            )) : (
-              <p className="text-gray-500 col-span-2 font-display text-sm uppercase tracking-widest">No related posts found.</p>
-            )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+              {relatedPosts.map((related) => (
+                <Link key={related.slug} href={`/blog/${related.slug}`} className="group">
+                  <div className="relative aspect-[16/9] overflow-hidden mb-8 border border-gray-200 shadow-lg">
+                    <Image
+                      src={related.featuredImage?.node?.sourceUrl || `https://picsum.photos/seed/${related.slug}/800/450`}
+                      alt={related.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover transform group-hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                  <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mb-4">
+                    {related.date ? new Date(related.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : ''}
+                  </p>
+                  <h3 className="font-display text-2xl md:text-3xl font-bold uppercase mb-4 group-hover:text-[#3432c7] transition-colors leading-tight">{related.title}</h3>
+                  <div className="flex items-center gap-2 font-display font-bold text-[10px] uppercase tracking-widest group-hover:gap-4 transition-all text-brand-900">
+                    Read Article <ArrowLeft className="rotate-180" size={14} />
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
     </div>
   );
 };

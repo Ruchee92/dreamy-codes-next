@@ -20,10 +20,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
   const author = post?.author?.node;
   const authorName = author?.name || 'Ruchira Madushan';
 
-  // TODO: swap in the CTA artwork (device mockup) once supplied. While null,
-  // the CTA renders a dashed placeholder of the right aspect ratio so the
-  // layout is already correct when the real asset lands.
-  const CTA_IMAGE: string | null = null;
+  const CTA_IMAGE = 'https://wp.dreamycodes.com/wp-content/uploads/2026/03/PR1-1.jpg';
 
   // Same portrait as the About page team section.
   const AUTHOR_PORTRAIT =
@@ -147,7 +144,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
               </div>
 
               {/* ── Author bio ─────────────────────────────────────────── */}
-              <div className="mt-16 border border-gray-200 rounded-2xl bg-white p-8 md:p-10">
+              <div className="mt-16 border border-gray-200 bg-white p-8 md:p-10">
                 <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
                   <Image
                     src={AUTHOR_PORTRAIT}
@@ -185,8 +182,8 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
               {/* ── Universal CTA ──────────────────────────────────────────
                   Service-agnostic on purpose: it suits any post topic rather
                   than pushing whatever the article happened to cover. */}
-              <div className="mt-8 rounded-2xl overflow-hidden bg-gradient-to-br from-[#f0edfd] via-[#eae6fb] to-[#dedaf8]">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-center p-8 md:p-12 lg:pr-0">
+              <div className="mt-8 overflow-hidden bg-gradient-to-br from-[#f0edfd] via-[#eae6fb] to-[#dedaf8]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center lg:items-stretch p-8 md:p-12 lg:pr-0 lg:pb-0 lg:pt-0">
                   <div>
                     <h2 className="font-display text-3xl md:text-5xl font-bold uppercase tracking-tighter text-brand-900 leading-[1.02] text-balance">
                       Ready to take your Shopify store to the next level?
@@ -199,35 +196,21 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                     </p>
                     <Link
                       href="/contact-us"
-                      className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 rounded-md font-display font-bold uppercase tracking-widest hover:bg-brand-900 border border-[#3432c7] hover:border-brand-900 transition-all duration-300 group whitespace-nowrap"
+                      className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 font-display font-bold uppercase tracking-widest hover:bg-brand-900 border border-[#3432c7] hover:border-brand-900 transition-all duration-300 group whitespace-nowrap"
                     >
                       <span>Let&rsquo;s Work Together</span>
                       <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
                     </Link>
                   </div>
 
-                  <div className="relative">
-                    {CTA_IMAGE ? (
-                      <Image
-                        src={CTA_IMAGE}
-                        alt="Dreamy Codes Shopify store shown on desktop, tablet and mobile"
-                        width={880}
-                        height={660}
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="w-full h-auto"
-                      />
-                    ) : (
-                      <div
-                        className="w-full aspect-[4/3] border-2 border-dashed border-[#3432c7]/25 rounded-xl flex items-center justify-center"
-                        aria-hidden="true"
-                      >
-                        <span className="font-display font-bold uppercase tracking-widest text-[10px] text-[#3432c7]/45 text-center px-4">
-                          CTA artwork
-                          <br />
-                          placeholder
-                        </span>
-                      </div>
-                    )}
+                  <div className="relative aspect-square lg:aspect-auto w-full">
+                    <Image
+                      src={CTA_IMAGE}
+                      alt="Shopify product and homepage design work by Dreamy Codes shown on desktop and mobile"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover"
+                    />
                   </div>
                 </div>
               </div>

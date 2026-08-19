@@ -87,7 +87,7 @@ const Blog = ({ posts }: { posts: any[] }) => {
               key={post.slug}
               title={post.title}
               slug={post.slug}
-              excerpt={decodeEntities(post.excerpt)}
+              excerpt={decodeEntities(post.seo?.metaDesc || post.excerpt)}
               date={new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
               author={post.author?.node?.name || 'Dreamy Codes'}
               category={post.categories?.nodes?.[0]?.name || 'Uncategorized'}

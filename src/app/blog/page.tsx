@@ -29,6 +29,9 @@ export default async function Blog() {
           slug
           excerpt
           date
+          seo {
+            metaDesc
+          }
           featuredImage {
             node {
               sourceUrl

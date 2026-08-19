@@ -185,15 +185,9 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
               <div className="mt-8 overflow-hidden bg-gradient-to-br from-[#f0edfd] via-[#eae6fb] to-[#dedaf8]">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center lg:items-stretch p-8 md:p-12 lg:pr-0 lg:pb-0 lg:pt-0">
                   <div>
-                    <h2 className="font-display text-3xl md:text-5xl font-bold uppercase tracking-tighter text-brand-900 leading-[1.02] text-balance">
+                    <h2 className="font-display text-3xl md:text-5xl font-bold uppercase tracking-tighter text-brand-900 leading-[1.02] text-balance mb-8 md:mb-10">
                       Ready to take your Shopify store to the next level?
                     </h2>
-                    <div className="w-14 h-1 bg-[#3432c7] mt-6 mb-6" aria-hidden="true"></div>
-                    <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg max-w-md mb-8">
-                      Whether you need a new Shopify store, a redesign, or help improving
-                      your existing store, let&rsquo;s create an ecommerce experience
-                      designed to look better, work better, and convert better.
-                    </p>
                     <Link
                       href="/contact-us"
                       className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 font-display font-bold uppercase tracking-widest hover:bg-brand-900 border border-[#3432c7] hover:border-brand-900 transition-all duration-300 group whitespace-nowrap"

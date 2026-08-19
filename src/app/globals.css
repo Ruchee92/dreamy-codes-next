@@ -300,6 +300,27 @@ h6 {
     color: var(--color-brand-900);
   }
 
+  /* Bold copy gets the same highlight the rest of the site uses for emphasis
+     (text-[#3432c7] bg-[#3432c7]/10 px-1 rounded). Body copy here is weight
+     300, so 700 gives it a clear step up. The FAQ question is also a <strong>
+     but is a heading in practice, so it is excluded. */
+  .prose-dc :where(p, li, td, th, blockquote) :where(strong, b) {
+    color: #3432c7;
+    background-color: rgb(52 50 199 / 0.1);
+    padding: 0.0625rem 0.25rem;
+    border-radius: 4px;
+    font-weight: 700;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .prose-dc .schema-faq-question,
+  .prose-dc .schema-faq-question strong {
+    color: var(--color-brand-900);
+    background: none;
+    padding: 0;
+    border-radius: 0;
+  }
+
   /* Yoast FAQ block. The question is an inline <strong> at body size with zero
      margins by default, so all three pairs ran together. */
   .prose-dc .schema-faq-section {
@@ -339,6 +360,9 @@ h6 {
     width: 100%;
     height: auto;
     display: block;
+    /* Screenshots in this post are mostly light UI on white, so they bleed
+       into the page without a frame. Matches the card borders elsewhere. */
+    border: 3px solid #e5e7eb;
   }
   .prose-dc :where(figcaption) {
     margin-top: 0.75rem;

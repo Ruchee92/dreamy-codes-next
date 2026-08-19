@@ -66,7 +66,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
               <span className="text-gray-500 flex items-center gap-1"><Clock size={14} /> {readMinutes} min read</span>
             </div>
-            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6 md:mb-8 leading-[1.15] md:leading-[1.1] text-brand-900 max-w-3xl text-balance">
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 md:mb-8 leading-[1.12] md:leading-[1.08] lg:leading-[1.05] text-brand-900 max-w-4xl text-balance">
               {post?.title}
             </h1>
           </div>

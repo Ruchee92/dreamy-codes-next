@@ -348,29 +348,74 @@ h6 {
     text-align: center;
   }
 
-  /* Cells rendered with padding: 0 and no borders — unreadable. Scrolls rather
-     than crushing on narrow viewports. */
-  .prose-dc :where(figure.wp-block-table) { overflow-x: auto; }
-  .prose-dc :where(table) {
+  /* Gutenberg tables carry no <thead>/<th> — the header is just the first <td>
+     row — and are often .has-fixed-layout. Overflow therefore belongs on the
+     figure; putting display:block on the table itself defeats both
+     table-layout:fixed and width:100%, which left the table stranded at a
+     fraction of the column width. */
+  .prose-dc :where(figure.wp-block-table) {
+    margin: 3rem 0;
+    overflow-x: auto;
+    border: 1px solid #e8e8ea;
+    border-radius: 14px;
+    background: #fff;
+  }
+  .prose-dc :where(figure.wp-block-table) table {
     width: 100%;
+    min-width: 32rem;
     border-collapse: collapse;
     font-size: 1rem;
     line-height: 1.6;
-    margin: 3rem 0;
-    display: block;
-    overflow-x: auto;
+    margin: 0;
+    color: #3f4350;
   }
-  .prose-dc :where(th, td) {
-    padding: 0.875rem 1rem;
-    border: 1px solid #e5e7eb;
+  .prose-dc :where(figure.wp-block-table) :where(th, td) {
+    padding: 1rem 1.375rem;
     text-align: left;
     vertical-align: top;
+    border: 0;
+    /* Horizontal rules only — a full grid reads as a spreadsheet. */
+    border-bottom: 1px solid #f0f0f2;
   }
-  .prose-dc :where(th) {
-    background: var(--color-brand-50);
+  .prose-dc :where(figure.wp-block-table) tr:last-child :where(th, td) {
+    border-bottom: 0;
+  }
+  /* First row is the header in practice, even though it is markup-identical. */
+  .prose-dc :where(figure.wp-block-table) tbody tr:first-child :where(td) {
     font-family: var(--font-display);
     font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-brand-900);
+    background: #fafafb;
+    border-bottom: 1px solid #e8e8ea;
     white-space: nowrap;
+  }
+  .prose-dc :where(figure.wp-block-table) tbody tr:not(:first-child):hover :where(td) {
+    background: #fcfcfd;
+  }
+  /* Left column is the label side of a comparison; let it recede slightly. */
+  .prose-dc :where(figure.wp-block-table) tbody tr:not(:first-child) td:first-child {
+    color: #6a6f7e;
+  }
+  .prose-dc :where(figure.wp-block-table) tbody tr:not(:first-child) td:last-child {
+    color: var(--color-brand-900);
+    font-weight: 500;
+  }
+
+  /* Any table not wrapped in a figure still needs to not crush or overflow. */
+  .prose-dc :where(table):not(figure.wp-block-table table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    margin: 3rem 0;
+  }
+  .prose-dc :where(table):not(figure.wp-block-table table) :where(th, td) {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid #e8e8ea;
+    text-align: left;
+    vertical-align: top;
   }
 
   .prose-dc :where(hr) {

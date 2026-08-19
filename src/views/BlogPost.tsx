@@ -20,13 +20,6 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
   const author = post?.author?.node;
   const authorName = author?.name || 'Ruchira Madushan';
 
-  // Deliberately not post.author.node.description. The WordPress bio is a
-  // ~90-word block that arrives HTML-encoded ("Designer &amp; Conversion"),
-  // which renders as a literal entity here since this is printed as text.
-  // Single-author site, so the canonical copy lives with the component.
-  const AUTHOR_BIO =
-    'Ruchira Madushan — "Ruchi" — is the founder of Dreamy Codes and a Shopify Designer & Conversion Rate Specialist with a decade of hands-on Shopify experience. He has redesigned and audited 200+ stores across subscription, beauty, food, lifestyle, and DTC brands, combining design, psychology, and CRO to turn traffic into paying customers — helping clients reach conversion rates above 6% and grow revenue without increasing ad spend.';
-
   // Same portrait as the About page team section.
   const AUTHOR_PORTRAIT =
     'https://wp.dreamycodes.com/wp-content/uploads/2026/08/founder-Ruchi.jpg';
@@ -58,7 +51,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
     <div className="pt-24 md:pt-32">
       {/* Hero / Header */}
       <article>
-        <header className="px-6 lg:px-12 max-w-screen-2xl mx-auto mb-6 md:mb-10">
+        <header className="px-6 lg:px-12 max-w-screen-2xl mx-auto mb-6 md:mb-8">
           <div className="max-w-4xl">
             {/* Category + date + read time */}
             <div className="flex flex-wrap items-center gap-4 mb-8 text-xs font-display font-bold uppercase tracking-widest text-[#3432c7]">
@@ -68,7 +61,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
               <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
               <span className="text-gray-500 flex items-center gap-1"><Clock size={14} /> {readMinutes} min read</span>
             </div>
-            <h1 className="font-display text-4xl md:text-6xl lg:text-8xl font-bold uppercase tracking-tighter mb-6 md:mb-10 leading-[1.05] md:leading-[0.95] lg:leading-[0.85]">
+            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6 md:mb-8 leading-[1.15] md:leading-[1.1] text-brand-900 max-w-3xl text-balance">
               {post?.title}
             </h1>
           </div>
@@ -155,49 +148,74 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                 </div>
               </div>
 
-              {/* ── Author Bio + Work-With-Us CTA ── */}
-              <div className="mt-16 border border-brand-900/10 bg-brand-50/50 p-8 md:p-10 flex flex-col md:flex-row gap-6 md:gap-10 items-start">
-                <div className="flex-shrink-0">
+              {/* ── Author bio and CTA ──────────────────────────────────
+                  One bordered unit, two zones: the CTA reads as a continuation
+                  of the bio rather than a second, unrelated card. The copy is
+                  deliberately service-agnostic so it fits any post topic. */}
+              <div className="mt-16 border border-brand-900/10">
+                {/* Zone 1 — who wrote this */}
+                <div className="bg-brand-50/60 p-8 md:p-10 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
                   <Image
                     src={AUTHOR_PORTRAIT}
                     alt={`${authorName}, founder of Dreamy Codes`}
                     width={112}
                     height={112}
-                    className="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-2 border-brand-900/10"
+                    className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-brand-900/10 flex-shrink-0"
                   />
-                </div>
-                <div>
-                  <p className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-[#3432c7] mb-1">Written by</p>
-                  <p className="font-display text-xl md:text-2xl font-bold uppercase tracking-tighter text-brand-900 mb-1">{authorName}</p>
-                  <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mb-4">
-                    Founder &middot; Shopify Designer &amp; CRO Specialist
-                  </p>
-                  <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg">{AUTHOR_BIO}</p>
-                </div>
-              </div>
-
-              {/* Conversion point for readers who finished the article. */}
-              <div className="mt-8 relative overflow-hidden border border-[#3432c7]/20 bg-[#3432c7]/[0.04] p-8 md:p-12">
-                {/* Accent glow, purely decorative. */}
-                <div className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-[#3432c7]/25 blur-3xl pointer-events-none" aria-hidden="true"></div>
-                <div className="absolute -bottom-28 -left-20 w-72 h-72 rounded-full bg-[#3432c7]/15 blur-3xl pointer-events-none" aria-hidden="true"></div>
-
-                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-                  <div className="max-w-xl">
-                    <h2 className="font-display text-2xl md:text-4xl font-bold uppercase tracking-tighter text-brand-900 mb-3 leading-[1.05]">
-                      Want this fixed on your store?
-                    </h2>
+                  <div>
+                    <p className="text-[10px] font-display font-bold uppercase tracking-[0.2em] text-[#3432c7] mb-1.5">
+                      Written by
+                    </p>
+                    <p className="font-display text-xl md:text-2xl font-bold uppercase tracking-tight text-brand-900 leading-tight">
+                      {authorName}
+                    </p>
+                    <p className="text-[10px] font-display font-bold uppercase tracking-widest text-gray-500 mt-1.5 mb-4">
+                      Founder &middot; Shopify Designer &amp; CRO Specialist
+                    </p>
                     <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg">
-                      Get a free teardown of your Shopify store &mdash; the exact conversion leaks costing you sales, and what to fix first.
+                      Ruchira Madushan, known as &ldquo;Ruchi,&rdquo; is the founder of{' '}
+                      <Link
+                        href="/"
+                        className="text-[#3432c7] underline underline-offset-[3px] decoration-1 font-normal hover:text-brand-900 transition-colors"
+                      >
+                        Dreamy Codes
+                      </Link>{' '}
+                      and a Shopify designer and CRO specialist with a decade of hands-on
+                      experience. He has designed and optimized Shopify stores for brands
+                      across multiple industries, combining strategy, design, and
+                      conversion-focused thinking to create better ecommerce experiences.
                     </p>
                   </div>
-                  <Link
-                    href="/contact-us"
-                    className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-[#3432c7] border border-[#3432c7] transition-all duration-300 group whitespace-nowrap self-start lg:self-auto"
-                  >
-                    <span>Let&apos;s Talk</span>
-                    <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
-                  </Link>
+                </div>
+
+                {/* Zone 2 — the ask. Shares the border, so it reads as one block. */}
+                <div className="relative overflow-hidden border-t border-brand-900/10 bg-[#3432c7]/[0.05] p-8 md:p-12">
+                  <div
+                    className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-[#3432c7]/25 blur-3xl pointer-events-none"
+                    aria-hidden="true"
+                  ></div>
+                  <div
+                    className="absolute -bottom-28 -left-20 w-72 h-72 rounded-full bg-[#3432c7]/15 blur-3xl pointer-events-none"
+                    aria-hidden="true"
+                  ></div>
+
+                  <div className="relative z-10">
+                    <h2 className="font-display text-2xl md:text-4xl font-bold uppercase tracking-tighter text-brand-900 mb-4 leading-[1.05] max-w-2xl">
+                      Ready to build a better Shopify store?
+                    </h2>
+                    <p className="text-gray-600 font-light leading-relaxed text-base md:text-lg max-w-2xl mb-8">
+                      Whether you need a new Shopify store, a redesign, or help improving
+                      your existing store, let&rsquo;s create an ecommerce experience
+                      designed to look better, work better, and convert better.
+                    </p>
+                    <Link
+                      href="/contact-us"
+                      className="inline-flex items-center justify-center gap-4 bg-[#3432c7] text-white px-8 md:px-10 py-5 font-display font-bold uppercase tracking-widest hover:bg-white hover:text-[#3432c7] border border-[#3432c7] transition-all duration-300 group whitespace-nowrap"
+                    >
+                      <span>Let&rsquo;s Work Together</span>
+                      <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
+                    </Link>
+                  </div>
                 </div>
               </div>
 

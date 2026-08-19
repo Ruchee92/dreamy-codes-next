@@ -1,4 +1,5 @@
 import { sanitizeUrl, sanitizeMediaUrl } from "@/components/SEO";
+import { cache } from "react";
 
 // One spelling of the brand everywhere. Google was picking its own site name
 // because the schema said "DreamyCodes" and og:site_name said "Dreamy Codes".
@@ -78,13 +79,41 @@ const SEO_FIELDS = `
             metaRobotsNofollow
             schema { raw }`;
 
-export async function getWordPressSEO(id: string, type: "page" | "post" = "page") {
+export const getWordPressSEO = cache(async function getWordPressSEO(id: string, type: "page" | "post" = "page") {
   const normalizedId = id === "/" ? "/" : `/${id.replace(/^\//, "").replace(/\/$/, "")}/`;
+
+  // Posts are looked up by slug, not URI. The WordPress permalink structure
+  // (/blog/%postname%/, dated, or plain) does not have to match the Next.js
+  // route for this to resolve. The URI lookup below returns null whenever the
+  // two differ, and posts have none of the fallbacks pages get, so the Yoast
+  // schema — FAQPage included — was dropped silently.
+  if (type === "post") {
+    const slug = id.replace(/^\//, "").replace(/\/$/, "");
+
+    try {
+      const data = await fetchFromWordPress(`
+        query GetPostSEO($id: ID!) {
+          post(id: $id, idType: SLUG) {
+            seo {
+${SEO_FIELDS}
+            }
+          }
+        }
+      `, { id: slug });
+
+      const seo = data?.post?.seo;
+      if (!seo) return null;
+      return formatSeo(seo, "article");
+    } catch (error) {
+      console.error(`Error in getWordPressSEO for post ${slug}:`, error);
+      return null;
+    }
+  }
 
   try {
     // Only use URI for pages as SLUG is not a valid PageIdType
     const query = `
-      query GetSEO($id: ID!, $idType: ${type === "page" ? "PageIdType" : "PostIdType"}) {
+      query GetSEO($id: ID!, $idType: PageIdType) {
         ${type}(id: $id, idType: $idType) {
           seo {
 ${SEO_FIELDS}
@@ -143,13 +172,14 @@ ${SEO_FIELDS}
     }
 
     if (!seo) return null;
-    return formatSeo(seo, type === "post" ? "article" : "website");
+    // Only pages reach this point; posts return above.
+    return formatSeo(seo, "website");
 
   } catch (error) {
     console.error(`Error in getWordPressSEO for ${id}:`, error);
     return null;
   }
-}
+});
 
 function formatSeo(seo: any, ogType: "website" | "article" = "website") {
   const canonicalUrl = sanitizeUrl(seo.canonical) || "https://dreamycodes.com";

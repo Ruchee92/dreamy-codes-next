@@ -81,6 +81,12 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     notFound();
   }
 
+  // A missing schema means the Yoast lookup failed, not that the post has no
+  // SEO. It previously rendered as nothing at all, with no signal anywhere.
+  if (!seoData?.schema) {
+    console.warn(`[SEO] No Yoast schema returned for post "${slug}"`);
+  }
+
   return (
     <main id="main-content" className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100 selection:text-brand-900">
       <JsonLd schema={seoData?.schema} />

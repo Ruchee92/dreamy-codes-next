@@ -21,7 +21,7 @@ import LogoMarquee from '../components/LogoMarquee';
 import ContactSection from '../components/ContactSection';
 import { scrollIntoViewRespectingMotionPreference, prefersReducedMotion } from '../utils/motion';
 
-const DrawInWord = ({ text, delay = 0.55, duration = 1.2 }: { text: string; delay?: number; duration?: number }) => {
+const DrawInWord = ({ text, delay = 0.1, duration = 0.6 }: { text: string; delay?: number; duration?: number }) => {
   const textRef = useRef<SVGTextElement>(null);
   const revealedRef = useRef(false);
   const [box, setBox] = useState({ x: 0, y: 0, width: 0, height: 0 });
@@ -132,7 +132,7 @@ const Hero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-8 items-start relative z-10">
           <div className="lg:col-span-9">
             <h1 className="font-display text-[13vw] sm:text-[10vw] md:text-8xl lg:text-[7rem] font-bold leading-[1.02] md:leading-[0.92] tracking-tighter uppercase whitespace-nowrap">
-              <div className="animate-hero-fade-up" style={{ animationDelay: '0.15s' }}>
+              <div className="animate-hero-fade-up" style={{ animationDelay: '0.05s' }}>
                 We engineer
               </div>
               {/* The drawn outline is the only copy of this word in the DOM.
@@ -145,16 +145,16 @@ const Hero = () => {
               <div className="relative">
                 <div className="h-[1.02em] md:h-[0.92em]" aria-hidden="true"></div>
                 <div className="absolute inset-0 flex items-center">
-                  <DrawInWord text="e-commerce" delay={0.55} duration={1.2} />
+                  <DrawInWord text="e-commerce" delay={0.1} duration={0.6} />
                 </div>
               </div>
-              <div className="animate-hero-fade-up" style={{ animationDelay: '1.45s' }}>
+              <div className="animate-hero-fade-up" style={{ animationDelay: '0.35s' }}>
                 for scale.
               </div>
             </h1>
           </div>
           <div className="lg:col-span-3 pb-4">
-            <p className="animate-hero-fade-up text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-6 md:mb-8" style={{ animationDelay: '1.85s' }}>
+            <p className="animate-hero-fade-up text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-6 md:mb-8" style={{ animationDelay: '0.45s' }}>
               Scaling is tough. <br />
               Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">high-converting storefront</span> so you can focus on D2C growth.
             </p>
@@ -169,7 +169,12 @@ const Hero = () => {
                   // the 307px it measured when the label read "Book Strategy
                   // Call", so shortening the text did not shrink the button.
                   className="animate-hero-fade-up inline-flex flex-1 min-w-0 items-center justify-between px-4 sm:px-8 py-4 md:flex-none md:w-auto md:min-w-[307px] md:gap-4 bg-[#3432c7] text-white hover:bg-white hover:text-[#3432c7] border border-[#3432c7] font-display font-bold text-lg uppercase tracking-wider group transition-all duration-300 cursor-pointer whitespace-nowrap"
-                  style={{ animationDelay: '2.15s' }}
+                  style={{ animationDelay: '0.55s' }}
+                  // The footer carries a "Contact Us" link to /contact-us. This
+                  // one jumps to the form further down this page, so it needs a
+                  // distinct accessible name — identical text pointing at two
+                  // destinations is what Lighthouse flags.
+                  aria-label="Contact us — go to the enquiry form on this page"
                 >
                   <span>Contact Us</span>
                   <ArrowRight className="transform group-hover:translate-x-2 transition-transform" />
@@ -181,14 +186,14 @@ const Hero = () => {
                   // one line and neither able to wrap, every pixel saved here
                   // is a pixel the primary CTA gains.
                   className="animate-hero-fade-up inline-flex flex-shrink-0 items-center gap-1.5 sm:gap-2 font-display font-bold text-[11px] sm:text-sm uppercase tracking-[0.08em] sm:tracking-[0.2em] text-brand-900/60 hover:text-brand-900 transition-colors cursor-pointer group whitespace-nowrap"
-                  style={{ animationDelay: '2.45s' }}
+                  style={{ animationDelay: '0.60s' }}
                 >
                   <span>View Our Work</span>
                   <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
 
-              <div className="animate-hero-fade-up flex items-center gap-3" style={{ animationDelay: '2.75s' }}>
+              <div className="animate-hero-fade-up flex items-center gap-3" style={{ animationDelay: '0.65s' }}>
                 <div className="flex -space-x-3 flex-shrink-0">
                   {[
                     "https://wp.dreamycodes.com/wp-content/uploads/2026/03/B9031D87-783F-403F-8E3D-CFFD27DFF404.jpeg",
@@ -770,7 +775,7 @@ const Counter = ({ value, duration = 2 }: { value: string, duration?: number }) 
 
 const StatsSection = () => {
   const stats = [
-    { value: "$19M+", label: "Client Revenue Generated" },
+    { value: "$4M+", label: "Client Revenue Generated" },
     { value: "300+", label: "Stores Launched & Scaled" },
     { value: "2.4x", label: "Average ROI Increase" },
     { value: "4%", label: "AVG. Conversion Rate" }
@@ -924,7 +929,7 @@ const FounderStory = () => {
               className="self-start inline-flex items-center gap-3 font-display font-bold uppercase text-xs sm:text-sm text-brand-900 border-b-2 border-brand-900 pb-1.5 hover:gap-4 transition-all duration-300 group"
               style={{ letterSpacing: '0.15em' }}
             >
-              <span>Read More</span>
+              <span>Read More About Dreamy Codes</span>
               <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

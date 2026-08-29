@@ -18,7 +18,8 @@
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "resend": "^6.10.0"
+    "resend": "^6.10.0",
+    "shaders": "^3.1.463"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

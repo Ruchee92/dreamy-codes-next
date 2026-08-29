@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useLayoutEffect, useRef, useId } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useId, useSyncExternalStore } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -16,12 +16,53 @@ import {
   MessageSquare,
   ShieldCheck
 } from 'lucide-react';
-import FloatingParticles from '../components/FloatingParticles';
+import dynamic from 'next/dynamic';
 import LogoMarquee from '../components/LogoMarquee';
 import ContactSection from '../components/ContactSection';
 import { scrollIntoViewRespectingMotionPreference, prefersReducedMotion } from '../utils/motion';
 
-const DrawInWord = ({ text, delay = 0.1, duration = 0.6 }: { text: string; delay?: number; duration?: number }) => {
+// WebGPU canvas — client-only, so nothing shader-related runs during SSR.
+const GlassHeroBackground = dynamic(() => import('../components/GlassHeroBackground'), { ssr: false });
+
+// Releases the hero copy once the shader backdrop has painted — and, failing
+// that, on a short timer. It runs while the HTML is still parsing rather than
+// at hydration, so the headline (the LCP element) is never waiting on the
+// JavaScript bundle. `hero-backdrop-ready` comes from GlassHeroBackground.
+const HERO_STAGE_BOOT = `(function(){
+  var stage = document.currentScript && document.currentScript.parentElement;
+  if (!stage) return;
+  var done = false, timer;
+  function reveal() {
+    if (done) return;
+    done = true;
+    clearTimeout(timer);
+    document.removeEventListener('hero-backdrop-ready', reveal);
+    stage.classList.add('is-ready');
+    window.__heroStageReady = true;
+    document.dispatchEvent(new Event('hero-stage-ready'));
+  }
+  document.addEventListener('hero-backdrop-ready', reveal);
+  timer = setTimeout(reveal, 700);
+})();`;
+
+// React-side mirror of the same signal, for the parts of the hero that animate
+// in JavaScript rather than CSS. The stage flag is set outside React by the
+// script above, so it is read as an external store: the server always renders
+// the un-revealed state, and the client picks up whatever has happened by the
+// time it hydrates.
+const subscribeToHeroStage = (onChange: () => void) => {
+  document.addEventListener('hero-stage-ready', onChange, { once: true });
+  return () => document.removeEventListener('hero-stage-ready', onChange);
+};
+
+const useHeroStageReady = () =>
+  useSyncExternalStore(
+    subscribeToHeroStage,
+    () => !!(window as unknown as { __heroStageReady?: boolean }).__heroStageReady,
+    () => false
+  );
+
+const DrawInWord = ({ text, delay = 0.1, duration = 0.6, start = true }: { text: string; delay?: number; duration?: number; start?: boolean }) => {
   const textRef = useRef<SVGTextElement>(null);
   const revealedRef = useRef(false);
   const [box, setBox] = useState({ x: 0, y: 0, width: 0, height: 0 });
@@ -49,6 +90,14 @@ const DrawInWord = ({ text, delay = 0.1, duration = 0.6 }: { text: string; delay
     window.addEventListener('resize', measure);
     document.fonts?.ready?.then(measure);
 
+    // Hold the undrawn outline until the shader backdrop is up. The effect
+    // re-runs when `start` flips, and the timers below schedule from there.
+    if (!start) {
+      return () => {
+        window.removeEventListener('resize', measure);
+      };
+    }
+
     const timer = setTimeout(() => {
       if (!textRef.current) return;
       textRef.current.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.22, 1, 0.36, 1)`;
@@ -74,7 +123,7 @@ const DrawInWord = ({ text, delay = 0.1, duration = 0.6 }: { text: string; delay
       clearTimeout(timer);
       clearTimeout(settle);
     };
-  }, [text, delay, duration]);
+  }, [text, delay, duration, start]);
 
   return (
     <svg
@@ -111,23 +160,22 @@ const DrawInWord = ({ text, delay = 0.1, duration = 0.6 }: { text: string; delay
 const currentQuarter = () => `Q${Math.floor(new Date().getMonth() / 3) + 1}`;
 
 const Hero = () => {
+  const ready = useHeroStageReady();
+
   return (
-    <section className="relative bg-grid-pattern pt-28 pb-16 md:pt-40 md:pb-32 min-h-[8vh] flex flex-col justify-center overflow-hidden">
-      <FloatingParticles />
+    <section className="relative pt-28 pb-16 md:pt-40 md:pb-32 min-h-[8vh] flex flex-col justify-center">
+      {/* Without JS the stage never gets marked ready, so let the entrance
+          animations run on their own rather than leaving the copy hidden. */}
+      <noscript>
+        <style>{`.hero-stage .animate-hero-fade-up { animation-play-state: running !important; }`}</style>
+      </noscript>
 
-      <div className="absolute top-1/4 right-[10%] w-[500px] h-[500px] bg-gray-200 rounded-full mix-blend-multiply filter blur-[100px] animate-slow-glow -z-10"></div>
-      <div className="absolute bottom-0 left-[10%] w-[400px] h-[400px] bg-gray-100 rounded-full mix-blend-multiply filter blur-[80px] animate-slow-glow -z-10" style={{ animationDelay: '4s' }}></div>
-
-      <div className="px-6 lg:px-12 max-w-screen-2xl mx-auto w-full pb-5 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center gap-3 mt-4 md:mt-0 mb-5 md:mb-8 relative z-10"
-        >
+      <div className="hero-stage px-6 lg:px-12 max-w-screen-2xl mx-auto w-full pb-5 relative z-10">
+        <script dangerouslySetInnerHTML={{ __html: HERO_STAGE_BOOT }} />
+        <div className="animate-hero-fade-up flex items-center gap-3 mt-4 md:mt-0 mb-5 md:mb-8 relative z-10">
           <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-blink"></div>
           <p className="font-display font-bold text-brand-900/60 uppercase text-[10px] md:text-sm" style={{ letterSpacing: '0.2rem' }}>ACCEPTING PARTNERS FOR {currentQuarter()}</p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-8 items-start relative z-10">
           <div className="lg:col-span-9">
@@ -145,7 +193,7 @@ const Hero = () => {
               <div className="relative">
                 <div className="h-[1.02em] md:h-[0.92em]" aria-hidden="true"></div>
                 <div className="absolute inset-0 flex items-center">
-                  <DrawInWord text="e-commerce" delay={0.1} duration={0.6} />
+                  <DrawInWord text="e-commerce" delay={0.1} duration={0.6} start={ready} />
                 </div>
               </div>
               <div className="animate-hero-fade-up" style={{ animationDelay: '0.35s' }}>
@@ -953,7 +1001,11 @@ const Home = () => {
 
   return (
     <div>
-      <div className="relative">
+      {/* The backdrop spans the hero AND the black marquee band below it, so
+          the corners the marquee's diagonal leaves uncovered show the shader
+          rather than bare white. */}
+      <div className="relative isolate bg-white overflow-hidden">
+        <GlassHeroBackground />
         <Hero />
         <LogoMarquee className="-mt-12 md:-mt-24" />
       </div>

@@ -172,6 +172,15 @@ html {
     animation: hero-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
+  /* The hero copy enters after the shader backdrop has painted. Until the
+     stage is marked ready the entrance animations sit paused on their first
+     frame, so the delays below stay relative to the reveal rather than to
+     page load. Reduced motion wins: the rule further down sets
+     `animation: none`, which this cannot pause. */
+  .hero-stage:not(.is-ready) .animate-hero-fade-up {
+    animation-play-state: paused;
+  }
+
   .animate-hero-draw-in {
     animation: hero-draw-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
   }

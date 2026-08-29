@@ -45,6 +45,8 @@ const HERO_STAGE_BOOT = `(function(){
   timer = setTimeout(reveal, 700);
 })();`;
 
+type HeroStageWindow = Window & { __heroStageReady?: boolean };
+
 // React-side mirror of the same signal, for the parts of the hero that animate
 // in JavaScript rather than CSS. The stage flag is set outside React by the
 // script above, so it is read as an external store: the server always renders
@@ -58,7 +60,7 @@ const subscribeToHeroStage = (onChange: () => void) => {
 const useHeroStageReady = () =>
   useSyncExternalStore(
     subscribeToHeroStage,
-    () => !!(window as unknown as { __heroStageReady?: boolean }).__heroStageReady,
+    () => !!(window as HeroStageWindow).__heroStageReady,
     () => false
   );
 
@@ -161,6 +163,38 @@ const currentQuarter = () => `Q${Math.floor(new Date().getMonth() / 3) + 1}`;
 
 const Hero = () => {
   const ready = useHeroStageReady();
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  // The inline script below only runs while the HTML is being parsed:
+  // `document.currentScript` is null when React inserts that node during a
+  // client-side render, so arriving here from another route would leave the
+  // copy paused for good. Re-arm the same reveal from React on mount. The
+  // class is set on the node directly rather than through `className`, so
+  // React never owns it and cannot undo what the inline script did.
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || stage.classList.contains('is-ready')) return;
+
+    if ((window as HeroStageWindow).__heroStageReady) {
+      // Revealed on an earlier visit this session — no need to stage it again.
+      stage.classList.add('is-ready');
+      return;
+    }
+
+    const reveal = () => {
+      stage.classList.add('is-ready');
+      (window as HeroStageWindow).__heroStageReady = true;
+      document.dispatchEvent(new Event('hero-stage-ready'));
+    };
+
+    document.addEventListener('hero-backdrop-ready', reveal, { once: true });
+    const timer = setTimeout(reveal, 700);
+
+    return () => {
+      document.removeEventListener('hero-backdrop-ready', reveal);
+      clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <section className="relative pt-28 pb-16 md:pt-40 md:pb-32 min-h-[8vh] flex flex-col justify-center">
@@ -170,7 +204,7 @@ const Hero = () => {
         <style>{`.hero-stage .animate-hero-fade-up { animation-play-state: running !important; }`}</style>
       </noscript>
 
-      <div className="hero-stage px-6 lg:px-12 max-w-screen-2xl mx-auto w-full pb-5 relative z-10">
+      <div ref={stageRef} className="hero-stage px-6 lg:px-12 max-w-screen-2xl mx-auto w-full pb-5 relative z-10">
         <script dangerouslySetInnerHTML={{ __html: HERO_STAGE_BOOT }} />
         <div className="animate-hero-fade-up flex items-center gap-3 mt-4 md:mt-0 mb-5 md:mb-8 relative z-10">
           <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-blink"></div>

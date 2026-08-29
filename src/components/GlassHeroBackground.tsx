@@ -49,7 +49,11 @@ const GlassHeroBackground = () => {
         leftColor="#56c2fc"
         rightColor="#5b4fff"
         upColor="#7f66ff"
-        momentum={13}
+        // 13 sat at the bottom of the 10-60 range, so colour died almost as
+        // soon as it was laid down — with no cursor to feed it, phones saw
+        // static texture. 35 leaves a visible wake behind a scroll.
+        momentum={35}
+        intensity={1.2}
         radius={3.5}
       />
       <FlutedGlass

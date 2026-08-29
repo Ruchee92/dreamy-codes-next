@@ -204,7 +204,7 @@ const Hero = () => {
           <div className="lg:col-span-3 pb-4">
             <p className="animate-hero-fade-up text-lg md:text-xl text-gray-600 font-light leading-relaxed mb-6 md:mb-8" style={{ animationDelay: '0.45s' }}>
               Scaling is tough. <br />
-              Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-[#3432c7] bg-[#3432c7]/10 px-1 rounded">high-converting storefront</span> so you can focus on D2C growth.
+              Let our <span className="font-bold">Shopify experts</span> engineer your <span className="text-[#3432c7]">high-converting storefront</span> so you can focus on D2C growth.
             </p>
             <div className="flex flex-col gap-6 md:gap-8">
               {/* One row from the smallest screens up, stacking only at lg

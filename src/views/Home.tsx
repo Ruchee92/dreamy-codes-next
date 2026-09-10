@@ -803,9 +803,18 @@ const Capability = ({ title, description, icon: Icon, details }: { title: string
   );
 };
 
+// Renders large figures compactly: 100000 -> 100K, 1000000 -> 1M
+const formatCompact = (n: number) => {
+  if (n >= 1_000_000) {
+    const m = n / 1_000_000;
+    return `${m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)}M`;
+  }
+  return `${Math.floor(n / 1000)}K`;
+};
+
 // ADDED TYPES HERE
-const Counter = ({ value, duration = 2 }: { value: string, duration?: number }) => {
-  const [count, setCount] = useState(0);
+const Counter = ({ value, duration = 2, from, to }: { value: string, duration?: number, from?: number, to?: number }) => {
+  const [count, setCount] = useState(from ?? 0);
   const [ref, setRef] = useState<HTMLSpanElement | null>(null);
   const [isInView, setIsInView] = useState(false);
 
@@ -823,7 +832,8 @@ const Counter = ({ value, duration = 2 }: { value: string, duration?: number }) 
 
   useEffect(() => {
     if (!isInView) return;
-    const numericValue = parseFloat(value.replace(/[^0-9.]/g, ''));
+    const start = from ?? 0;
+    const numericValue = to ?? parseFloat(value.replace(/[^0-9.]/g, ''));
 
     // The count-up runs on a timer, so the reduced-motion rules in globals.css
     // cannot stop it. Jump straight to the final figure instead.
@@ -841,25 +851,28 @@ const Counter = ({ value, duration = 2 }: { value: string, duration?: number }) 
         setCount(numericValue);
         clearInterval(timer);
       } else {
-        setCount(numericValue * progress);
+        setCount(start + (numericValue - start) * progress);
       }
     }, 1000 / 60);
     return () => clearInterval(timer);
-  }, [isInView, value, duration]);
+  }, [isInView, value, duration, from, to]);
 
   const formattedCount = value.includes('.') ? count.toFixed(1) : Math.floor(count);
-  const displayValue = value.startsWith('$')
-    ? `$${formattedCount}${value.replace(/[0-9.$]/g, '')}`
-    : `${formattedCount}${value.replace(/[0-9.]/g, '')}`;
+  const suffix = value.replace(/[0-9.$KM]/g, '');
+  const displayValue = to !== undefined
+    ? `${value.startsWith('$') ? '$' : ''}${formatCompact(count)}${suffix}`
+    : value.startsWith('$')
+      ? `$${formattedCount}${value.replace(/[0-9.$]/g, '')}`
+      : `${formattedCount}${value.replace(/[0-9.]/g, '')}`;
 
   return <span ref={setRef}>{displayValue}</span>;
 };
 
 const StatsSection = () => {
-  const stats = [
-    { value: "$4M+", label: "Client Revenue Generated" },
-    { value: "300+", label: "Stores Launched & Scaled" },
-    { value: "2.4x", label: "Average ROI Increase" },
+  const stats: { value: string; label: string; from?: number; to?: number }[] = [
+    { value: "$2M+", from: 100000, to: 2000000, label: "Revenue Lift Attributed" },
+    { value: "300+", label: "Projects Completed" },
+    { value: "2.4x", label: "AVG. ROI on CRO Engagements" },
     { value: "4%", label: "AVG. Conversion Rate" }
   ];
   return (
@@ -869,7 +882,7 @@ const StatsSection = () => {
           {stats.map((stat, i) => (
             <div key={i} className={`text-center group px-4 py-12 md:py-0 ${i % 2 === 0 ? 'border-r border-brand-900/10' : ''} ${i < 2 ? 'border-b border-brand-900/10 lg:border-b-0' : ''} ${i % 2 !== 0 ? 'lg:border-r lg:border-brand-900/10' : ''} ${i === 1 ? 'lg:border-r lg:border-brand-900/10' : ''} ${i === 2 ? 'lg:border-r lg:border-brand-900/10' : ''} ${i === 3 ? 'lg:border-r-0' : ''}`}>
               <div className="font-display text-5xl md:text-7xl font-bold mb-4 tracking-tighter group-hover:scale-110 transition-transform duration-500">
-                <Counter value={stat.value} />
+                <Counter value={stat.value} from={stat.from} to={stat.to} />
               </div>
               <p className="text-xs md:text-sm uppercase tracking-[0.2em] font-bold text-gray-500">{stat.label}</p>
             </div>

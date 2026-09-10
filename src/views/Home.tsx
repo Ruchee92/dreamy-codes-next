@@ -298,7 +298,7 @@ const Hero = () => {
                   ))}
                 </div>
                 <p className="text-xs md:text-sm font-display font-light uppercase tracking-widest text-brand-900/70 leading-tight md:whitespace-nowrap">
-                  Trusted by 300+ <br /> Shopify merchants
+                  Rated 5.0 by <br /> Shopify founders
                 </p>
               </div>
             </div>

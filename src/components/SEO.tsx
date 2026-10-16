@@ -57,9 +57,16 @@ export function JsonLd({ schema }: SEOProps) {
   // to the front domain, uploads to WordPress. Yoast emits both against the
   // site URL, which left the logo and image nodes pointing at dead URLs.
   const sanitizedSchema = schema
-    .replace(/https:\/\/(?:wp\.)?dreamycodes\.com[^"\\\s]*/g, (match) =>
-      isMediaUrl(match) ? sanitizeMediaUrl(match) : match.replace(WP_HOST, SITE_HOST)
-    )
+    .replace(/https:\/\/(?:wp\.)?dreamycodes\.com[^"\\\s]*/g, (match) => {
+      if (isMediaUrl(match)) return sanitizeMediaUrl(match);
+      // Page URLs match the canonicals (SEO M6): no trailing slash (root and
+      // #fragments kept), and the WordPress author archive, which has no
+      // front-end page, points at /about. One URL per call, so ^/$ are its bounds.
+      return match
+        .replace(WP_HOST, SITE_HOST)
+        .replace(/^(https:\/\/dreamycodes\.com\/.+?)\/(?=#|$)/, "$1")
+        .replace(/^https:\/\/dreamycodes\.com\/blog\/author\/[^/#]+$/, `${SITE_HOST}/about`);
+    })
     // The schema arrives as raw text from WordPress and is injected without
     // React escaping it. Escaping "<" keeps a stray "</script>" in any SEO
     // field from closing this tag early and injecting markup into the page.

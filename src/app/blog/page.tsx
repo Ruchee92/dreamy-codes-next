@@ -3,21 +3,15 @@ import type { Metadata } from 'next';
 import BlogPage from '@/views/Blog';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { fetchFromWordPress, getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
+import { buildMetadata, fetchFromWordPress, getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
 import { JsonLd } from '@/components/SEO';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getWordPressSEO("/blog");
-  if (!seo) return { title: 'Journal | Dreamy Codes', description: 'Engineering, design, and conversion strategies for the modern D2C founder.' };
-
-  return {
-    title: seo.title,
-    description: seo.description,
-    alternates: seo.alternates,
-    openGraph: seo.openGraph,
-    twitter: seo.twitter,
-    robots: seo.robots,
-  };
+  return buildMetadata(await getWordPressSEO("/blog"), {
+    path: "/blog",
+    title: "Journal | Dreamy Codes",
+    description: "Engineering, design, and conversion strategies for the modern D2C founder.",
+  });
 }
 
 export default async function Blog() {

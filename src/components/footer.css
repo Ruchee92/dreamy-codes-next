@@ -1,0 +1,199 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Shared footer (D-031). Plain CSS with an `ft-` prefix so it is the same on every
+   route, independent of the homepage's .h-root tokens (values mirror home.css).
+   Motion is hover/focus only: transform/opacity, off under reduced motion.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.ft {
+  --ft-bg: #0a0a0b;
+  --ft-text: #f5f5f4;
+  --ft-link: #c4c4ca;
+  --ft-muted: #9c9ca3;  /* 7.4:1 on --ft-bg */
+  --ft-rule: rgba(255, 255, 255, 0.14);
+  --ft-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ft-pad: 20px;
+
+  background: var(--ft-bg);
+  color: var(--ft-text);
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+.ft ::selection { background: #3432c7; color: #fff; }
+
+.ft-wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: 72px var(--ft-pad) 0;
+}
+@media (min-width: 768px) { .ft { --ft-pad: 32px; } }
+@media (min-width: 1024px) {
+  .ft { --ft-pad: 48px; }
+  .ft-wrap { padding-top: 112px; }
+}
+@media (min-width: 1536px) { .ft-wrap { max-width: 1536px; } }
+
+/* ── Row 1: the email ─────────────────────────────────────────────────────── */
+.ft-top { display: grid; gap: 32px; padding-bottom: 56px; }
+.ft-email {
+  display: block;
+  justify-self: start;
+  max-width: 100%;
+  color: var(--ft-text);
+  text-decoration: none;
+  font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  /* Always one line (Ruchi): the address plus the arrow is ~12.3em, so phones size
+     it to the content width (100vw minus the 20px gutters). */
+  font-size: clamp(20px, calc((100vw - 40px) / 12.6), 44px);
+  white-space: nowrap;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+.ft-email-text {
+  position: relative;
+  padding-bottom: 0.06em;
+}
+/* Underline that draws in from the left on hover / focus. */
+.ft-email-text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 500ms var(--ft-ease);
+}
+/* Inline, so it rides on the last line of the address wherever that wraps. */
+.ft-email-arrow {
+  display: inline-block;
+  vertical-align: top;
+  width: 0.62em;
+  height: 0.62em;
+  margin: 0.06em 0 0 0.12em;
+  color: var(--ft-muted);
+  transition: transform 400ms var(--ft-ease), color 200ms ease;
+}
+.ft-email:hover .ft-email-text::after,
+.ft-email:focus-visible .ft-email-text::after { transform: scaleX(1); }
+.ft-email:hover .ft-email-arrow,
+.ft-email:focus-visible .ft-email-arrow { transform: translate(0.08em, -0.08em); color: var(--ft-text); }
+
+.ft-aside { display: grid; gap: 12px; justify-items: start; max-width: 34ch; }
+.ft-tagline { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ft-muted); }
+
+@media (min-width: 640px) {
+  .ft-email { font-size: clamp(44px, 6.6vw, 64px); }
+}
+@media (min-width: 1024px) {
+  .ft-top {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: end;
+    padding-bottom: 80px;
+  }
+  .ft-email { grid-column: 1 / 10; font-size: clamp(48px, 4.8vw, 72px); }
+  .ft-aside { grid-column: 10 / 13; justify-self: end; padding-bottom: 0.4em; }
+}
+
+/* ── Row 2: brand + link columns ──────────────────────────────────────────── */
+.ft-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 16px;
+  padding: 48px 0 56px;
+  border-top: 1px solid var(--ft-rule);
+}
+.ft-brand { grid-column: 1 / -1; display: grid; gap: 24px; justify-items: start; }
+.ft-logo { display: inline-block; }
+.ft-logo-img { display: block; width: 210px; height: auto; }
+@media (min-width: 1024px) { .ft-logo-img { width: 240px; } }
+
+.ft-socials { list-style: none; margin: 0 0 0 -12px; padding: 0; display: flex; flex-wrap: wrap; }
+.ft-social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ft-muted);
+  transition: color 200ms ease;
+}
+.ft-social:hover { color: #fff; }
+
+.ft-col { min-width: 0; }
+.ft-col-title { margin: 0 0 8px; font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--ft-muted); }
+.ft-list { list-style: none; margin: 0; padding: 0; }
+.ft-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px; /* D-076: tighter rows on phones (still a comfortable tap target); desktop below */
+  max-width: 100%;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ft-link);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: color 200ms ease;
+}
+.ft-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(50% - 0.85em);
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 400ms var(--ft-ease);
+}
+.ft-link:hover, .ft-link:focus-visible { color: #fff; }
+.ft-link:hover::after, .ft-link:focus-visible::after { transform: scaleX(1); }
+
+/* Phones: link columns first, then logo + socials. */
+@media (max-width: 767px) {
+  .ft-brand { order: 1; }
+}
+@media (min-width: 768px) {
+  .ft-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .ft-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; padding: 56px 0 72px; }
+  .ft-brand { grid-column: 1 / 5; align-content: start; }
+  .ft-col--company { grid-column: 8 / 10; }
+  .ft-col--legal { grid-column: 10 / 13; }
+  .ft-col-title { margin-bottom: 16px; }
+}
+/* Fine pointers get a calmer rhythm: 32px rows instead of 44px. */
+@media (min-width: 1024px) and (pointer: fine) {
+  .ft-link { min-height: 32px; }
+}
+
+/* ── Bottom bar ───────────────────────────────────────────────────────────── */
+.ft-bar {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 20px;
+  /* Phones/tablets: the WhatsApp launcher (fixed, bottom-right, ~56px) never sits
+     on the copyright or badge, even at the very end of the page. */
+  padding: 28px 0 104px;
+  border-top: 1px solid var(--ft-rule);
+}
+.ft-copy { margin: 0; font-size: 13px; line-height: 1.5; color: var(--ft-muted); }
+.ft-badge { display: block; width: auto; height: 28px; }
+@media (min-width: 1024px) {
+  /* Desktop: one row; the bottom padding keeps the badge clear of the launcher. */
+  .ft-bar { flex-direction: row; align-items: center; justify-content: space-between; padding: 28px 0 112px; }
+}
+
+/* ── Focus + reduced motion ───────────────────────────────────────────────── */
+.ft a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 1px; }
+@media (prefers-reduced-motion: reduce) {
+  .ft-email-text::after, .ft-email-arrow, .ft-link, .ft-link::after, .ft-social { transition: none; }
+}

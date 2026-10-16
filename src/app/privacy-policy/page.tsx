@@ -3,21 +3,15 @@ import type { Metadata } from 'next';
 import PrivacyPolicyPage from '@/views/PrivacyPolicy';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
+import { buildMetadata, getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
 import { JsonLd } from '@/components/SEO';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getWordPressSEO("/privacy-policy");
-  if (!seo) return { title: 'Privacy Policy | Dreamy Codes' };
-
-  return {
-    title: seo.title,
-    description: seo.description,
-    alternates: seo.alternates,
-    openGraph: seo.openGraph,
-    twitter: seo.twitter,
-    robots: seo.robots,
-  };
+  return buildMetadata(await getWordPressSEO("/privacy-policy"), {
+    path: "/privacy-policy",
+    title: "Privacy Policy | Dreamy Codes",
+    description: "Read the Privacy Policy for Dreamy Codes. Learn how our Shopify Web Development Agency securely collects, uses, and protects your personal information.",
+  });
 }
 
 export default async function PrivacyPolicy() {

@@ -1,0 +1,179 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Contact success dialog (ContactSuccess.tsx), prefix csm-. Portalled to <body>,
+   outside .h-root, so the home tokens are restated here as literal values.
+   Hard edges, no shadow, no blur. Motion: transform / opacity / clip-path, plus
+   one 16px check stroke that draws. Reduced motion: no animation at all.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.csm {
+  --csm-ink: #0e0e10;
+  --csm-muted: #5a5a62;
+  --csm-paper: #fcfcfc;
+  --csm-rule: rgba(14, 14, 16, 0.12);
+  --csm-indigo: #3432c7;
+  --csm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --csm-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  position: fixed;
+  inset: 0;
+  z-index: 200; /* above the fixed nav (z-50) and the floating widgets (z-90) */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  color: var(--csm-ink);
+}
+.csm-backdrop { position: absolute; inset: 0; background: rgba(10, 10, 11, 0.72); cursor: pointer; }
+
+/* Phones: a full-width bottom sheet. */
+.csm-panel {
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 32px 20px 24px;
+  background: var(--csm-paper);
+  outline: none;
+}
+.csm-bar { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--csm-indigo); transform-origin: left; }
+
+.csm-x {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  color: var(--csm-ink);
+  cursor: pointer;
+}
+.csm-x svg { transition: transform 240ms var(--csm-ease); }
+
+.csm-title {
+  margin: 0;
+  padding-right: 48px;
+  font-family: var(--csm-display);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.csm-steps { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid var(--csm-rule); }
+.csm-step { display: flex; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--csm-rule); }
+.csm-idx {
+  flex: none;
+  width: 24px;
+  font-family: var(--csm-display);
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  color: var(--csm-muted);
+  font-variant-numeric: tabular-nums;
+}
+.csm-idx svg { display: block; transform: translateY(2px); }
+.csm-check { fill: none; stroke: var(--csm-indigo); stroke-width: 2; stroke-linecap: square; stroke-dasharray: 20; stroke-dashoffset: 0; }
+.csm-step-t { flex: 1; min-width: 0; font-size: 15px; line-height: 1.5; color: var(--csm-ink); text-wrap: pretty; } /* UX Z3: no orphaned last word */
+.csm-tag {
+  font-family: var(--csm-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+.csm-store { overflow-wrap: anywhere; }
+.csm-store.is-domain { font-weight: 600; background: linear-gradient(var(--csm-indigo), var(--csm-indigo)) 0 100% / 100% 1px no-repeat; }
+.csm-step.is-done .csm-step-t { color: var(--csm-muted); }
+.csm-step.is-done .csm-tag { color: var(--csm-indigo); }
+.csm-step.is-next .csm-idx, .csm-step.is-next .csm-tag { color: var(--csm-indigo); }
+
+.csm-foot { margin-top: 24px; display: grid; gap: 20px; }
+.csm-who { display: flex; align-items: center; gap: 12px; margin: 0; }
+.csm-who-img { flex: none; width: 40px; height: 50px; object-fit: cover; object-position: 50% 20%; background: #f2f1ee; }
+.csm-who-t { display: block; font-family: var(--csm-display); font-weight: 600; font-size: 17px; line-height: 1.2; letter-spacing: -0.015em; }
+.csm-who-r { display: block; margin-top: 2px; font-size: 12px; font-weight: 500; line-height: 1.4; color: var(--csm-muted); }
+
+/* The kit's primary button: indigo, an ink wipe and the arrow conveyor on hover. */
+.csm-btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+  height: 56px;
+  padding: 0 20px;
+  border: 0;
+  background: var(--csm-indigo);
+  color: #fff;
+  font-family: var(--csm-display);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.csm-btn::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--csm-ink); clip-path: inset(100% 0 0 0); transition: clip-path 420ms var(--csm-ease); }
+.csm-btn:active { background: #2a28a6; }
+.csm-btn-arrow { position: relative; display: block; width: 18px; height: 18px; overflow: hidden; flex: none; }
+.csm-btn-arrow svg { position: absolute; inset: 0; transition: transform 380ms var(--csm-ease); }
+.csm-btn-arrow svg + svg { transform: translateX(-120%); }
+.csm-btn:focus-visible, .csm-x:focus-visible { outline: 2px solid var(--csm-indigo); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .csm-btn:hover::before { clip-path: inset(0); }
+  .csm-btn:hover .csm-btn-arrow svg:first-child { transform: translateX(120%); }
+  .csm-btn:hover .csm-btn-arrow svg + svg { transform: translateX(0); transition-delay: 40ms; }
+  .csm-x:hover svg { transform: rotate(90deg); }
+}
+
+/* Desktop: a centred panel. */
+@media (min-width: 768px) {
+  .csm { align-items: center; padding: 24px; }
+  .csm-panel { width: min(704px, 100%); padding: 48px 56px; }
+  .csm-x { top: 16px; right: 16px; }
+  /* UX P2: on the type scale (h-d-m 56, h-label 12, h-lead 20). */
+  .csm-title { font-size: 56px; }
+  .csm-idx, .csm-tag { font-size: 12px; }
+  .csm-who-t { font-size: 20px; white-space: nowrap; }
+  .csm-title { text-wrap: balance; }
+  .csm-steps { margin-top: 32px; }
+  .csm-step { padding: 16px 0; }
+  .csm-step-t { font-size: 16px; }
+  .csm-foot { margin-top: 32px; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+  .csm-btn { width: auto; min-width: 260px; height: 60px; padding: 0 28px; }
+}
+
+/* ── Motion (open, then close) ─────────────────────────────────────────────── */
+.csm[data-state='open'] .csm-backdrop { animation: csm-fade 300ms ease-out both; }
+.csm[data-state='open'] .csm-panel { animation: csm-rise 600ms var(--csm-ease) both; }
+.csm[data-state='open'] .csm-bar { animation: csm-draw 700ms var(--csm-ease) 200ms both; }
+.csm[data-state='open'] .csm-title { animation: csm-up 600ms var(--csm-ease) 120ms both; }
+.csm[data-state='open'] .csm-step { animation: csm-up 560ms var(--csm-ease) calc(240ms + 80ms * var(--i, 0)) both; }
+.csm[data-state='open'] .csm-check { animation: csm-tick 420ms var(--csm-ease) 560ms both; }
+.csm[data-state='open'] .csm-foot { animation: csm-up 560ms var(--csm-ease) 480ms both; }
+.csm[data-state='closing'] .csm-backdrop { animation: csm-fade 220ms ease-in reverse both; }
+.csm[data-state='closing'] .csm-panel { animation: csm-out 200ms ease-in both; }
+
+@keyframes csm-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes csm-rise {
+  from { clip-path: inset(100% 0 0 0); transform: translateY(32px); }
+  to { clip-path: inset(0 0 0 0); transform: none; }
+}
+@keyframes csm-out { to { opacity: 0; transform: translateY(16px); } }
+@keyframes csm-draw { from { transform: scaleX(0); } }
+@keyframes csm-up { from { opacity: 0; transform: translateY(12px); } }
+@keyframes csm-tick { from { stroke-dashoffset: 20; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .csm *, .csm { animation: none !important; transition: none !important; }
+}

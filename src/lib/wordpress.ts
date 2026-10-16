@@ -1,4 +1,5 @@
-import { sanitizeUrl, sanitizeMediaUrl } from "@/components/SEO";
+import type { Metadata } from "next";
+import { sanitizeUrl, sanitizeMediaUrl, SITE_HOST } from "@/components/SEO";
 import { cache } from "react";
 
 // One spelling of the brand everywhere. Google was picking its own site name
@@ -12,6 +13,9 @@ export async function fetchFromWordPress(query: string, variables: any = {}) {
     throw new Error("Missing WordPress API URL environment variable!");
   }
 
+  // A network failure or a non-2xx answer throws (SEO audit, should-fix 2): "WordPress
+  // is down" must not read as "this post does not exist". Pages that let it throw keep
+  // serving their last good ISR copy; lookups that can live without it catch it.
   const response = await fetch(wpUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -19,6 +23,10 @@ export async function fetchFromWordPress(query: string, variables: any = {}) {
     // Next.js caching: revalidate every 60 seconds so your site updates when you publish in WP
     next: { revalidate: 60 },
   });
+
+  if (!response.ok) {
+    throw new Error(`WordPress API responded ${response.status} ${response.statusText}`);
+  }
 
   const body = await response.json();
 
@@ -182,7 +190,9 @@ ${SEO_FIELDS}
 });
 
 function formatSeo(seo: any, ogType: "website" | "article" = "website") {
-  const canonicalUrl = sanitizeUrl(seo.canonical) || "https://dreamycodes.com";
+  // Empty when Yoast has none (e.g. noindexed items): buildMetadata then supplies the
+  // route's own URL. Defaulting to the homepage told Google the page was a duplicate of /.
+  const canonicalUrl = sanitizeUrl(seo.canonical);
 
   // Uploads live on the WordPress host. sanitizeMediaUrl undoes Yoast's rewrite
   // to the front domain, which does not serve /wp-content and answers 403.
@@ -218,7 +228,7 @@ function formatSeo(seo: any, ogType: "website" | "article" = "website") {
       card: "summary_large_image",
       title: seo.twitterTitle || seo.opengraphTitle || seo.title,
       description: seo.twitterDescription || seo.opengraphDescription || seo.metaDesc,
-      creator: "@dreamycodes",
+      creator: "@RuchiShopify", // D-069 (Ruchi): the site's X account
       images: [twitterImage],
     },
     robots: {
@@ -227,4 +237,63 @@ function formatSeo(seo: any, ogType: "website" | "article" = "website") {
     },
     schema: seo.schema?.raw
   };
+}
+
+type WordPressSEO = Awaited<ReturnType<typeof getWordPressSEO>>;
+
+/**
+ * One metadata builder for every route (SEO audit M2). Yoast's values win when
+ * present; any empty field falls back to the route's own: an absolute canonical
+ * for this path, a non-empty title and description, and the default OG card.
+ * Fallback titles carry "| Dreamy Codes"; Yoast titles are never rewritten.
+ */
+export function buildMetadata(
+  seo: WordPressSEO,
+  fb: { path: string; title: string; description: string }
+): Metadata {
+  const url = SITE_HOST + (fb.path === "/" ? "" : fb.path);
+  const title = seo?.title?.trim() || fb.title;
+  const description = seo?.description?.trim() || fb.description;
+  const og = seo?.openGraph;
+  const tw = seo?.twitter;
+  return {
+    title,
+    description,
+    alternates: { canonical: seo?.alternates?.canonical || url },
+    openGraph: {
+      type: og?.type ?? "website",
+      siteName: SITE_NAME,
+      locale: "en_US",
+      images: og?.images ?? [{ url: "/default-og.jpg", width: 1200, height: 630, alt: title }],
+      title: og?.title?.trim() || title,
+      description: og?.description?.trim() || description,
+      url: og?.url || url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      creator: tw?.creator ?? "@RuchiShopify",
+      images: tw?.images ?? ["/default-og.jpg"],
+      title: tw?.title?.trim() || title,
+      description: tw?.description?.trim() || description,
+    },
+    robots: seo?.robots,
+  };
+}
+
+/**
+ * Turns links to the site inside WordPress HTML (post and page bodies) into
+ * relative paths, so a pasted wp.dreamycodes.com link never leaks the backend
+ * host (SEO audit, should-fix 3). Uploads (/wp-content/) are left alone: only
+ * WordPress serves them. Trailing slashes are dropped to match the canonicals.
+ */
+export function rewriteContentLinks(html: string | null | undefined): string {
+  if (!html) return "";
+  return html.replace(
+    /href=(["'])https?:\/\/(?:wp\.)?dreamycodes\.com(\/[^"'#?]*)?([?#][^"']*)?\1/g,
+    (match, quote: string, path: string | undefined, rest: string | undefined) => {
+      if (path?.startsWith("/wp-content/")) return match;
+      const clean = (path || "/").replace(/(.)\/$/, "$1");
+      return `href=${quote}${clean}${rest ?? ""}${quote}`;
+    }
+  );
 }

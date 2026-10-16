@@ -13,6 +13,10 @@ const nextConfig = {
     ],
   },
   trailingSlash: false,
+  // Next's own trailing-slash redirect runs before the redirects below, so
+  // /blog/author/x/ took two hops (QA iter 7). It is switched off and re-created
+  // as the last redirect, after the specific ones, so every case is one hop.
+  skipTrailingSlashRedirect: true,
   async headers() {
     return [
       {
@@ -50,6 +54,32 @@ const nextConfig = {
       {
         source: '/wp-sitemap.xml',
         destination: '/sitemap.xml',
+        permanent: true,
+      },
+      // The WordPress front page is also reachable as /home; one URL only (SEO M4).
+      {
+        source: '/home{/}?',
+        destination: '/',
+        permanent: true,
+      },
+      // Yoast's Person schema names the WordPress author archive, which has no
+      // front-end page; the people behind the site are on /about (SEO M6).
+      {
+        // {/}? : one hop for the trailing-slash form too (Yoast emits it).
+        source: '/blog/author/:slug{/}?',
+        destination: '/about',
+        permanent: true,
+      },
+      // Search Console / GA4: Google still sends visitors to the post's old root URL (404 live).
+      {
+        source: '/shopify-traffic-but-no-sales{/}?',
+        destination: '/blog/shopify-traffic-but-no-sales',
+        permanent: true,
+      },
+      // trailingSlash: false, as one explicit hop (see skipTrailingSlashRedirect).
+      {
+        source: '/:path+/',
+        destination: '/:path+',
         permanent: true,
       },
     ];

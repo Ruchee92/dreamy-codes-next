@@ -3,21 +3,15 @@ import type { Metadata } from 'next';
 import RefundPolicyPage from '@/views/RefundPolicy';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
+import { buildMetadata, getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
 import { JsonLd } from '@/components/SEO';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getWordPressSEO("/refund-policy");
-  if (!seo) return { title: 'Refund Policy | Dreamy Codes' };
-
-  return {
-    title: seo.title,
-    description: seo.description,
-    alternates: seo.alternates,
-    openGraph: seo.openGraph,
-    twitter: seo.twitter,
-    robots: seo.robots,
-  };
+  return buildMetadata(await getWordPressSEO("/refund-policy"), {
+    path: "/refund-policy",
+    title: "Refund Policy | Dreamy Codes",
+    description: "View the refund and cancellation policy for Dreamy Codes. Understand our billing terms as a premium Shopify Web Development Agency for e-commerce brands.",
+  });
 }
 
 export default async function RefundPolicy() {

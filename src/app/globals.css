@@ -17,6 +17,17 @@
 html {
   scroll-behavior: smooth;
 }
+/* Pages built on the motion layer (.h-root: home and the redesigned inner
+   pages) glide their anchors in JS (Lenis / glideTo). A CSS smooth behaviour
+   there turns the browser's back/forward and reload scroll restore into a slow
+   glide from 0 that the scroll scenes cut off partway (QA M1), so it is off.
+   Scroll anchoring is off there too: Chrome restores reloads/back relative to an
+   anchor element, and with reveals pending that anchor sits elsewhere, so the
+   page came back 30-120px off. These pages have no late layout shifts to absorb. */
+html:has(.h-root) {
+  scroll-behavior: auto;
+  overflow-anchor: none;
+}
 
 @theme inline {
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;

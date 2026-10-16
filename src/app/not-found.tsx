@@ -1,5 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Home } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Page not found | Dreamy Codes',
+  description: 'The page you are looking for could not be found. Explore Dreamy Codes Shopify design and CRO work instead.',
+  // Without these the layout's homepage OG card was shared for every 404.
+  openGraph: { title: 'Page not found | Dreamy Codes', description: 'The page you are looking for could not be found.' },
+  twitter: { title: 'Page not found | Dreamy Codes', description: 'The page you are looking for could not be found.' },
+};
 
 export default function NotFound() {
   return (
@@ -17,7 +26,7 @@ export default function NotFound() {
         </h1>
         
         <p className="text-xl md:text-2xl text-gray-400 font-light leading-relaxed mb-12 max-w-lg mx-auto">
-          The page you're looking for has been moved, deleted, or never existed in the first place.
+          The page you&rsquo;re looking for has been moved, deleted, or never existed in the first place.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center">

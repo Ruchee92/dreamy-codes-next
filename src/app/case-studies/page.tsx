@@ -3,21 +3,15 @@ import type { Metadata } from 'next';
 import CaseStudiesPage from '@/views/CaseStudies';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
+import { buildMetadata, getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
 import { JsonLd } from '@/components/SEO';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getWordPressSEO("/case-studies");
-  if (!seo) return { title: 'Case Studies | Dreamy Codes' };
-
-  return {
-    title: seo.title,
-    description: seo.description,
-    alternates: seo.alternates,
-    openGraph: seo.openGraph,
-    twitter: seo.twitter,
-    robots: seo.robots,
-  };
+  return buildMetadata(await getWordPressSEO("/case-studies"), {
+    path: "/case-studies",
+    title: "Shopify Case Studies & Success Stories | Dreamy Codes",
+    description: "Read our top 4 e-commerce case studies. See how our Shopify Web Development Agency helps growing brands scale with custom design and optimization.",
+  });
 }
 
 export default async function CaseStudies() {
@@ -27,7 +21,7 @@ export default async function CaseStudies() {
   ]);
 
   return (
-    <main id="main-content" className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100 selection:text-brand-900">
+    <main id="main-content" className="min-h-screen bg-[#fcfcfc] text-slate-900 font-sans selection:bg-[#3432c7] selection:text-white">
       <JsonLd schema={seoData?.schema} />
       <Navbar menuItems={menuItems} />
       <CaseStudiesPage />

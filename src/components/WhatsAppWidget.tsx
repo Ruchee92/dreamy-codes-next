@@ -47,8 +47,10 @@ const WhatsAppWidget = () => {
 
   useEffect(() => {
     // Held back so it arrives once the page has settled rather than competing
-    // with the hero for attention.
-    const timer = setTimeout(() => setIsVisible(true), 1600);
+    // with the hero for attention. Measured from navigation start, not mount:
+    // the widget is mounted lazily after load (LazyWhatsAppWidget), and a slow
+    // load should not push it later still.
+    const timer = setTimeout(() => setIsVisible(true), Math.max(0, 1800 - performance.now()));
     return () => clearTimeout(timer);
   }, []);
 

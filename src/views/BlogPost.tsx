@@ -73,7 +73,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
         <div className="px-6 lg:px-12 max-w-screen-2xl mx-auto mb-8 md:mb-16">
           <div className="relative aspect-[16/9] md:aspect-[2/1] overflow-hidden border border-brand-900 shadow-2xl">
             <Image
-              src={post?.featuredImage?.node?.sourceUrl || 'https://picsum.photos/seed/placeholder/1920/1080'}
+              src={post?.featuredImage?.node?.sourceUrl || '/default-og.jpg'}
               alt={post?.title || 'Blog Post'}
               fill
               priority
@@ -244,7 +244,7 @@ const BlogPost = ({ post, relatedPosts = [] }: { post: any; relatedPosts?: Relat
                 <Link key={related.slug} href={`/blog/${related.slug}`} className="group">
                   <div className="relative aspect-[16/9] overflow-hidden mb-8 border border-gray-200 shadow-lg">
                     <Image
-                      src={related.featuredImage?.node?.sourceUrl || `https://picsum.photos/seed/${related.slug}/800/450`}
+                      src={related.featuredImage?.node?.sourceUrl || '/default-og.jpg'}
                       alt={related.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"

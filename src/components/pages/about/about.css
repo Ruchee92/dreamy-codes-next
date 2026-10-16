@@ -1,0 +1,168 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   /about (round 02). Prefix ab-. Design spec §6. Kit styles: site/site.css.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Hero: the DNA helix replaces the hero rule (D-051) ───────────────────── */
+.ab-root .pg-hero .h-hero-rule { display: none; }
+.ab-root .pg-hero-slot { padding-top: 0; }
+/* Fixed box (no CLS); the static SVG and the live canvas fill it. */
+.ab-dna { position: relative; height: 120px; margin-inline: calc(-1 * var(--h-pad)); overflow: hidden; }
+.ab-dna-svg, .ab-dna-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ab-dna-svg--d { display: none; }
+/* With motion, the canvas unzips the helix in; the SVG waits (and is the failsafe). */
+.h-root[data-motion]:not([data-failsafe]) .ab-dna:not([data-live]) .ab-dna-svg,
+.ab-dna[data-live] .ab-dna-svg { visibility: hidden; }
+.ab-hero-meta { padding-top: 8px; }
+@media (min-width: 768px) {
+  .ab-dna { height: 180px; margin-inline: 0; }
+  .ab-dna-svg--d { display: block; }
+  .ab-dna-svg--m { display: none; }
+}
+@media (min-width: 1024px) {
+  .ab-root .pg-hero { padding-bottom: 64px; }
+  .ab-root .pg-hero-bar { margin-top: 40px; }
+  .ab-dna { height: 240px; }
+  .ab-hero-meta { padding-top: 16px; }
+}
+
+/* ── Mission (black band, the signature) ──────────────────────────────────── */
+.ab-mission { position: relative; background: var(--h-black); color: var(--h-on-dark); padding: 96px 0; }
+.ab-mission-side { grid-column: 1 / -1; min-width: 0; }
+.ab-mission-title { color: var(--h-on-dark); }
+/* s8-2 (fluted glass, echoing home's hero): desktop only, holds the 375 band cap. */
+.ab-mission-plate { display: none; }
+.ab-plate-img { object-fit: cover; }
+.ab-statement { grid-column: 1 / -1; display: grid; min-width: 0; margin-top: 32px; }
+/* Both layers in one cell, same font and width, so their line breaks match. */
+.ab-statement > p { grid-area: 1 / 1; margin: 0; max-width: 24ch; }
+/* [AD override] 22% white: grey-to-white must read as a moment. Decorative (aria-hidden). */
+.ab-ink-base { color: rgba(245, 245, 244, 0.22); }
+.ab-ink { color: var(--h-on-dark); }
+/* Each split line is as wide as its text, so the clip uncovers words, not empty space.
+   Once split, every line holds its own faint copy behind the ink copy; the
+   separate base paragraph (no-JS / reduced-motion fallback) steps aside. */
+.ab-ink-line { position: relative; width: fit-content; }
+.ab-ink-bg { position: absolute; left: 0; top: 0; white-space: nowrap; color: rgba(245, 245, 244, 0.22); }
+.ab-ink-fg { display: block; white-space: nowrap; }
+.ab-statement:has(> .ab-ink.is-split) > .ab-ink-base { visibility: hidden; }
+
+@media (min-width: 1024px) {
+  .ab-mission { padding: 160px 0; }
+  .ab-mission-side { grid-column: 1 / 5; align-self: start; position: sticky; top: 112px; }
+  .ab-statement { grid-column: 5 / 13; margin-top: 0; }
+  .ab-mission-plate { position: relative; display: block; margin: 48px 0 0; width: 100%; max-width: 432px; aspect-ratio: 3 / 2; overflow: hidden; background: var(--h-graphite); }
+}
+
+/* ── Plates (D-051): one stepped row of single images, hard edges ──────────── */
+.ab-plates { position: relative; background: var(--h-paper); padding: 72px 0 0; }
+.ab-plates-grid { row-gap: 16px; }
+.ab-plate { position: relative; margin: 0; overflow: hidden; background: var(--h-paper-2); min-width: 0; }
+.ab-plate--sites { grid-column: 1 / -1; order: -1; aspect-ratio: 3 / 2; }
+/* s7-1 sits on a white ground: a hairline gives it an edge against the paper (UX R6). */
+.ab-plate--sites::after { content: ''; position: absolute; inset: 0; border: 1px solid var(--h-rule); pointer-events: none; }
+.ab-plate--portrait, .ab-plate--serum { grid-column: span 2; aspect-ratio: 3 / 4; }
+.ab-plate--serum { margin-top: 32px; }
+@media (min-width: 1024px) {
+  .ab-plates { padding-top: 120px; }
+  .ab-plates-grid { align-items: start; }
+  .ab-plate--sites, .ab-plate--portrait, .ab-plate--serum { order: 0; }
+  .ab-plate--portrait { grid-column: 1 / 4; max-width: 318px; }
+  .ab-plate--sites { grid-column: 5 / 10; max-width: 546px; margin-top: 160px; }
+  .ab-plate--serum { grid-column: 10 / 13; max-width: 318px; margin-top: 48px; }
+}
+
+/* ── Team ─────────────────────────────────────────────────────────────────── */
+.ab-team { position: relative; background: var(--h-paper); padding: 72px 0 0; }
+.ab-team-grid { margin: 0; padding: 0; }
+.ab-founder { grid-column: 1 / -1; min-width: 0; }
+.ab-portrait { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--h-paper-2); }
+/* A5/Q4: below 1024 the founder frame keeps the full width and a fixed height (the
+   50% 18% crop keeps the face): 350 on phones, 440 on tablets. */
+@media (max-width: 1023px) {
+  .ab-portrait--founder { aspect-ratio: auto; width: 100%; height: 440px; }
+}
+@media (max-width: 767px) {
+  .ab-portrait--founder { height: 350px; }
+}
+.ab-portrait-img { object-fit: cover; object-position: 50% 20%; }
+.ab-portrait--founder .ab-portrait-img { object-position: 50% 18%; }
+.ab-founder-cap { margin-top: 16px; }
+.ab-founder-name { text-transform: none; letter-spacing: -0.02em; }
+.ab-member-role { margin-top: 4px; text-wrap: balance; }
+/* Phones: the crew is one row of three. */
+.ab-crew { grid-column: 1 / -1; list-style: none; margin: 32px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.ab-member { min-width: 0; }
+.ab-member-cap { margin-top: 10px; }
+.ab-member-name { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--h-ink); }
+.ab-crew .ab-member-role { font-size: 11px; }
+
+/* One pull quote, no card. The opening mark hangs outside the column. */
+.ab-quote { margin: 72px 0 0; }
+.ab-quote-body { grid-column: 1 / -1; position: relative; margin: 0; min-width: 0; }
+/* The hung opening mark: its own line mask, left of the column, riding line 1. */
+.ab-quote-mark-mask { position: absolute; top: 0; right: 100%; display: block; overflow: hidden; padding: 0.1em 0.06em 0.1em 0; margin-top: -0.1em; color: var(--h-ink); }
+.ab-quote-mark { display: block; }
+.h-root[data-motion]:not([data-failsafe]) .ab-quote:not(.is-in) .ab-quote-mark { transform: translateY(105%); }
+.ab-quote-text { margin: 0; color: var(--h-ink); max-width: 30ch; }
+.ab-quote-by { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; margin-top: 24px; }
+.ab-quote-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; background: var(--h-paper-2); }
+.ab-quote-name { display: block; color: var(--h-ink); }
+.ab-quote-role { display: block; margin-top: 4px; }
+.ab-quote-cta { grid-column: 1 / -1; margin-top: 32px; }
+.ab-quote-price { margin-top: 12px; }
+
+@media (min-width: 1024px) {
+  .ab-team { padding-top: 96px; }
+  /* Two shared rows (portraits, captions): the crew's portraits end on Ruchi's. */
+  .ab-team-grid { grid-template-rows: auto auto; }
+  .ab-founder { grid-column: 1 / 6; grid-row: 1 / 3; display: grid; grid-template-rows: subgrid; }
+  .ab-founder-cap { margin-top: 24px; }
+  .ab-crew { grid-column: 7 / 13; grid-row: 1 / 3; margin: 0; grid-template-rows: subgrid; row-gap: 0; column-gap: 24px; }
+  .ab-member { display: contents; }
+  .ab-crew .ab-portrait { grid-row: 1; align-self: end; }
+  .ab-member-cap { grid-row: 2; margin-top: 24px; }
+  .ab-member-name { font-family: var(--h-display); font-size: 21px; line-height: 1.15; letter-spacing: -0.015em; }
+  .ab-crew .ab-member-role { font-size: 12px; }
+  .ab-quote { margin-top: 128px; }
+  .ab-quote-body, .ab-quote-by, .ab-quote-cta { grid-column: 4 / 13; }
+}
+
+/* ── How we operate ───────────────────────────────────────────────────────── */
+.ab-values { position: relative; background: var(--h-paper); padding: 96px 0; }
+.ab-values-list { list-style: none; margin: 0; padding: 0; }
+.ab-value { position: relative; min-width: 0; padding-top: 24px; }
+.ab-value-rule { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--h-ink); transform-origin: left; }
+/* Icon inline before the index, on one line above the name (D-046 icon kept at 20px). */
+.ab-value-idx { display: flex; align-items: center; gap: 12px; margin: 0; color: var(--h-muted); font-variant-numeric: tabular-nums; }
+.ab-value-icon { display: block; color: var(--h-indigo); line-height: 0; }
+.ab-value-icon svg { display: block; }
+.ab-value-name { margin-top: 16px; color: var(--h-ink); text-transform: none; letter-spacing: -0.02em; }
+.ab-value-body { margin-top: 16px; max-width: 30ch; color: var(--h-ink); text-wrap: pretty; }
+
+/* D-047 · Phones: a native snap slider, one value in view and the next peeking.
+   No box (AD A4): the drawn ink rule is the only edge. */
+@media (max-width: 767px) {
+  .ab-values-list {
+    display: flex;
+    gap: 24px;
+    margin-inline: calc(-1 * var(--h-pad));
+    padding: 0 var(--h-pad) 4px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--h-pad);
+    scrollbar-width: none;
+  }
+  .ab-values-list::-webkit-scrollbar { display: none; }
+  .ab-value { flex: 0 0 82%; scroll-snap-align: start; }
+}
+@media (min-width: 768px) {
+  .ab-values-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+}
+@media (min-width: 1024px) {
+  .ab-values { padding: 160px 0; }
+  .ab-values-list { column-gap: 48px; }
+  .ab-value-name { margin-top: 24px; }
+  .ab-value-body { margin-top: 20px; }
+}
+.ab-values-list:focus-visible { outline: 2px solid var(--h-indigo); outline-offset: 4px; }

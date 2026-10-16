@@ -3,21 +3,15 @@ import type { Metadata } from 'next';
 import TermsOfServicePage from '@/views/TermsOfService';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
+import { buildMetadata, getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
 import { JsonLd } from '@/components/SEO';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getWordPressSEO("/terms-of-service");
-  if (!seo) return { title: 'Terms of Service | Dreamy Codes' };
-
-  return {
-    title: seo.title,
-    description: seo.description,
-    alternates: seo.alternates,
-    openGraph: seo.openGraph,
-    twitter: seo.twitter,
-    robots: seo.robots,
-  };
+  return buildMetadata(await getWordPressSEO("/terms-of-service"), {
+    path: "/terms-of-service",
+    title: "Terms of Service | Dreamy Codes",
+    description: "Review the Terms of Service for Dreamy Codes. Read our client agreements and conditions for partnering with our expert Shopify Web Development Agency.",
+  });
 }
 
 export default async function TermsOfService() {

@@ -1,54 +1,67 @@
 // The questions and answers rendered on /services. Kept here so the page and
 // its FAQPage structured data read from one source and cannot drift apart.
-export type ServiceFaq = { question: string; answer: string };
+// `slug` is the item's deep link on the page (#faq-<slug>); the schema ignores it.
+export type ServiceFaq = { slug: string; question: string; answer: string };
 
 export const serviceFaqs: ServiceFaq[] = [
     {
+      slug: "cost",
       question: "How much does Shopify web design and development cost?",
-      answer: "Every Shopify project is unique, with pricing typically ranging from $990 to $5,000. The final investment depends on your specific needs, such as the number of custom page templates, the complexity of your tech stack, and any advanced third-party app integrations required to power your e-commerce engine."
+      answer: "Most projects cost between $990 and $5,000. The price depends on how many custom page templates you need, how complex your tech stack is, and which third-party apps we need to integrate."
     },
     {
+      slug: "timeline",
       question: "What is the typical timeline for a Shopify project?",
-      answer: "Most of our high-performance Shopify builds are completed within a 2 to 4-week window. This timeframe allows us to meticulously engineer your storefront while ensuring we have enough time for collaborative feedback and rigorous quality assurance before your big launch."
+      answer: "Most builds take 2 to 4 weeks. That covers the build, your feedback and QA before launch."
     },
     {
+      slug: "custom-themes",
       question: "Do you use templates or build custom Shopify themes?",
-      answer: "It's a combination of both! We typically engineer a custom design and then meticulously edit the Liquid, CSS, and HTML of a high-performance framework. This hybrid approach ensures your Shopify store is visually unique and conversion-optimized while remaining technically stable and easy to manage."
+      answer: "Both. We create a custom design, then build it by editing the Liquid, CSS and HTML of a high-performance framework. The store looks like your brand, and the code stays stable and easy to manage."
     },
     {
+      slug: "conversion-ux",
       question: "How do you optimize the Shopify user experience for conversions?",
-      answer: "Our design philosophy is revenue-first. We leverage years of A/B testing data and CRO best practices to ensure every pixel on your Shopify store is placed with the intent of turning visitors into loyal customers. We focus on reducing friction and guiding users seamlessly toward the checkout."
+      answer: "We decide layouts from heatmaps, session recordings and A/B tests, then remove whatever slows shoppers down on the way to checkout."
     },
     {
+      slug: "mobile",
       question: "Will my Shopify store be mobile-friendly?",
-      answer: "Mobile is no longer an afterthought. It's the priority. With the majority of e-commerce traffic originating from mobile devices, we engineer every Shopify site to be fully responsive, ensuring a lightning-fast and intuitive shopping experience on any screen size."
+      answer: "Yes. We design for phones first, and every store we build is fully responsive and fast on any screen size."
     },
     {
+      slug: "self-editing",
       question: "Can I update the store myself after launch?",
-      answer: "Absolutely. We build on Shopify specifically because of its intuitive management interface. You'll have full control over your products, content, and imagery. For more advanced layout adjustments or technical updates, our team is always a quick message away."
+      answer: "Yes. You'll have full control over your products, content and imagery in the Shopify admin. For layout changes or technical work, send us a message."
     },
     {
+      slug: "copywriting-seo",
       question: "Can you help with Shopify copywriting and SEO?",
-      answer: "We offer specialized e-commerce copywriting that doesn't just tell your story but also drives search engine visibility. Our content is engineered to rank for relevant keywords while maintaining a high-converting tone that resonates with your audience."
+      answer: "Yes. We write e-commerce copy that targets the keywords your customers search for and sounds like your brand."
     },
     {
+      slug: "branding",
       question: "Do you offer branding and logo design?",
-      answer: "We do. A strong brand identity is the foundation of a successful store. We can assist with logo design, color palettes, and comprehensive style guides that ensure your brand looks professional and cohesive across all digital touchpoints."
+      answer: "Yes. We design logos, color palettes and style guides, so your brand looks consistent everywhere it appears online."
     },
     {
+      slug: "maintenance",
       question: "Do you provide ongoing Shopify maintenance and support?",
-      answer: "We're here for the long haul. Whether you need a one-off technical fix or a monthly maintenance plan to keep your store optimized, we offer flexible support options to ensure your e-commerce engine never stops running."
+      answer: "Yes. We take one-off technical fixes and offer monthly maintenance plans."
     },
     {
+      slug: "analytics",
       question: "Can you set up Google Analytics and tracking pixels?",
-      answer: "Data is key to growth. We integrate Google Analytics 4 (GA4) into every build and can assist with setting up Meta pixels, TikTok tracking, and other essential data tools to help you monitor and scale your marketing efforts."
+      answer: "Yes. Google Analytics 4 (GA4) goes into every build. We can also set up the Meta pixel, TikTok tracking and any other tracking you use."
     },
     {
+      slug: "collaboration",
       question: "What is your process for collaborating with clients?",
-      answer: "Transparency is our core value. We use a structured onboarding process to capture your vision early on, followed by regular syncs and collaborative tools to ensure you're involved in every step of the engineering process."
+      answer: "We start with a structured onboarding to understand what you want. Then we hold regular syncs while we build, so you can give feedback at every step."
     },
     {
+      slug: "browsers",
       question: "Will my store work on all browsers and devices?",
-      answer: "Yes. Our rigorous QA process involves testing your Shopify store across all major browsers and devices. We ensure that whether your customer is on an old iPhone or the latest desktop browser, their experience is flawless."
+      answer: "Yes. We test every store on all major browsers and devices before launch, from older iPhones to the latest desktop browsers."
     }
   ];

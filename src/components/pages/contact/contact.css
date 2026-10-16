@@ -1,0 +1,197 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   /contact-us (round 02). Prefix ct-. Design spec §7. Kit styles: site/site.css.
+   The form is ContactSection's home variant (styled in home.css); everything
+   below is scoped to .ct-form, so the homepage's contact block is untouched.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Intro: H1 + one sentence; the hero rule stands alone under it (D-059) ── */
+.ct-root .pg-hero { padding-bottom: 40px; }
+.ct-root .pg-hero-bar { margin-top: 32px; }
+@media (min-width: 1024px) {
+  .ct-root .pg-hero { padding-bottom: 64px; }
+  .ct-root .pg-hero-bar { margin-top: 64px; }
+}
+/* UX Z1: the kit lands the lede on the H1's last baseline with 15px, tuned for the
+   144px H1; this hero's H1 is the 96px size, so the lede sits on it with 4px. */
+@media (min-width: 1280px) {
+  .ct-root .pg-hero-aside { padding-bottom: 4px; }
+}
+
+/* ── Form block ───────────────────────────────────────────────────────────── */
+.ct-form { position: relative; background: var(--h-paper); padding: 40px 0 96px; }
+.ct-form-title { max-width: 100%; }
+.ct-trust { margin-top: 16px; }
+.ct-trust span { white-space: nowrap; }
+.ct-trust span:not(:last-child)::after { content: ' ·'; } /* the dot stays with its fact; lines break between facts */
+/* Anchor jumps (/contact-us#contact) land under the nav like every other anchor. */
+#contact.ct-form { scroll-margin-top: 112px; }
+
+/* Who replies: a small hard-edged portrait, no shadow. */
+.ct-founder { display: flex; align-items: center; gap: 16px; margin-top: 32px; }
+.ct-founder-img { flex: none; width: 64px; height: 80px; object-fit: cover; object-position: 50% 20%; background: var(--h-paper-2); }
+.ct-founder p { margin: 0; }
+.ct-founder-t { display: block; color: var(--h-ink); }
+.ct-founder-r { display: block; margin-top: 4px; }
+
+/* UX R4: the field error sits in the row gap, so it never pushes the form (no CLS). */
+.ct-root .cs-home-field { position: relative; }
+.ct-root .cs-home-err { position: absolute; top: 100%; left: 0; margin-top: 3px; }
+.ct-root .cs-home-form, .ct-root .cs-home-pair { row-gap: 32px; } /* the error clears the next label (UX N2) */
+.ct-form .cs-home { margin-top: 0; }
+
+/* Fields: white on paper; focus = ink border + an indigo underline drawn along
+   the inside of the bottom edge. Errors keep home's #b42318 treatment. */
+.ct-form .cs-home-field input,
+.ct-form .cs-home-field textarea {
+  min-height: 56px;
+  background:
+    linear-gradient(var(--h-indigo), var(--h-indigo)) 0 100% / 0% 2px no-repeat,
+    var(--h-white);
+  transition: border-color 200ms ease, background-size 320ms var(--h-ease);
+}
+.ct-form .cs-home-field input:focus,
+.ct-form .cs-home-field textarea:focus {
+  outline: none;
+  border-color: var(--h-ink);
+  background-color: var(--h-white);
+  background-size: 100% 2px, auto;
+}
+.ct-form .cs-home-field [aria-invalid='true'],
+.ct-form .cs-home-field [aria-invalid='true']:focus { border-color: #b42318; }
+
+/* At 3/3 the submit arrow runs one conveyor pass: out to the right, back in from the left. */
+.ct-form .cs-home-btn.ct-pass svg { animation: ct-conveyor 380ms var(--h-ease) 1; }
+@keyframes ct-conveyor {
+  0% { transform: translateX(0); opacity: 1; }
+  45% { transform: translateX(24px); opacity: 0; }
+  46% { transform: translateX(-24px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* ── Side panel: what happens next, then direct contact. No box. ─────────── */
+.ct-form .cs-home-panel { display: flex; flex-direction: column; gap: 0; padding: 0; background: none; border: 0; }
+.ct-next { order: -1; }
+.ct-panel-title,
+.ct-form .cs-home-panel-title {
+  margin: 0;
+  font-family: var(--h-display);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--h-ink);
+}
+/* Home hides "Direct contact" on phones; here it heads its own group. */
+.ct-form .cs-home-panel-title { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; margin-top: 48px; }
+.ct-form .cs-home-list { margin-top: 16px; }
+
+/* The counter sits on the heading's row (AD T1: clear of the WhatsApp launcher). */
+.ct-next-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.ct-next > .ct-track { margin-top: 16px; }
+.ct-steps { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 20px; }
+.ct-step-row { display: flex; align-items: baseline; gap: 16px; }
+.ct-step-idx { position: relative; flex: none; width: 24px; color: var(--h-muted); font-variant-numeric: tabular-nums; }
+.ct-idx-n { display: inline-block; transition: opacity 200ms ease; }
+.ct-idx-tick { position: absolute; left: 0; top: 50%; translate: 0 -50%; line-height: 0; color: var(--h-indigo); clip-path: inset(0 100% 0 0); transition: clip-path 400ms var(--h-ease); }
+.ct-step-t { flex: 1; min-width: 0; color: var(--h-ink); transition: color 300ms ease; }
+.ct-count { flex: none; margin-left: auto; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--h-ink); transition: color 300ms ease; }
+.ct-count-d { display: inline-block; overflow: hidden; vertical-align: bottom; padding-block: 0.08em; margin-block: -0.08em; }
+.ct-count-in { display: inline-block; }
+.is-full .ct-count { color: var(--h-indigo); }
+.ct-track { position: relative; display: block; height: 1px; margin-top: 12px; background: var(--h-rule); }
+.ct-fill { position: absolute; left: 0; right: 0; top: -0.5px; height: 2px; background: var(--h-indigo); transform-origin: left; transition: transform 500ms var(--h-ease); }
+.ct-sent { margin-top: 12px; color: var(--h-ink); }
+
+/* The brief answers back: step 02 quotes the typed store domain, underlined as it lands. */
+.ct-store { overflow-wrap: anywhere; }
+.ct-store.is-domain {
+  color: var(--h-ink);
+  font-weight: 600;
+  background: linear-gradient(var(--h-indigo), var(--h-indigo)) 0 100% / 100% 1px no-repeat;
+  animation: ct-underline 320ms var(--h-ease) both;
+}
+@keyframes ct-underline { from { background-size: 0 1px; } }
+@media (prefers-reduced-motion: reduce) { .ct-store.is-domain { animation: none; } }
+
+/* Sent: step 01 ticks (the ✓ wipes in over its number) and goes quiet; step 02 is next. */
+.ct-steps.is-sent .ct-step:first-child .ct-idx-n { opacity: 0; }
+.ct-steps.is-sent .ct-step:first-child .ct-idx-tick { clip-path: inset(0); }
+.ct-steps.is-sent .ct-step:first-child .ct-step-t { color: var(--h-muted); }
+.ct-steps.is-sent .ct-step:nth-child(2) .ct-step-idx,
+.ct-steps.is-sent .ct-step:nth-child(2) .ct-step-t { color: var(--h-indigo); }
+
+/* Without JS the counter would only ever read 0/3: its space is kept, it isn't shown. */
+.ct-form:not([data-live]) .ct-count,
+.ct-form:not([data-live]) .ct-track,
+.ct-form:not([data-live]) .ct-bar { visibility: hidden; }
+
+/* Price and timezones at the decision point, directly above submit (CRO). */
+.ct-pre { margin: 4px 0 -4px; color: var(--h-ink); }
+
+/* ── After the form: facts, then two reviews (UX T2) ──────────────────────── */
+.ct-after { margin-top: 48px; }
+.ct-reviews { grid-column: 1 / -1; display: grid; gap: 40px; }
+
+.ct-review { margin: 0; }
+.ct-stars { display: flex; gap: 3px; margin: 0; color: #f5a623; line-height: 0; }
+.ct-stars svg { display: block; fill: currentColor; }
+.ct-review-q { margin: 12px 0 0; }
+.ct-review-q p { color: var(--h-ink); }
+.ct-review-by { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+.ct-review-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; background: var(--h-paper-2); }
+.ct-review-name { display: block; color: var(--h-ink); }
+.ct-review-role { display: block; margin-top: 4px; }
+
+/* ── Phones / tablets: H2 → bar + form → panel. The bar sticks under the nav
+   while the form is on screen: it spans the bar row and the form row of the
+   grid, so its sticky range ends where the form ends. ───────────────────── */
+.ct-bar { display: none; }
+@media (max-width: 1023px) {
+  .ct-body { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 56px auto auto; margin-top: 32px; }
+  .ct-form .cs-home { display: contents; }
+  .ct-bar {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    align-self: start;
+    position: sticky;
+    top: 73px;
+    z-index: 2;
+    display: block;
+    height: 40px;
+    margin-inline: calc(-1 * var(--h-pad));
+    padding: 8px var(--h-pad) 0;
+    background: var(--h-paper);
+    transition: opacity 240ms ease, transform 320ms var(--h-ease);
+  }
+  .ct-bar.is-past { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+  .ct-bar-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .ct-bar-k { color: var(--h-muted); }
+  .ct-bar .ct-count { font-size: 17px; }
+  .ct-bar .ct-track { margin-top: 8px; }
+  .ct-form .cs-home-form { grid-row: 2; grid-column: 1; }
+  .ct-form .cs-home-panel { grid-row: 3; grid-column: 1; margin-top: 56px; border-top: 0; padding: 0; }
+}
+
+@media (min-width: 1024px) {
+  .ct-form { padding: 64px 0 128px; }
+  .ct-trust { margin-bottom: 48px; }
+  .ct-panel-title, .ct-form .cs-home-panel-title { font-size: 26px; }
+  .ct-form { padding-top: 48px; }
+  .ct-form .cs-home-panel { align-self: start; position: sticky; top: 112px; padding: 0; }
+  .ct-after { margin-top: 96px; align-items: start; }
+  .ct-reviews { grid-column: 1 / 8; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+}
+
+/* Q3: at 1024–1279 the side column is one grid column wider (cols 8–12). */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .ct-form .cs-home-panel { grid-column: 8 / 13; }
+}
+
+/* The WhatsApp launcher and Back to top step aside while the form itself is on
+   screen (html.ct-form-in, set in ContactBrief; QA minor 2). WhatsApp stays in
+   Direct contact. Home's rule hides Back to top for the whole #contact block
+   (h-at-contact, FloaterGuard); here that is handed back to the button's own
+   classes (revert-layer → Tailwind's layer) outside the form. */
+html.ct-form-in:has(.ct-root) .fixed.bottom-5.right-5.z-\[90\],
+html.ct-form-in:has(.ct-root) button[aria-label='Back to top'] { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 200ms ease, visibility 0s linear 200ms; }
+html.h-at-contact:not(.ct-form-in):has(.ct-root) button[aria-label='Back to top'] { opacity: revert-layer; visibility: revert-layer; pointer-events: revert-layer; }

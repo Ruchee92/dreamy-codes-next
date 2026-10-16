@@ -1,7 +1,6 @@
 "use client";
 
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Calendar, User, Tag } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -25,14 +24,46 @@ const decodeEntities = (html?: string) =>
     .replace(/\s+/g, ' ')
     .trim();
 
+/**
+ * Cards are visible in the server HTML (no JS / reduced motion = complete list).
+ * Once JS runs, a card that is still below the fold is hidden and rises in when
+ * it scrolls into view; cards already on screen are left alone (no flash).
+ */
+const Reveal = ({ delay = 0, className, children }: { delay?: number; className?: string; children: React.ReactNode }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [state, setState] = useState<'static' | 'waiting' | 'in'>('static');
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      setState('in');
+    }, { rootMargin: '0px 0px -10% 0px' });
+    // Hidden only from here on, below the fold, so nothing visible ever blinks.
+    const raf = requestAnimationFrame(() => setState('waiting'));
+    io.observe(el);
+    return () => {
+      cancelAnimationFrame(raf);
+      io.disconnect();
+    };
+  }, []);
+  const style: React.CSSProperties =
+    state === 'waiting'
+      ? { opacity: 0, transform: 'translateY(20px)' }
+      : state === 'in'
+        ? { opacity: 1, transform: 'none', transition: `opacity 600ms ease ${delay}s, transform 600ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}s` }
+        : {};
+  return (
+    <div ref={ref} className={className} style={style}>
+      {children}
+    </div>
+  );
+};
+
 const BlogCard = ({ title, excerpt, date, author, category, image, delay, slug }: any) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.6, delay }}
-    className="group"
-  >
+  <Reveal delay={delay} className="group">
     <Link href={`/blog/${slug}`} className="block">
       <div className="relative aspect-[16/9] overflow-hidden mb-6 border border-brand-900">
         <Image
@@ -54,7 +85,7 @@ const BlogCard = ({ title, excerpt, date, author, category, image, delay, slug }
         Read More <ArrowRight size={16} />
       </div>
     </Link>
-  </motion.div>
+  </Reveal>
 );
 
 const Blog = ({ posts }: { posts: any[] }) => {
@@ -91,7 +122,7 @@ const Blog = ({ posts }: { posts: any[] }) => {
               date={new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
               author={post.author?.node?.name || 'Dreamy Codes'}
               category={post.categories?.nodes?.[0]?.name || 'Uncategorized'}
-              image={post.featuredImage?.node?.sourceUrl || 'https://picsum.photos/seed/placeholder/800/450'}
+              image={post.featuredImage?.node?.sourceUrl || '/default-og.jpg'}
               delay={i * 0.08}
             />
           ))}

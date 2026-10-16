@@ -3,9 +3,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'motion/react';
+import dynamic from 'next/dynamic';
 import { Menu, X } from 'lucide-react';
-import Image from 'next/image';
+import NavLogo from './NavLogo';
+import { whenIdleAfterLoad } from '../utils/idle';
 import {
   scrollIntoViewRespectingMotionPreference,
   scrollToRespectingMotionPreference,
@@ -18,12 +19,19 @@ interface NavLink {
 
 const MOBILE_MENU_ID = 'mobile-nav-menu';
 
+const NavMobileMenu = dynamic(() => import('./NavMobileMenu'), { ssr: false });
+
 const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
+  // The panel's chunk is requested once the page is idle, so it is cached
+  // before anyone reaches for the menu; a tap before that arms it directly.
+  const [menuArmed, setMenuArmed] = useState(false);
+
+  useEffect(() => whenIdleAfterLoad(() => setMenuArmed(true)), []);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -96,6 +104,17 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
   const isCallToAction = (link: NavLink) =>
     ['/contact-us', '/#contact'].includes(link.href.replace(/\/$/, ''));
 
+  // D-050: the link for the current section carries aria-current="page" (and a
+  // 1px underline). Nested routes count (/blog/post → /blog); hash links and the
+  // home link never do.
+  const isCurrent = (link: NavLink) => {
+    const target = link.href.replace(/^https?:\/\/[^/]+/, '').split('#')[0].replace(/\/$/, '');
+    if (!target || !pathname) return false;
+    const path = pathname.replace(/\/$/, '') || '/';
+    return path === target || path.startsWith(`${target}/`);
+  };
+  const CURRENT_LINE = ' underline decoration-1 underline-offset-[6px]';
+
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
@@ -127,14 +146,7 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
               scrollToRespectingMotionPreference({ top: 0 });
             }}
           >
-            <Image
-              fetchPriority="high"
-              src="https://wp.dreamycodes.com/wp-content/uploads/2026/03/DREAMY-CODES-min-2.png"
-              alt="Dreamy Codes"
-              width={200}
-              height={48}
-              className="h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-105"
-            />
+            <NavLogo />
           </Link>
 
           {/* Desktop Nav */}
@@ -144,9 +156,10 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
                 key={link.name}
                 href={link.href} // Fixed: Changed 'to' to 'href'
                 onClick={(e) => handleLinkClick(e, link.href)}
+                aria-current={isCurrent(link) ? 'page' : undefined}
                 className={isCallToAction(link)
                   ? "px-6 py-2 border-2 border-brand-900 text-brand-900 hover:bg-brand-900 hover:text-white transition-all duration-300 font-bold"
-                  : "hover:text-gray-500 transition-colors"
+                  : `hover:text-gray-500 transition-colors${isCurrent(link) ? CURRENT_LINE : ''}`
                 }
               >
                 {link.name}
@@ -161,40 +174,29 @@ const Navbar = ({ menuItems }: { menuItems?: NavLink[] }) => {
             aria-expanded={isMobileMenuOpen}
             aria-controls={MOBILE_MENU_ID}
             className="lg:hidden text-brand-900"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={() => {
+              setMenuArmed(true);
+              setIsMobileMenuOpen(!isMobileMenuOpen);
+            }}
           >
             {isMobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            ref={mobileMenuRef}
-            id={MOBILE_MENU_ID}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-white border-b border-brand-900/10 p-6 lg:hidden flex flex-col gap-6"
-          >
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href} // Fixed: Changed 'to' to 'href'
-                className={isCallToAction(link)
-                  ? "font-display font-bold text-lg uppercase tracking-widest px-6 py-3 border-2 border-brand-900 text-center"
-                  : "font-display font-bold text-lg uppercase tracking-widest"
-                }
-                onClick={(e) => handleLinkClick(e, link.href)}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Mobile Menu: fetched after load (or on first tap), see NavMobileMenu. */}
+      {menuArmed && (
+        <NavMobileMenu
+          id={MOBILE_MENU_ID}
+          open={isMobileMenuOpen}
+          links={navLinks}
+          menuRef={mobileMenuRef}
+          isCurrent={isCurrent}
+          isCallToAction={isCallToAction}
+          currentLine={CURRENT_LINE}
+          onLinkClick={handleLinkClick}
+        />
+      )}
     </nav>
   );
 };

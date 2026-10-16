@@ -1,0 +1,214 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   /case-studies (round 02). Prefix cs-. Design spec §4. Kit styles: site/site.css.
+   Own ledger classes (not .h-ledger*): home hides .h-ledger-c on phones and touch
+   screens, and this page shows the challenge everywhere. The ✕/✓ badges are home's.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+
+/* ── Chapters ─────────────────────────────────────────────────────────────── */
+/* Native fragment jumps (cold load before hydration, no JS) land the chapter rule under the nav,
+   at the same 112px the anchor glide uses (data-anchor-offset), so nothing re-corrects later. */
+.cs-chapter { position: relative; background: var(--h-paper); padding-bottom: 40px; scroll-margin-top: 112px; }
+/* Ruchi (fix pass 5): no results index in the hero. Without it the hero rule would sit alone over chapter 01's own
+   "01 / 04" rule, so the hero ends at its CTA and chapter 01's meta rule is the divider. */
+.cs-root .pg-hero-bar { display: none; }
+.cs-chapter:first-child { padding-top: 24px; }
+.cs-sep { display: block; height: 1px; margin-bottom: 40px; background: var(--h-rule); transform-origin: left; }
+.cs-grid { align-items: start; }
+
+.cs-meta {
+  position: relative;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 12px;
+}
+.cs-meta .h-label { margin: 0; }
+.cs-domain { text-align: right; }
+.cs-meta-rule { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--h-rule); transform-origin: left; }
+
+.cs-media {
+  position: relative;
+  grid-column: 1 / -1;
+  margin-top: 20px;
+  aspect-ratio: 800 / 983;
+  overflow: hidden;
+  background: var(--h-paper-2);
+}
+.cs-stack { position: absolute; inset: 0; display: block; }
+.cs-layer { object-fit: cover; }
+.cs-screen { position: absolute; display: block; overflow: hidden; background: #fff; border-radius: 0 0 1.47% 1.47% / 0 0 1.49% 1.49%; }
+.cs-screen-img { display: block; width: 100%; height: auto; max-width: none; }
+.cs-media-n {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  background: var(--h-paper);
+  color: var(--h-ink);
+}
+
+.cs-body { grid-column: 1 / -1; min-width: 0; margin-top: 24px; }
+.cs-title { text-transform: none; letter-spacing: -0.03em; line-height: 1.02; max-width: 18ch; }
+.cs-title .h-line { padding-bottom: 0.14em; margin-bottom: -0.14em; }
+.cs-brief { margin-top: 16px; font-size: 15px; color: var(--h-muted); max-width: 44ch; text-wrap: pretty; }
+
+/* Ledger: the signature. Final state is the server state (challenge in muted ink, fix shown).
+   Ruchi (fix pass 5): challenges are never struck through; they fade/rise in, then the fix rises. */
+.cs-ledger { margin-top: 28px; }
+/* D-078: two columns on phones too (Ruchi): challenge ✕ | what we did ✓, under a small head. */
+.cs-ledger-head {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 16px;
+  padding-bottom: 10px;
+  color: var(--h-muted);
+}
+.cs-ledger-head span { padding-left: 26px; }
+.cs-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.cs-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; padding: 14px 0; border-top: 1px solid var(--h-rule); }
+.cs-c, .cs-r { display: grid; grid-template-columns: 18px minmax(0, 1fr); column-gap: 8px; align-items: start; font-size: 14px; line-height: 1.45; }
+.cs-c { color: var(--h-muted); }
+.cs-r { color: var(--h-ink); font-weight: 600; }
+.cs-r-line { padding-block: 0.1em; margin-block: -0.1em; }
+.h-root[data-motion]:not([data-failsafe]) .cs-ledger:not(.is-in) .cs-c { opacity: 0; transform: translateY(8px); }
+.h-root[data-motion]:not([data-failsafe]) .cs-ledger:not(.is-in) .cs-r-line .h-line-in { transform: translateY(105%); }
+.h-root[data-motion]:not([data-failsafe]) .cs-ledger:not(.is-in) .cs-ok { transform: scale(0.6); opacity: 0; }
+
+/* Results: counted after the ledger; the number is blank (not 0) until its count starts. */
+.cs-stats { margin-top: 32px; }
+.cs-stat-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.cs-stat-num { font-size: 44px; color: var(--h-indigo); }
+.cs-stat-label { margin-top: 8px; }
+.h-root[data-motion]:not([data-failsafe]) .cs-stat-num:not(.is-counting):not(.is-in) .h-count { opacity: 0; }
+
+.cs-quote { margin: 32px 0 0; padding-top: 6px; border-top: 1px solid var(--h-rule); }
+/* Stars left, "Read the full review" right, one 44px row (the button's tap height). */
+.cs-quote-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+.cs-quote .cs-stars { margin: 0; } /* Ruchi: five stars above each chapter review (same as the home cards) */
+.cs-quote-text { margin: 0; font-size: 15px; color: var(--h-ink); max-width: 46ch; }
+.cs-quote-text p { margin: 0; text-wrap: pretty; }
+.cs-quote-by { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+.cs-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; }
+.cs-quote-name { display: block; }
+.cs-quote-role { display: block; margin-top: 4px; }
+.cs-live { margin-top: 16px; }
+
+/* "Read the full review" (all widths): space kept, shown once JS can run it. */
+.cs-quote-more {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--h-ink);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  -webkit-tap-highlight-color: transparent;
+}
+.cs-quote-more:not([data-ready]) { visibility: hidden; }
+
+/* Mid-page ask (after chapter 02): a hairline row, not another CTA band. */
+.cs-ask { position: relative; margin-top: 40px; padding-top: 28px; display: grid; gap: 20px; }
+.cs-ask-rule { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--h-rule); transform-origin: left; }
+.cs-ask-text { margin: 0; text-wrap: balance; }
+.cs-ask-note { margin-top: 8px; max-width: 52ch; text-wrap: balance; }
+.cs-ask-btn .h-btn { width: 100%; }
+
+/* Media wipe pre-state (motion on only; the chapter trigger ends it with .is-in). */
+.h-root[data-motion]:not([data-failsafe]) [data-cs-wipe]:not(.is-in) { clip-path: inset(0 0 100% 0); }
+.h-root[data-motion]:not([data-failsafe]) [data-cs-wipe]:not(.is-in) .cs-stack { transform: scale(1.12); }
+@media (min-width: 1024px) and (pointer: fine) {
+  .h-root[data-motion]:not([data-failsafe]) .cs-chapter--even [data-cs-wipe]:not(.is-in) { clip-path: inset(0 0 0 100%); }
+}
+
+/* Chapter 01 media (first screen, LCP; CRO iter 6): revealed from first paint by a paper cover collapsing
+   downwards (same direction as the clip wipe) (scaleY, compositor-only) plus the image settle, so the image paints at once and never waits on
+   hydration. It carries .is-in from the server, so the JS wipe above never applies. Motion on only. */
+@keyframes cs-first-cover { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+@keyframes cs-first-settle { from { transform: scale(1.12); } }
+.h-root[data-motion]:not([data-failsafe]) .cs-first::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--h-paper);
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  pointer-events: none;
+  animation: cs-first-cover 1000ms var(--h-ease) 120ms backwards;
+}
+.h-root[data-motion]:not([data-failsafe]) .cs-first .cs-stack { animation: cs-first-settle 1000ms var(--h-ease) 120ms backwards; }
+
+/* Phones: one index (the meta row's "01 / 04") and one rule per chapter. */
+@media (max-width: 1023px) {
+  .cs-media-n, .cs-meta-rule { display: none; }
+  .cs-meta { padding-bottom: 0; }
+  .cs-media { margin-top: 16px; }
+}
+
+/* Touch has no hover: presses answer instead. */
+.cs-quote-more { transition: transform 80ms ease-out; }
+.cs-quote-more:active { transform: scale(0.98); }
+
+@media (min-width: 1024px) {
+  .cs-chapter { padding-bottom: 96px; }
+  .cs-chapter:first-child { padding-top: 24px; }
+  .cs-sep { margin-bottom: 96px; }
+  .cs-grid { grid-template-rows: auto 1fr; }
+  .cs-media {
+    grid-column: 1 / 6;
+    grid-row: 1 / 3;
+    margin-top: 0;
+    position: sticky;
+    top: 112px;
+  }
+  .cs-media-n { top: 16px; left: 16px; }
+  .cs-meta { grid-column: 7 / 13; grid-row: 1; }
+  .cs-body { grid-column: 7 / 13; grid-row: 2; margin-top: 32px; min-height: 600px; }
+  /* Mirrored chapters (02, 04): media right (cols 8–12), story left (cols 1–6), col 7 = air;
+     the number badge moves to the outer corner. The ask row stays full width. */
+  .cs-chapter--even .cs-media { grid-column: 8 / 13; }
+  .cs-chapter--even .cs-meta,
+  .cs-chapter--even .cs-body { grid-column: 1 / 7; }
+  .cs-chapter--even .cs-media-n { left: auto; right: 16px; }
+  .cs-title { max-width: 20ch; }
+  .cs-brief { margin-top: 24px; font-size: 20px; }
+
+  .cs-ledger { margin-top: 48px; }
+  .cs-ledger-head {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+    padding-bottom: 12px;
+    color: var(--h-muted);
+  }
+  .cs-ledger-head span { padding-left: 28px; }
+  .cs-rows { gap: 0; }
+  .cs-row { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; padding: 20px 0; border-top: 1px solid var(--h-rule); }
+  .cs-c, .cs-r { font-size: 16px; }
+
+  .cs-stats { margin-top: 48px; }
+  .cs-stat-list { gap: 24px; }
+  .cs-stat-num { font-size: clamp(64px, 6.67vw, 96px); }
+  .cs-stat-label { margin-top: 12px; }
+  .cs-quote { margin-top: 48px; padding-top: 10px; }
+  .cs-quote-text { font-size: 20px; }
+  .cs-live { margin-top: 32px; }
+  .cs-ask { margin-top: 96px; padding-top: 40px; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: center; }
+  .cs-ask-copy { grid-column: 1 / 8; }
+  .cs-ask-note { max-width: none; }
+  .cs-ask-btn { grid-column: 9 / 13; justify-self: end; }
+  .cs-ask-btn .h-btn { width: fit-content; min-width: 300px; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .cs-stat-num { font-size: 72px; }
+}

@@ -3,21 +3,15 @@ import type { Metadata } from 'next';
 import OurWorkPage from '@/views/OurWork';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
+import { buildMetadata, getWordPressSEO, getWordPressMenu } from '@/lib/wordpress';
 import { JsonLd } from '@/components/SEO';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const seo = await getWordPressSEO("/our-work");
-  if (!seo) return { title: 'Our Work | Dreamy Codes' };
-
-  return {
-    title: seo.title,
-    description: seo.description,
-    alternates: seo.alternates,
-    openGraph: seo.openGraph,
-    twitter: seo.twitter,
-    robots: seo.robots,
-  };
+  return buildMetadata(await getWordPressSEO("/our-work"), {
+    path: "/our-work",
+    title: "Custom Shopify Store Portfolio | Dreamy Codes",
+    description: "View our Shopify portfolio. See how we help ecommerce brands scale with high-performance stores designed to boost conversions and revenue.",
+  });
 }
 
 export default async function OurWork() {
@@ -27,7 +21,7 @@ export default async function OurWork() {
   ]);
 
   return (
-    <main id="main-content" className="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand-100 selection:text-brand-900">
+    <main id="main-content" className="min-h-screen bg-[#fcfcfc] text-slate-900 font-sans selection:bg-[#3432c7] selection:text-white">
       <JsonLd schema={seoData?.schema} />
       <Navbar menuItems={menuItems} />
       <OurWorkPage />

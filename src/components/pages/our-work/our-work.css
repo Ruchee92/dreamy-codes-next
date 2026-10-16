@@ -1,0 +1,290 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   /our-work (round 02). Prefix ow-. Design spec §3. Kit styles: site/site.css.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── The filter (hero slot, signature) ────────────────────────────────────── */
+.ow-filter { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+.ow-count { order: -1; display: flex; align-items: baseline; gap: 10px; margin: 0; }
+.ow-count-mask { display: block; }
+.ow-count-num { font-size: 34px; line-height: 0.95; color: var(--h-ink); font-variant-numeric: tabular-nums; }
+.ow-count-label { color: var(--h-muted); }
+
+.ow-filter-group {
+  position: relative;
+  display: flex;
+  gap: 28px;
+  margin-inline: calc(-1 * var(--h-pad));
+  padding: 4px var(--h-pad) 0;
+  overflow-x: auto;
+  scroll-padding-inline: 20px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.ow-filter-group::-webkit-scrollbar { display: none; }
+/* Phones: while more labels wait off the right edge, the row fades out there (reads as scrollable). */
+.ow-filter-group.has-more {
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent);
+}
+/* No JS: the buttons can't filter, so they keep their space but don't show (no CLS). */
+.ow-filter-group:not([data-ready]) { visibility: hidden; }
+.ow-filter .ow-filter-btn {
+  flex: none;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 13px;
+  color: rgba(14, 14, 16, 0.62);
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 200ms ease, transform 80ms ease-out;
+}
+.ow-filter .ow-filter-btn[aria-pressed='true'] { color: var(--h-ink); }
+.ow-filter-btn:focus-visible { outline-offset: -2px; }
+.ow-filter-btn:active { transform: scale(0.98); }
+.ow-filter-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100px;
+  height: 2px;
+  background: var(--h-ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ow-filter .ow-filter-btn:hover { color: var(--h-ink); }
+}
+/* O5: hover/focus preview of the next filter (WorkFilter drives x / scaleX / opacity). */
+.ow-filter-preview { opacity: 0; }
+@media (min-width: 1024px) {
+  .ow-filter { grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 40px; }
+  .ow-count { order: 0; justify-content: flex-end; padding-bottom: 12px; }
+  .ow-count-num { font-size: clamp(40px, 3.89vw, 56px); }
+  .ow-filter-group { gap: 40px; margin-inline: 0; padding: 0; overflow: visible; }
+  .ow-filter-group.has-more { -webkit-mask-image: none; mask-image: none; }
+  .ow-filter .ow-filter-btn { height: auto; padding: 15px 0; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .ow-count-num { font-size: 40px; }
+}
+
+/* ── Projects grid ────────────────────────────────────────────────────────── */
+.ow-work { position: relative; background: var(--h-paper); padding: 16px 0 64px; } /* phones: 64 (pays for the client quote) */
+.ow-grid {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px 24px;
+  align-content: start; /* rows keep their height while the filter holds the grid open */
+}
+.ow-grid .ow-card { flex: none; width: auto; min-width: 0; }
+.ow-grid .h-card-title { font-size: 21px; }
+.ow-grid .h-card-frame { -webkit-tap-highlight-color: transparent; transition: border-color 200ms ease, transform 80ms ease-out; }
+.ow-grid .h-card-frame:active { transform: scale(0.995); }
+@media (hover: hover) and (pointer: fine) {
+  .ow-grid .h-card-frame:hover { border-color: var(--h-ink); }
+  .ow-grid .h-card-frame:hover .h-card-media { transform: scale(1.02); } /* D-044 cap */
+}
+/* D-028: the image tag stays hover-only. Touch has no hover, so there the category
+   joins the meta line (--cat per card, from ProjectGrid). */
+@media (hover: none) {
+  .ow-grid .pg-card-domain::after { content: var(--cat, ''); }
+}
+
+/* First row (in the first screen at load): revealed from first paint, never waiting on hydration
+   (CRO fix pass 3). The wipe is a paper cover over the frame collapsing towards the bottom (scaleY,
+   compositor-driven, so it keeps running while hydration holds the main thread) plus the image
+   settle, staggered by column (--i from WorkCard). Motion on only. The JS pre-hide for the phone
+   media is overridden and the element is marked .is-in on mount (WorkFilter), so nothing replays. */
+@keyframes ow-first-cover { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+@keyframes ow-first-settle { from { transform: scale(1.08); } }
+.h-root[data-motion]:not([data-failsafe]) .ow-grid .ow-first .h-card-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--h-paper);
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  pointer-events: none;
+  animation: ow-first-cover 500ms var(--h-ease) calc(40ms * var(--i, 0)) backwards;
+}
+.h-root[data-motion]:not([data-failsafe]) .ow-grid .ow-first .h-card-stack {
+  animation: ow-first-settle 500ms var(--h-ease) calc(40ms * var(--i, 0)) backwards;
+}
+.h-root[data-motion]:not([data-failsafe]) .ow-first [data-wipe-m]:not(.is-in) { clip-path: none; }
+.h-root[data-motion]:not([data-failsafe]) .ow-first [data-wipe-m]:not(.is-in) .h-card-stack { transform: none; }
+
+/* Mid-grid ask after card 06 (< 1280, "All" only; WorkFilter hides it otherwise). */
+.ow-ask {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 20px;
+  padding-top: 28px;
+  border-top: 1px solid var(--h-rule);
+}
+.ow-ask-text { margin: 0; }
+
+/* Client voice (Abdul, All Star Terminals): in the card-06 row and the end cell. */
+.ow-quote { margin: 16px 0 0; }
+.ow-quote-text { margin: 0; color: var(--h-ink); max-width: 40ch; }
+.ow-quote-text p { margin: 0; text-wrap: pretty; }
+.ow-quote-by { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.ow-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; }
+.ow-quote-name { display: block; }
+.ow-quote-role { display: block; margin-top: 4px; }
+.ow-ask-btn .h-btn { width: 100%; }
+.ow-price { margin-top: 10px; }
+
+/* End cell: fills the last row's empty columns at >= 1280 (data-span set by the filter). */
+.ow-end { display: none; }
+
+@media (min-width: 768px) {
+  .ow-work { padding-bottom: 96px; }
+  .ow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 72px; }
+  .ow-ask { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 32px; }
+  .ow-ask-btn .h-btn { width: fit-content; min-width: 300px; }
+  .ow-ask-btn .ow-price { text-align: right; }
+}
+@media (min-width: 1024px) {
+  /* The filter sits close to what it filters: ~96px from the bar to the first row. */
+  .ow-root .pg-hero { padding-bottom: 48px; }
+  .ow-work { padding: 16px 0 160px; } /* hero pb 48 + 16: the grid starts 64px under the filter bar */
+  .ow-grid .h-card-title { font-size: 26px; }
+  .ow-ask { padding-top: 40px; }
+}
+@media (min-width: 1280px) {
+  .ow-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 96px; }
+  .ow-grid .ow-ask { display: none !important; } /* the end cell carries the ask at this width */
+  .ow-end[data-span='1'],
+  .ow-end[data-span='2'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 48px;
+    background: var(--h-paper-2);
+  }
+  .ow-end[data-span='1'] { grid-column: span 1; }
+  .ow-end[data-span='2'] { grid-column: span 2; }
+  .ow-end-title { max-width: 12ch; }
+  .ow-end .ow-quote { margin: 0 0 auto; padding-bottom: 32px; } /* voice on top, the ask at the bottom */
+  /* The grid breaks on purpose (push-9.5 §1): the middle column steps down 160px. The negative bottom
+     margin keeps every row's height, so the column reads as one stagger (not taller rows); the grid's
+     bottom padding makes room for the last stepped card. Column = visible order (data-col, SSR + filter). */
+  .ow-grid { padding-bottom: 160px; }
+  .ow-grid > [data-col='1'] { margin-top: 160px; margin-bottom: -160px; }
+  .ow-end-btn { margin-top: 32px; }
+  .ow-end-btn .h-btn { min-width: 300px; }
+  /* A full last row (All = 12, CRO = 3; D-058): the end cell becomes its own full-width row, so the ask and
+     Abdul's voice never drop out. Its top margin clears the stepped column-2 card above it. */
+  .ow-end[data-span='0'] {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'title btn' 'quote btn';
+    align-items: end;
+    column-gap: 48px;
+    margin-top: 160px;
+    padding: 48px;
+    background: var(--h-paper-2);
+  }
+  .ow-end[data-span='0'] .ow-end-title { grid-area: title; max-width: none; }
+  .ow-end[data-span='0'] .ow-quote { grid-area: quote; margin: 0; padding: 24px 0 0; }
+  .ow-end[data-span='0'] .ow-end-btn { grid-area: btn; margin-top: 0; }
+  .ow-end[data-span='0'] .ow-price { text-align: right; }
+  /* The grid's bottom padding is for a stepped last card; a full-width end row is never stepped. */
+  .ow-grid:has(> .ow-end[data-span='0']) { padding-bottom: 0; }
+}
+
+/* ── More brands we've built for ──────────────────────────────────────────── */
+.ow-brands { position: relative; background: var(--h-paper); padding: 0 0 64px; }
+.ow-brands-head .pg-head-lede { display: none; } /* the count line is desktop-only */
+.ow-brand-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  /* D-077: two columns on phones (Ruchi), 3:2 tiles so the wall stays short. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.ow-brand {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  background: var(--h-paper-2);
+  color: var(--h-ink);
+  text-decoration: none;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 120ms ease;
+}
+.ow-brand-logo {
+  position: relative;
+  display: block;
+  width: 70%;
+  height: 32px;
+  transform: scale(var(--s, 1));
+  transition: transform 300ms var(--h-ease);
+}
+/* Several logos are PNGs on an opaque white box: multiply drops the box on the paper tile. */
+.ow-brand-img { object-fit: contain; mix-blend-mode: multiply; }
+/* Phones: names are read from the tile's aria-label; three columns of logos only. */
+.ow-brand-name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.ow-brand-arrow {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 240ms ease, transform 240ms var(--h-ease);
+}
+.ow-brand:focus-visible { outline-offset: 2px; }
+.ow-brand:active .ow-brand-logo { transform: scale(calc(var(--s, 1) * 0.98)); transition-duration: 80ms; }
+@media (hover: none) {
+  .ow-brand:active { background-color: #ebeae6; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .ow-brand:hover .ow-brand-logo { transform: scale(calc(var(--s, 1) * 1.04)); }
+  .ow-brand:hover .ow-brand-arrow,
+  .ow-brand:focus-visible .ow-brand-arrow { opacity: 1; transform: none; }
+}
+@media (min-width: 768px) {
+  .ow-brands { padding-bottom: 96px; }
+  .ow-brand-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ow-brand { aspect-ratio: 4 / 3; }
+  .ow-brand-logo { width: 70%; height: 32px; }
+  .ow-brand-name {
+    width: auto;
+    height: auto;
+    clip-path: none;
+    left: 12px;
+    right: 28px;
+    bottom: 10px;
+    text-overflow: ellipsis;
+  }
+}
+@media (min-width: 1024px) {
+  .ow-brands { padding-bottom: 160px; }
+  .ow-brands-head .pg-head-lede { display: block; justify-self: end; text-align: right; padding-bottom: 10px; }
+  .ow-brand-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .ow-brand { aspect-ratio: 3 / 2; }
+  .ow-brand-logo { height: 44px; }
+}

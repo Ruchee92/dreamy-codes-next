@@ -1,7 +1,8 @@
 "use client";
 import { useRef } from 'react';
+import type React from 'react';
 import Image from 'next/image';
-import { LOGOS, SHOPIFY_BADGE } from './data';
+import { LOGO_MARKS, SHOPIFY_BADGE } from './data';
 import { gsap, ScrollTrigger, initReveals, navOverDark, useHomeMotion } from './motion';
 
 const LOGO_SET_ID = 'h-logo-set';
@@ -82,15 +83,17 @@ const ProofPlate = () => {
       aria-hidden={copy === 1 ? true : undefined}
       data-dup={copy === 1 ? '' : undefined}
     >
-      {LOGOS.map((src) => (
+      {LOGO_MARKS.map((m) => (
         <Image
-          key={`${copy}-${src}`}
-          src={src}
+          key={`${copy}-${m.src}`}
+          src={m.src}
           alt=""
-          width={140}
-          height={64}
+          width={m.w}
+          height={m.h}
           loading="lazy"
+          unoptimized
           className="h-logo"
+          style={{ '--lw': `${m.w}px`, '--lh': `${m.h}px` } as React.CSSProperties}
         />
       ))}
     </div>
@@ -101,7 +104,7 @@ const ProofPlate = () => {
       {/* D-027 / D-060: the partner badge and the brand line, then the client marquee.
           The four numbers follow the work reel (Numbers.tsx). */}
       <div className="h-container h-badge-row">
-        <Image src={SHOPIFY_BADGE} alt="Shopify Experts" width={209} height={36} sizes="210px" className="h-badge" />
+        <Image src={SHOPIFY_BADGE} alt="Shopify Experts" width={269} height={46} sizes="270px" className="h-badge" />
         <p className="h-label h-badge-label">Brands we partner with</p>
       </div>
       <div className="h-logos-wrap">

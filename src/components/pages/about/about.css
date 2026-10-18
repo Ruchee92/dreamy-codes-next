@@ -148,7 +148,8 @@
     margin-inline: calc(-1 * var(--h-pad));
     padding: 0 var(--h-pad) 4px;
     overflow-x: auto;
-    overscroll-behavior-x: contain;
+    overflow-y: hidden; /* a vertical swipe on a row scrolls the page, never the row (iOS) */
+    overscroll-behavior-x: auto;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--h-pad);
     scrollbar-width: none;

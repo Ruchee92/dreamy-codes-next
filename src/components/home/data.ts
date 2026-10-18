@@ -12,12 +12,24 @@ export const AVATARS = [
 
 export const SHOPIFY_BADGE = `${WP}/2026/03/kindpng_1738320.png`;
 
-// D-064: Flows Tasty Treats, Virginskin and MoreWoof added (white on transparent, same 140x64 frame).
-export const LOGOS = [
-  ...Array.from({ length: 9 }, (_, i) => `${WP}/2026/03/${i + 1}.png`),
-  '/home/logos/flows-tasty-treats.png',
-  '/home/logos/virginskin.png',
-  '/home/logos/morewoof.png',
+// D-064: Flows Tasty Treats, Virginskin and MoreWoof added. 2026-10-18 (Ruchi: "make sure each one has
+// similar size"): every mark is trimmed to its ink and drawn at an optically balanced size (equal visual
+// area, corrected for ink density), from 2x white assets built by agent-framework/tools/logo-marks.py
+// (served unoptimized: re-encoding softened the thin strokes further).
+// w/h are the desktop CSS size; the marquee scales them with --ls.
+export const LOGO_MARKS: { src: string; alt: string; w: number; h: number }[] = [
+  { src: '/home/logos/marks/heston-manor.png', alt: 'Heston Manor', w: 253, h: 33 },
+  { src: '/home/logos/marks/urban-abseiler.png', alt: 'Urban Abseiler', w: 161, h: 50 },
+  { src: '/home/logos/marks/griddle-guard.png', alt: 'Griddle Guard', w: 156, h: 63 },
+  { src: '/home/logos/marks/cogniblaze.png', alt: 'CogniBlaze', w: 205, h: 49 },
+  { src: '/home/logos/marks/adovz.png', alt: 'Adovz', w: 166, h: 66 },
+  { src: '/home/logos/marks/new-york-watch-outlet.png', alt: 'New York Watch Outlet', w: 147, h: 74 },
+  { src: '/home/logos/marks/andalia.png', alt: 'Andalia', w: 234, h: 48 },
+  { src: '/home/logos/marks/the-flake-homestead.png', alt: 'The Flake Homestead', w: 166, h: 64 },
+  { src: '/home/logos/marks/modern-barber.png', alt: 'Modern Barber Supply', w: 143, h: 67 },
+  { src: '/home/logos/marks/flows-tasty-treats.png', alt: 'Flows Tasty Treats', w: 161, h: 61 },
+  { src: '/home/logos/marks/virginskin.png', alt: 'Virginskin', w: 280, h: 34 },
+  { src: '/home/logos/marks/morewoof.png', alt: 'MoreWoof', w: 261, h: 55 },
 ];
 
 /** `final` is the only value a stat ever shows (it rolls in; it never counts). */

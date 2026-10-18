@@ -2,6 +2,7 @@
 import ContactSection from '../components/ContactSection';
 import Hero from '../components/home/Hero';
 import ProofPlate from '../components/home/ProofPlate';
+import Showreel from '../components/home/Showreel';
 import WorkReel from '../components/home/WorkReel';
 import Numbers from '../components/home/Numbers';
 import CaseStudies from '../components/home/CaseStudies';
@@ -27,6 +28,8 @@ const Home = () => {
       <script dangerouslySetInnerHTML={{ __html: MOTION_PRELUDE }} />
       <Hero />
       <ProofPlate />
+      {/* The 32s promo continues the black plate before the work reel (2026-10-18). */}
+      <Showreel />
       <WorkReel />
       {/* D-060: the numbers as their own pause between the work and the case studies. */}
       <Numbers />
